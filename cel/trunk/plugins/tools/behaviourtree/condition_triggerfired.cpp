@@ -19,6 +19,7 @@
 
 #include "cssysdef.h"
 #include <iutil/comp.h>
+#include <iutil/plugin.h>
 
 #include "plugins/tools/behaviourtree/condition_triggerfired.h"
 
@@ -38,19 +39,54 @@ bool celTriggerFiredCondition::Initialize (
 	iObjectRegistry* object_reg)
 {
   celTriggerFiredCondition::object_reg = object_reg;
+  status = BT_NOT_STARTED;  
+  name = "un-named node";
   return true;
 }
 
-bool celTriggerFiredCondition::Execute (iCelParameterBlock* params)
+BTStatus celTriggerFiredCondition::GetStatus ()
 {
-  //printf("CONDITION: Trigger Fired Check\n");
-  if (!triggerFired)
-    return false;
+  return status;
+}
 
-  if (fireOnce) 
-    triggerFired = false;
+void celTriggerFiredCondition::SetStatus (BTStatus newStatus)
+{
+  status = newStatus;
+}
 
-  return true;
+void celTriggerFiredCondition::SetName(csString nodeName)
+{
+  name = nodeName;
+}
+
+BTStatus celTriggerFiredCondition::Execute (iCelParameterBlock* params, csRefArray<iBTNode>* BTStack)
+{
+  if (!trigger.IsValid())
+  {
+    csReport(object_reg, CS_REPORTER_SEVERITY_NOTIFY,
+        "cel.behaviourtree.triggerfired",
+        "No trigger set for: %s", name.GetData());
+
+    status = BT_UNEXPECTED_ERROR;
+  }
+  else 
+  {  
+    if (!triggerFired)
+    {
+      status = BT_FAIL_CLEAN;
+    }
+    else // trigger has fired
+    {
+      status = BT_SUCCESS;
+
+      if (fireOnce) 
+      {
+        triggerFired = false;
+      }
+    }
+  }
+  
+  return status;
 }
 
 bool celTriggerFiredCondition::AddChild (iBTNode* child)

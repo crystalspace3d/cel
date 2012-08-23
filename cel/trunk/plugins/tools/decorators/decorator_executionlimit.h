@@ -25,6 +25,9 @@
 
 /**
  * A decorator limiting the number of times a child is executed.
+ * Fails cleanly if child has been executed more times than execution limit
+ * Succeeds if child is executed and fails cleanly or succeeds
+ * Returns an unexpected error if no child is specified or if child does
  */
 
 class celExecutionLimitDecorator : public scfImplementation3<		
@@ -34,18 +37,24 @@ class celExecutionLimitDecorator : public scfImplementation3<
 private: 
   iObjectRegistry* object_reg;						
   csRef<iBTNode> child_node; 
+  BTStatus status;
+  csString name;
 
   const char* execution_limit_param;
   int execution_limit;
   int execution_count;
+
 public:									
   celExecutionLimitDecorator (iBase* parent);			
   virtual ~celExecutionLimitDecorator () { }					
   virtual bool Initialize (iObjectRegistry*);	
 
   //From iBTNode
-  virtual bool Execute (iCelParameterBlock* params);		
+  virtual BTStatus Execute (iCelParameterBlock* params, csRefArray<iBTNode>* BTStack = 0);		
   virtual bool AddChild (iBTNode* child);
+  virtual BTStatus GetStatus ();
+  virtual void SetStatus (BTStatus newStatus);
+  virtual void SetName (csString nodeName);
 
   //From iExecutionLimitDecorator
   virtual void SetExecutionLimit (const char* limit);

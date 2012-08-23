@@ -5,6 +5,5 @@ CS_IMPLEMENT_APPLICATION
 
 int main (int argc, char *argv[])
 {
-  MainApp app;
-  return app.Main (argc, argv);
+  return MainApp ().Main (argc, argv);
 }

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- pfbehaviourtree.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>cel.pcfactory.logic.behaviourtree</name>
+        <implementation>celPfBehaviourTree</implementation>
+        <description>CEL Behaviour Tree Class Factory</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>

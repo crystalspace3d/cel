@@ -27,6 +27,25 @@
 #include "tools/triggers.h"
 
 //-------------------------------------------------------------------------
+// Behaviour tree statuses
+//-------------------------------------------------------------------------
+
+/**
+ * These are the possible states of a behaviour tree node
+ * They are to be returned when a nodes executes
+ * The parent node can then decide how to proceed
+ *
+*/
+
+enum BTStatus{
+	BT_NOT_STARTED = 0,			// Node has not yet started
+	BT_RUNNING,				      // Node is currently executing
+	BT_SUCCESS,				      // Node completed succesfully, making changes to state as expected
+	BT_FAIL_CLEAN,			    // Node failed, but cleanly (typically with no changes to state)
+	BT_UNEXPECTED_ERROR	    // Node failed unexpectedly, possibly changing state (should be handled by parent)
+};
+
+//-------------------------------------------------------------------------
 // Behaviour tree nodes
 //-------------------------------------------------------------------------
 
@@ -65,13 +84,27 @@ struct iBTNode : public virtual iBase
    * Execute this node.
    * Return whether or not the execution of the node was successful.
    */
-  virtual bool Execute (iCelParameterBlock* params) = 0;
+  virtual BTStatus Execute (iCelParameterBlock* params, csRefArray<iBTNode>* BTStack = 0) = 0;
 
   /**
    * Add a child node to this node
    */
   virtual bool AddChild (iBTNode* child) = 0;
 
+  /**
+   * Get the status of this node
+   */
+  virtual BTStatus GetStatus () = 0;
+
+  /**
+   * Set the status of this node
+   */
+  virtual void SetStatus (BTStatus newStatus) = 0;
+
+  /**
+   * Set the name of this node for error reporting
+   */
+  virtual void SetName (csString nodeName) = 0;
 };
 
 //-------------------------------------------------------------------------
@@ -141,34 +174,53 @@ struct iTriggerFiredCondition: public virtual iBase
 /**
  * Convenience to declare a new behaviour tree node class.
  */
-#define CEL_DECLARE_BTNODE(name)					\
-class cel##name : public scfImplementation2<		                \
-		cel##name ,iBTNode, iComponent>			        \
+#define CEL_DECLARE_BTNODE(className)					\
+class cel##className : public scfImplementation2<		                \
+		cel##className ,iBTNode, iComponent>			        \
 {		                                                        \
 private:                                                                \
   iObjectRegistry* object_reg;						\
   csRefArray<iBTNode> children;                                         \
+  BTStatus status;                \
+  csString name;                \
 public:									\
-  cel##name (iBase* parent);			                        \
-  virtual ~cel##name () { }					        \
+  cel##className (iBase* parent);			                        \
+  virtual ~cel##className () { }					        \
   virtual bool Initialize (iObjectRegistry*);			        \
-  virtual bool Execute (iCelParameterBlock* params);		        \
+  virtual BTStatus Execute (iCelParameterBlock* params, csRefArray<iBTNode>* BTStack = 0);		        \
   virtual bool AddChild (iBTNode* child);                               \
+  virtual BTStatus GetStatus ();                               \
+  virtual void SetStatus (BTStatus newStatus);  \
+  virtual void SetName (csString nodeName);  \
 };
 
 /**
- * Convenience to implement a new reward type class.
+ * Convenience to implement a new behaviour tree node class.
  */
-#define CEL_IMPLEMENT_BTNODE(name)					\
-cel##name::cel##name (iBase* parent)			                \
+#define CEL_IMPLEMENT_BTNODE(className)					\
+cel##className::cel##className (iBase* parent)			                \
  : scfImplementationType (this, parent), object_reg(0)			\
 {									\
 }									\
-bool cel##name::Initialize (					        \
+bool cel##className::Initialize (					        \
 	iObjectRegistry* object_reg)					\
 {									\
-  cel##name::object_reg = object_reg;			                \
+  cel##className::object_reg = object_reg;			                \
+  cel##className::status = BT_NOT_STARTED;   \
+  cel##className::name = "un-named node"; \
   return true;								\
-}									
+}	\
+BTStatus cel##className::GetStatus ()					\
+{									\
+  return cel##className::status;								\
+}	\
+void cel##className::SetStatus (BTStatus newStatus)					\
+{									\
+  cel##className::status = newStatus;								\
+}	\
+void cel##className::SetName (csString nodeName)					\
+{									\
+  cel##className::name = nodeName;								\
+}	
 
 #endif // __CEL_BEHAVIOUR_TREE__

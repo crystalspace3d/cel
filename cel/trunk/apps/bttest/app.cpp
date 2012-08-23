@@ -10,13 +10,14 @@
 #include <propclass/input.h>
 #include <physicallayer/propclas.h>
 #include <celtool/stdparams.h>
+#include "celtool/stdpcimp.h"
 
 #include "app.h"
 #include "behave.h"
 
 MainApp::MainApp ()
+: DemoApplication ("CrystalSpace.BehaviourTreeTest") 
 {
-  SetApplicationName ("Seminar Test");
 }
 
 MainApp::~MainApp ()
@@ -42,9 +43,9 @@ bool MainApp::LoadLevel ()
   mapfile->SetPath ("/cellib/lev");
   mapfile->SetFile ("walktut_world");
 
-  iCelMapFile* entitiesfile = region->CreateMapFile ();
-  entitiesfile->SetPath ("/cellib/lev");
-  entitiesfile->SetFile ("walktut_entities");
+  //iCelMapFile* entitiesfile = region->CreateMapFile ();
+ // entitiesfile->SetPath ("/cellib/lev");
+ // entitiesfile->SetFile ("walktut_entities");
 
   return true;
 }
@@ -58,6 +59,7 @@ bool MainApp::CreatePlayer ()
     "pcmove.actor.standard",
     "pcinput.standard",
     "pctools.inventory",
+    "pclogic.behaviourtree",
     CEL_PROPCLASS_END);
   if (!player_entity)
     return ReportError ("Error creating player entity!");
@@ -136,42 +138,37 @@ bool MainApp::OnKeyboard(iEvent& ev)
   return false;
 }
 
+void MainApp::PrintHelp () 
+{ 
+  csCommandLineHelper commandLineHelper; 
+  
+  // Printing help 
+  commandLineHelper.PrintApplicationHelp 
+  (GetObjectRegistry (), "bttest", "bttest", 
+    "App to test behaviour tree nodes and load from XML. If working correctly, a welcome message should appear in the console when run."); 
+} 
+
 bool MainApp::OnInitialize (int argc, char* argv[])
 {
+  // Default behavior from DemoApplication 
+  if (!DemoApplication::OnInitialize (argc, argv)) 
+    return false; 
+
   if (!celInitializer::RequestPlugins (object_reg,
-        CS_REQUEST_VFS,
-    	CS_REQUEST_OPENGL3D,
-    	CS_REQUEST_ENGINE,
-    	CS_REQUEST_FONTSERVER,
-    	CS_REQUEST_IMAGELOADER,
-    	CS_REQUEST_LEVELLOADER,
-    	CS_REQUEST_REPORTER,
-    	CS_REQUEST_REPORTERLISTENER,
     	CS_REQUEST_PLUGIN ("cel.physicallayer", iCelPlLayer),
     	CS_REQUEST_PLUGIN ("crystalspace.collisiondetection.opcode",
 		    iCollideSystem),
       CS_REQUEST_END))
     return ReportError ("Can't initialize plugins!");
 
-  csBaseEventHandler::Initialize(object_reg);
-
-  if (!RegisterQueue(object_reg, csevAllEvents(object_reg)))
-    return ReportError ("Can't setup event handler!");
-
   return true;
 }
 
 bool MainApp::Application ()
 {
-  if (!OpenApplication (object_reg))
-    return ReportError ("Error opening system!");
-
-  g3d = csQueryRegistry<iGraphics3D> (object_reg);
-  engine = csQueryRegistry<iEngine> (object_reg);
-  loader = csQueryRegistry<iLoader> (object_reg);
-  vfs = csQueryRegistry<iVFS> (object_reg);
-  vc = csQueryRegistry<iVirtualClock> (object_reg);
-  kbd = csQueryRegistry<iKeyboardDriver> (object_reg);
+  // Default behavior from DemoApplication 
+  if (!DemoApplication::Application ()) 
+    return false; 
 
   pl = csQueryRegistry<iCelPlLayer> (object_reg);
   bl.AttachNew (new BehaviourLayer(pl));
@@ -187,12 +184,13 @@ bool MainApp::Application ()
   if (!CreatePlayer ())
     return ReportError ("Couldn't create player!");
 
-  printer.AttachNew (new FramePrinter (object_reg));
+  LoadBehaviourTreeFromXML();
 
-
-  CreateBehaviourTree();
-
-
+  hudManager->GetKeyDescriptions ()->Empty(); 
+  hudManager->GetStateDescriptions ()->Push(
+    "This app tests all behaviour tree nodes and the load from XML feature.");
+  hudManager->GetStateDescriptions ()->Push(
+    "You should see a welcome message in the console if behaviour trees are working correctly.");
   Run ();
 
   return true;
@@ -201,6 +199,40 @@ bool MainApp::Application ()
 void MainApp::OnExit ()
 {
   printer.Invalidate ();
+}
+
+void MainApp::LoadBehaviourTreeFromXML ()
+{
+  csRef<iDocumentSystem> xml = 
+		csQueryRegistry<iDocumentSystem> (object_reg);
+  if (!xml)
+    xml.AttachNew (new csTinyDocumentSystem ());
+  csRef<iDocument> doc = xml->CreateDocument ();
+
+  const char* filename = "/cellib/lev/bttest.xml";
+  csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg);
+  csRef<iDataBuffer> xml_buf = vfs->ReadFile (filename);
+
+  const char* error = doc->Parse (xml_buf, true);
+  if (error != 0)
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
+                "appbttest",
+                "Can't open file '%s': %s!", filename, error);
+  }
+
+  csRef<iDocumentNode> xml_node = doc->GetRoot ();
+   
+  csRef<iBTNode> tree = celQueryPropertyClassEntity<iBTNode> (player_entity);
+  csRef<iCelPropertyClass> tree_propclass = scfQueryInterface<iCelPropertyClass> (tree);
+  tree_propclass->SetProperty(pl->FetchStringID("xml"), xml_node);   
+  
+  csRef<iCelParameterBlock> params;
+  params.AttachNew (new celVariableParameterBlock ());
+
+  celData result;  
+  tree_propclass->PerformAction(pl->FetchStringID("Load BT From XML"), params, result);
+  tree_propclass->PerformAction(pl->FetchStringID("BT Start"), params, result);
 }
 
 void MainApp::CreateBehaviourTree ()
@@ -217,7 +249,7 @@ void MainApp::CreateBehaviourTree ()
   csRef<iBTNode> negatereturn_node = csLoadPlugin<iBTNode> (plugin_mgr,
     "cel.decorators.negatereturn");
   csRef<iBTNode> trigger_check_node =  csLoadPlugin<iBTNode> (plugin_mgr,
-	"cel.behaviourtree.triggerfired");  
+	  "cel.behaviourtree.triggerfired");  
   csRef<iBTNode> looking_action_node = csLoadPlugin<iBTNode> (plugin_mgr,
     "cel.behaviourtree.action");  
   
@@ -237,7 +269,7 @@ void MainApp::CreateBehaviourTree ()
   csRef<iBTNode> lottery_sequence_node = csLoadPlugin<iBTNode> (plugin_mgr,
     "cel.selectors.sequential"); 
   csRef<iBTNode> parameter_check_node =  csLoadPlugin<iBTNode> (plugin_mgr,
-	"cel.behaviourtree.parametercheck");
+    "cel.behaviourtree.parametercheck");
   csRef<iBTNode> lottery_action_node = csLoadPlugin<iBTNode> (plugin_mgr,
     "cel.behaviourtree.action");
 
@@ -252,7 +284,7 @@ void MainApp::CreateBehaviourTree ()
   //Set Up Decorator Nodes
   csRef<iExecutionLimitDecorator> explicit_execution_limit_node = 
     scfQueryInterface<iExecutionLimitDecorator> (execution_limit_node);
-  explicit_execution_limit_node->SetExecutionLimit("1");
+  explicit_execution_limit_node->SetExecutionLimit("2");
 
   csRef<iLoopDecorator> explicit_loop_node = 
     scfQueryInterface<iLoopDecorator> (loop_node);
@@ -269,7 +301,7 @@ void MainApp::CreateBehaviourTree ()
     "cel.triggers.inventory");
   csRef<iTriggerFactory> trigger_factory = trigger_type->CreateTriggerFactory ();
   csRef<iInventoryTriggerFactory> explicit_trigger_factory =
-	  scfQueryInterface<iInventoryTriggerFactory> (trigger_factory);
+    scfQueryInterface<iInventoryTriggerFactory> (trigger_factory);
   explicit_trigger_factory->SetEntityParameter ("player");
   explicit_trigger_factory->SetChildEntityParameter ("box3");
   // @@@ TODO: fix the quest parameter 0!
@@ -287,7 +319,7 @@ void MainApp::CreateBehaviourTree ()
     "cel.rewards.debugprint");
   csRef<iRewardFactory> reward_factory = reward_type->CreateRewardFactory ();
   csRef<iDebugPrintRewardFactory> explicit_reward_factory = 
-	scfQueryInterface<iDebugPrintRewardFactory> (reward_factory);
+    scfQueryInterface<iDebugPrintRewardFactory> (reward_factory);
 
   //Create rewards for action nodes
   csRef<iBTAction> explicit_action_node =
@@ -295,6 +327,7 @@ void MainApp::CreateBehaviourTree ()
   explicit_reward_factory->SetMessageParameter ("Looking For Money Box :s");
   // @@@ TODO: fix the quest parameter 0!
   csRef<iReward> reward = reward_factory->CreateReward(0, params);
+  looking_action_node->SetName("Looking Node");
   explicit_action_node->AddReward (reward);
 
   explicit_action_node = scfQueryInterface<iBTAction> (angry_action_node);
@@ -329,7 +362,7 @@ void MainApp::CreateBehaviourTree ()
 
 
   //Connect Tree
-  root_node->AddChild (initial_sequence_node);
+  //root_node->AddChild (initial_sequence_node);
   root_node->AddChild (execution_limit_node);
   root_node->AddChild (lottery_sequence_node);
   root_node->AddChild (random_node);
@@ -353,9 +386,46 @@ void MainApp::CreateBehaviourTree ()
   random_node->AddChild (loving_action_node);
 
 
-  //Build Tree
-  csRef<iBTNode> tree = csLoadPlugin<iBTNode> (plugin_mgr,
-    "cel.behaviourtree.root");
-  tree->AddChild(root_node);
-  tree->Execute(params);
+  if (player_entity)
+  { 
+    csRef<iBTNode> tree = celQueryPropertyClassEntity<iBTNode> (player_entity);
+    csRef<iCelPropertyClass> tree_propclass = scfQueryInterface<iCelPropertyClass> (tree);
+    tree_propclass->SetProperty(pl->FetchStringID("update rate"), long(3));   
+    tree_propclass->SetProperty(pl->FetchStringID("root node"), root_node);  
+    tree_propclass->SetProperty(pl->FetchStringID("tree name"), "Example Tree");
+
+    celData result;  
+    tree_propclass->PerformAction(pl->FetchStringID("BT Start"), params, result);
+
+    long update_rate = 
+      tree_propclass->GetPropertyLongByID(pl->FetchStringID("update rate")); 
+    long tree_status = 
+      tree_propclass->GetPropertyLongByID(pl->FetchStringID("tree status"));
+    const char* tree_name = 
+      tree_propclass->GetPropertyStringByID(pl->FetchStringID("tree name"));
+    csRef<iBase> root_node_base = 
+      tree_propclass->GetPropertyIBaseByID(pl->FetchStringID("root node"));
+    csRef<iBTNode> root_node = scfQueryInterface<iBTNode> (root_node_base);
+    int root_node_status = root_node->GetStatus(); 
+
+    csReport(object_reg, CS_REPORTER_SEVERITY_NOTIFY,
+        "appbttest",
+        "Tree %s: Status=%i, Update Rate=%i \n Root Node: Status=%i", 
+        tree_name, tree_status, update_rate, root_node_status);  
+
+    tree_propclass->PerformAction(pl->FetchStringID("BT Interrupt"), params, result);
+    tree_status = tree_propclass->GetPropertyLongByID(pl->FetchStringID("tree status"));   
+    if (tree_status == BT_NOT_STARTED)
+    {
+      csReport(object_reg, CS_REPORTER_SEVERITY_NOTIFY,
+          "appbttest",
+          "Tree Interrupted Succesfully");  
+    }
+  }
+  else
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+              "MainApp::CreateBehaviourTree ()",
+              "Unable to make behaviour tree!");
+  }
 }

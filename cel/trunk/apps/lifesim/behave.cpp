@@ -25,6 +25,10 @@
 
 #include "behave.h"
 #include "frankie.h"
+#include "sheep.h"
+#include "ram.h"
+#include "rat.h"
+#include "butterfly.h"
 
 BehaviourLayer::BehaviourLayer (iObjectRegistry* registry, iCelPlLayer* physicalLayer)
   : scfImplementationType (this), physicalLayer (physicalLayer), registry (registry)
@@ -37,8 +41,18 @@ iCelBehaviour* BehaviourLayer::CreateBehaviour (iCelEntity* entity,
 	const char* name)
 {
   csRef<iCelBehaviour> behaviour;
-  if (!strcmp (name, "frankie_behaviour"))
-    behaviour.AttachNew (new FrankieBehaviour (entity, this, physicalLayer));
+	
+  if (!strcmp (name, "sheep_behaviour"))
+    behaviour.AttachNew (new SheepBehaviour (entity, this, physicalLayer));
+
+  if (!strcmp (name, "ram_behaviour"))
+    behaviour.AttachNew (new RamBehaviour (entity, this, physicalLayer));
+
+  if (!strcmp (name, "rat_behaviour"))
+    behaviour.AttachNew (new RatBehaviour (entity, this, physicalLayer));
+
+  if (!strcmp (name, "butterfly_behaviour"))
+    behaviour.AttachNew (new ButterFlyBehaviour (entity, this, physicalLayer));
 
   if (behaviour)
     entity->SetBehaviour(behaviour);

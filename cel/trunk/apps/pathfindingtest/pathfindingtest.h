@@ -19,6 +19,7 @@
 #define PATHFINDINGTEST_H
 
 #include <crystalspace.h>
+#include "cstool/demoapplication.h" 
 #include <celtool/initapp.h>
 #include "csutil/algorithms.h"
 #include <physicallayer/entity.h>
@@ -37,17 +38,10 @@
 
 class FramePrinter;
 
-class MainApp : public csApplicationFramework, public csBaseEventHandler
+class MainApp : public CS::Utility::DemoApplication 
 {
 private:
   // Plugins
-  csRef<iGraphics3D> g3d;
-  csRef<iEngine> engine;
-  csRef<iVirtualClock> vc;
-  csRef<iKeyboardDriver> kbd;
-  csRef<iLoader> loader;
-  csRef<iVFS> vfs;
-  csRef<FramePrinter> printer;
   csRef<iCelPlLayer> physicalLayer;
   csRef<BehaviourLayer> behaviourLayer; // iCelBlLayer
   csRef<iCelHNavStructBuilder> navStructBuilder;
@@ -64,15 +58,12 @@ private:
   csVector3 destination;
   csRef<iSector> originSector;  
   csRef<iSector> destinationSector;
-  bool destinationSet;
 
-  csList<csSimpleRenderMesh>* navStructMeshes;
-  csList<csSimpleRenderMesh>* pathMeshes;
-  csList<csSimpleRenderMesh>* destinationMeshes;
-  bool clearMeshes;
-  bool updateMeshes;
-  bool updatePathMeshes;
-  bool updateDestinationMeshes;
+  csArray<csSimpleRenderMesh*>* navStructMeshes;
+  csArray<csSimpleRenderMesh*>* pathMeshes;
+  csArray<csSimpleRenderMesh*>* destinationMeshes;
+  bool updateNavmesh;
+  csBox3 updateArea;
   
   csRef<iCamera> camera;
   csRef<iPcCamera> pcCamera;
@@ -86,8 +77,6 @@ private:
   bool renderDestination;
   bool renderPath;
   bool renderBox;
-  bool updateNavmesh;
-  csBox3 updateArea;
 
   void Frame ();
   bool LoadLevel ();
@@ -109,6 +98,7 @@ public:
   MainApp ();
   virtual ~MainApp ();
 
+  void PrintHelp ();
   virtual bool OnInitialize (int argc, char* argv[]);
   virtual bool Application ();
   virtual void OnExit ();

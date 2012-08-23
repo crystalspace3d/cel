@@ -66,7 +66,9 @@ ul.toc {list-style: none}
 
 <ul>
 <li> <em>Name</em>:
-<samp>&lsquo;cel.behaviourtree&rsquo;</samp>
+<samp>&lsquo;pclogic.behaviourtree&rsquo;</samp>
+</li><li> <em>Factory ID</em>:
+<code>cel.pcfactory.logic.behaviourtree</code>
 </li><li> <em>Interface</em>:
 <code>iBTNode</code>
 </li><li> <em>Header</em>:
@@ -86,18 +88,42 @@ programming standard behaviours with fallback plans.
 <a href="http://aigamedev.com/open/articles/bt-overview/">A Brief Written Overview</a>
 </li><li>
 <a href="http://aigamedev.com/open/articles/behavior-trees-part1/">A More Detailed Video Series</a>
+</li><li>
+<a href="http://aigamedev.com/insider/tutorial/second-generation-bt/">2nd Generation Behaviour Trees</a>
 </li></ul>
 
-
+<p>CEL's behaviour tree is based on the 2nd generation event-driven design.
+</p>
 <a name="3"></a>
 <h4 class="subsubheading"> Nodes </h4>
 
-<p>Each node of a CEL behaviour tree must implement the iBTNode interface. That is it must have an execute method
-that returns a boolean indicating its success of failure and an add child method. It is possible for developers
-to create their own nodes if they wish to add unavailable functionality to their tree, however, the basic
-nodes provided are very descriptive and powerful when used in combination.
+<p>Each node of a CEL behaviour tree must implement the <code>iBTNode</code> interface. The key methods for designing a behaviour tree are the AddChild and SetName methods. Setting a name for a node can be very useful when debugging trees as the errors reported will name the nodes responsible. 
+</p>
+<p>The basic nodes provided are very descriptive and powerful when used in combination, however, it is possible for developers to create their own nodes if they wish to add unavailable functionality to their tree. The macros <code>CEL_DECLARE_BTNODE(className)</code> and <code>CEL_IMPLEMENT_BTNODE(className)</code> can simplify the process. If used, the developer only needs to implement the node's AddChild and Execute methods. Execute returns a BTStatus indicative of the current state of the node. If not using the macros provided, the developer must also implement the node's Initialize, SetStatus, GetStatus and SetName methods.
 </p>
 <a name="4"></a>
+<h4 class="subsubheading"> BTStatus </h4>
+
+<p>At any time, behaviour tree nodes must be in one of the following five states:
+</p>
+<ul>
+<li> <em>BT_NOT_STARTED</em>:
+Node has not yet started (or has been reset.)
+</li><li> <em>BT_RUNNING</em>:
+Node is part way through execution, for example it may have begun but until it's children complete it will not.
+</li><li> <em>BT_SUCCESS</em>:
+The node has completed succesfully.
+</li><li> <em>BT_FAIL_CLEAN</em>:
+The node has completed, but failed. This does not mean there has been an error, the tree can still progress as normal.
+</li><li> <em>BT_UNEXPECTED_ERROR</em>:
+Something unexpected occured. Raising this error crashes the tree to prevent further unexpected behaviour.
+</li></ul>
+
+<p>For more information on the difference between <em>BT_FAIL_CLEAN</em> and <em>BT_UNEXPECTED_ERROR</em> please see <a href="http://aigamedev.com/open/article/hierarchical-logic/termination-status/">this article</a>.
+</p>
+
+
+<a name="5"></a>
 <h4 class="subsubheading"> Selectors (plgSelectors) </h4>
 
 <p>A selector is a composite node, it has multiple children that it must decide which to execute. The following 
@@ -105,7 +131,7 @@ selectors are available at this time in CEL:
 </p>
 <ul>
 <li>
-<samp>&lsquo;cel.selectors.default&rsquo;</samp>:Executes children in order until one succeeds. Node itself succeeds if any one child does, or fails if all children do.
+<samp>&lsquo;cel.selectors.default&rsquo;</samp>:Executes children in order until one succeeds. Node itself succeeds if any one child does, or fails cleanly if all children do.
 </li><li>
 <samp>&lsquo;cel.selectors.sequential&rsquo;</samp>: Executes children in order until one fails (and the selector fails) or all succeed (and the selector succeeds).
 </li><li>
@@ -113,7 +139,7 @@ selectors are available at this time in CEL:
 </li></ul>
 
 
-<a name="5"></a>
+<a name="6"></a>
 <h4 class="subsubheading"> Leaf Nodes (plgBehaviourTree) </h4>
 
 <p>The leaf nodes of a behaviour tree are where conditions are evaluated or actions performed. To make use
@@ -123,16 +149,16 @@ of CEL rewards, triggers and parameters, the following wrapping classes are avai
 <li>
 <samp>&lsquo;cel.behaviourtree.btaction&rsquo;</samp>: Executes a cel reward.
 </li><li>
-<samp>&lsquo;cel.behaviourtree.triggerfired&rsquo;</samp>: Checks if a specific cel trigger has fired already. Returns true if it has, false if it has not.
+<samp>&lsquo;cel.behaviourtree.triggerfired&rsquo;</samp>: Checks if a specific cel trigger has fired already. Returns BT_SUCCESS if it has, or BT_FAIL_CLEAN if it has not.
 </li><li>
-<samp>&lsquo;cel.behaviourtree.parametercheck&rsquo;</samp>: Checks if a parameter equals a value. Returns true if it does, or false otherwise.
+<samp>&lsquo;cel.behaviourtree.parametercheck&rsquo;</samp>: Checks if a parameter equals a value. Returns BT_SUCCESS if it does, or BT_FAIL_CLEAN otherwise.
 </li></ul>
 
 
 <p>It is possible to define your own leaf nodes and it is expected that many developers may choose to implement
 bespoke conditional nodes for checking game specific data.
 </p>
-<a name="6"></a>
+<a name="7"></a>
 <h4 class="subsubheading"> Decorators (plgDecorators) </h4>
 
 <p>Decorators tend to have only one child (although they are not limited to as such). There purpose is not to 
@@ -141,7 +167,7 @@ have been implemented as default in CEL, they are:
 </p>
 <ul>
 <li>
-<samp>&lsquo;cel.decorators.executionlimit&rsquo;</samp>: Limits the number of times its child can be executed. If child executed, fails or succeeds as child does, but if execution limit reached fails and does not execute child.
+<samp>&lsquo;cel.decorators.executionlimit&rsquo;</samp>: Limits the number of times its child can be executed. Succeeds if child is executed and completes (either with BT_SUCCESS or BT_FAIL_CLEAN) or, if execution limit has been reached, fails and does not execute child.
 </li><li>
 <samp>&lsquo;cel.decorators.loop&rsquo;</samp>: Executes the child a set number of times. Fails if child does at any time, succeeds if all iterations of child succeed.
 </li><li>
@@ -150,21 +176,21 @@ have been implemented as default in CEL, they are:
 
 <p>Again it is possible to define your own decorators by implementing the iBTNode interace. It is hoped that
 as public use of the CEL behaviour tree grows, so will the library of available decorators. Their potential
-uses covers a wide spectrum of possibilities and the more available the more powerful the tool becomes. For
-example decorators that may be of use, please see <a href="http://aigamedev.com/hierarchical-logic/decorator/">http://aigamedev.com/hierarchical-logic/decorator/</a>.
+uses covers a wide spectrum of possibilities and the more available the more powerful the tool becomes. 
 </p> 
 
-<a name="7"></a>
+<a name="8"></a>
 <h4 class="subsubheading"> Construction and Execution </h4>
 <p>Finally to construct a behaviour tree, each node must be connected to its children using its own 
-AddChild (iBTNode* child) method from the interface iBTNode. 
+<code>AddChild (iBTNode* child)</code> method from the interface <code>iBTNode</code>. The &quot;root node&quot; property of the propclass must then be set as a <code>csRef&lt;iBTNode&gt;</code>. 
 </p>
-<p>The root node must then be set as the child of an instance of cel.behaviourtree. The execute of 
-this instance can then be executed, and the tree will be evaluated each frame.
+<p>Alternatively, the behaviour tree can be loaded from XML by setting the propclass property &quot;xml&quot; to a <code>csRef&lt;iDocumentNode&gt;</code> pointing to the root of the tree in XML and then executing the action &quot;Load BT From XML&quot;.
 </p>
-<p>Alternatively, if the tree need only be evaluated occasionally the developer may choose not to create
-the behaviour tree node and instead call the execute method of the root node whenever they require
-for single shot evaluations of the tree.
+<p>Other properties of the behavioure tree propclass that can be set are the &quot;tree name&quot; and &quot;update rate&quot;. The latter being the number of nodes in the tree that will be executed per frame.
+</p>
+<p>Once set up the tree can be started by performing the propclass action &quot;BT Start&quot; and stopped by &quot;BT Interrupt&quot;.
+</p>
+<p>An example of constructing or loading a behaviour tree from XML is implemented in appbttest and discussed in the related tutorial (see section <a href="Tutorial-BTTest.html#0">BTTest Tutorial</a>.)
 </p>
 
 

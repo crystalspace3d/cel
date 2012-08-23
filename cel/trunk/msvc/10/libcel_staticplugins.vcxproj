@@ -462,6 +462,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\msvc\libaddon_behaviourtreeload_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libaddon_celentity_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libaddon_celentitytpl_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libaddon_celgraph_staticreg.cpp" />
@@ -485,6 +486,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClCompile Include="..\..\msvc\libparameters_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libpfactormove_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libpfanalogmotion_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libpfbehaviourtree_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libpfbillboard_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libpfdamage_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libpfdefcam_staticreg.cpp" />
@@ -535,6 +537,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClCompile Include="..\..\msvc\libui_gridinv_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libui_inventory2_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libui_inventory_staticreg.cpp" />
+    <ClCompile Include="..\..\plugins\addons\behaviourtreeload\behaviourtreeload.cpp" />
     <ClCompile Include="..\..\plugins\addons\celentity\celentity.cpp" />
     <ClCompile Include="..\..\plugins\addons\celentitytpl\celentitytpl.cpp" />
     <ClCompile Include="..\..\plugins\addons\celgraph\celgraph.cpp" />
@@ -572,6 +575,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClCompile Include="..\..\plugins\propclass\actormove\actormove.cpp" />
     <ClCompile Include="..\..\plugins\propclass\actormove\npcmove.cpp" />
     <ClCompile Include="..\..\plugins\propclass\analogmotion\analogmotion.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\behaviourtree\behaviourtree.cpp" />
     <ClCompile Include="..\..\plugins\propclass\billboard\billboard.cpp" />
     <ClCompile Include="..\..\plugins\propclass\cameras\tracking\tracking.cpp" />
     <ClCompile Include="..\..\plugins\propclass\damage\damagefact.cpp" />
@@ -635,7 +639,10 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClCompile Include="..\..\plugins\recast\recastnavigation\DetourDebugDraw.cpp" />
     <ClCompile Include="..\..\plugins\recast\recastnavigation\DetourNavMesh.cpp" />
     <ClCompile Include="..\..\plugins\recast\recastnavigation\DetourNavMeshBuilder.cpp" />
+    <ClCompile Include="..\..\plugins\recast\recastnavigation\DetourNavMeshQuery.cpp" />
     <ClCompile Include="..\..\plugins\recast\recastnavigation\DetourNode.cpp" />
+    <ClCompile Include="..\..\plugins\recast\recastnavigation\DetourTileCache.cpp" />
+    <ClCompile Include="..\..\plugins\recast\recastnavigation\DetourTileCacheBuilder.cpp" />
     <ClCompile Include="..\..\plugins\recast\recastnavigation\InputGeom.cpp" />
     <ClCompile Include="..\..\plugins\recast\recastnavigation\MeshLoaderObj.cpp" />
     <ClCompile Include="..\..\plugins\recast\recastnavigation\Recast.cpp" />
@@ -645,18 +652,16 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClCompile Include="..\..\plugins\recast\recastnavigation\RecastDebugDraw.cpp" />
     <ClCompile Include="..\..\plugins\recast\recastnavigation\RecastDump.cpp" />
     <ClCompile Include="..\..\plugins\recast\recastnavigation\RecastFilter.cpp" />
-    <ClCompile Include="..\..\plugins\recast\recastnavigation\RecastLog.cpp" />
+    <ClCompile Include="..\..\plugins\recast\recastnavigation\RecastLayers.cpp" />
     <ClCompile Include="..\..\plugins\recast\recastnavigation\RecastMesh.cpp" />
     <ClCompile Include="..\..\plugins\recast\recastnavigation\RecastMeshDetail.cpp" />
     <ClCompile Include="..\..\plugins\recast\recastnavigation\RecastRasterization.cpp" />
     <ClCompile Include="..\..\plugins\recast\recastnavigation\RecastRegion.cpp" />
-    <ClCompile Include="..\..\plugins\recast\recastnavigation\RecastTimer.cpp" />
     <ClCompile Include="..\..\plugins\stdphyslayer\entity.cpp" />
     <ClCompile Include="..\..\plugins\stdphyslayer\entitytpl.cpp" />
     <ClCompile Include="..\..\plugins\stdphyslayer\etracker.cpp" />
     <ClCompile Include="..\..\plugins\stdphyslayer\numreg.cpp" />
     <ClCompile Include="..\..\plugins\stdphyslayer\pl.cpp" />
-    <ClCompile Include="..\..\plugins\tools\behaviourtree\behaviourtree.cpp" />
     <ClCompile Include="..\..\plugins\tools\behaviourtree\btaction.cpp" />
     <ClCompile Include="..\..\plugins\tools\behaviourtree\condition_parametercheck.cpp" />
     <ClCompile Include="..\..\plugins\tools\behaviourtree\condition_triggerfired.cpp" />
@@ -746,6 +751,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\plugins\addons\behaviourtreeload\behaviourtreeload.h" />
     <ClInclude Include="..\..\plugins\addons\celentity\celentity.h" />
     <ClInclude Include="..\..\plugins\addons\celentitytpl\celentitytpl.h" />
     <ClInclude Include="..\..\plugins\addons\celgraph\celgraph.h" />
@@ -779,6 +785,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClInclude Include="..\..\plugins\propclass\actormove\actormove.h" />
     <ClInclude Include="..\..\plugins\propclass\actormove\npcmove.h" />
     <ClInclude Include="..\..\plugins\propclass\analogmotion\analogmotion.h" />
+    <ClInclude Include="..\..\plugins\propclass\behaviourtree\behaviourtree.h" />
     <ClInclude Include="..\..\plugins\propclass\billboard\billboard.h" />
     <ClInclude Include="..\..\plugins\propclass\cameras\tracking\tracking.h" />
     <ClInclude Include="..\..\plugins\propclass\damage\damagefact.h" />
@@ -840,25 +847,34 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClInclude Include="..\..\plugins\recast\recastnavigation\ChunkyTriMesh.h" />
     <ClInclude Include="..\..\plugins\recast\recastnavigation\DebugDraw.h" />
     <ClInclude Include="..\..\plugins\recast\recastnavigation\DetourAlloc.h" />
+    <ClInclude Include="..\..\plugins\recast\recastnavigation\DetourAssert.h" />
     <ClInclude Include="..\..\plugins\recast\recastnavigation\DetourCommon.h" />
+    <ClInclude Include="..\..\plugins\recast\recastnavigation\DetourCrowd.h" />
     <ClInclude Include="..\..\plugins\recast\recastnavigation\DetourDebugDraw.h" />
+    <ClInclude Include="..\..\plugins\recast\recastnavigation\DetourLocalBoundary.h" />
     <ClInclude Include="..\..\plugins\recast\recastnavigation\DetourNavMesh.h" />
     <ClInclude Include="..\..\plugins\recast\recastnavigation\DetourNavMeshBuilder.h" />
+    <ClInclude Include="..\..\plugins\recast\recastnavigation\DetourNavMeshQuery.h" />
     <ClInclude Include="..\..\plugins\recast\recastnavigation\DetourNode.h" />
+    <ClInclude Include="..\..\plugins\recast\recastnavigation\DetourObstacleAvoidance.h" />
+    <ClInclude Include="..\..\plugins\recast\recastnavigation\DetourPathCorridor.h" />
+    <ClInclude Include="..\..\plugins\recast\recastnavigation\DetourPathQueue.h" />
+    <ClInclude Include="..\..\plugins\recast\recastnavigation\DetourProximityGrid.h" />
+    <ClInclude Include="..\..\plugins\recast\recastnavigation\DetourStatus.h" />
+    <ClInclude Include="..\..\plugins\recast\recastnavigation\DetourTileCache.h" />
+    <ClInclude Include="..\..\plugins\recast\recastnavigation\DetourTileCacheBuilder.h" />
     <ClInclude Include="..\..\plugins\recast\recastnavigation\InputGeom.h" />
     <ClInclude Include="..\..\plugins\recast\recastnavigation\MeshLoaderObj.h" />
     <ClInclude Include="..\..\plugins\recast\recastnavigation\Recast.h" />
     <ClInclude Include="..\..\plugins\recast\recastnavigation\RecastAlloc.h" />
+    <ClInclude Include="..\..\plugins\recast\recastnavigation\RecastAssert.h" />
     <ClInclude Include="..\..\plugins\recast\recastnavigation\RecastDebugDraw.h" />
     <ClInclude Include="..\..\plugins\recast\recastnavigation\RecastDump.h" />
-    <ClInclude Include="..\..\plugins\recast\recastnavigation\RecastLog.h" />
-    <ClInclude Include="..\..\plugins\recast\recastnavigation\RecastTimer.h" />
     <ClInclude Include="..\..\plugins\stdphyslayer\entity.h" />
     <ClInclude Include="..\..\plugins\stdphyslayer\entitytpl.h" />
     <ClInclude Include="..\..\plugins\stdphyslayer\etracker.h" />
     <ClInclude Include="..\..\plugins\stdphyslayer\numreg.h" />
     <ClInclude Include="..\..\plugins\stdphyslayer\pl.h" />
-    <ClInclude Include="..\..\plugins\tools\behaviourtree\behaviourtree.h" />
     <ClInclude Include="..\..\plugins\tools\behaviourtree\btaction.h" />
     <ClInclude Include="..\..\plugins\tools\behaviourtree\condition_parametercheck.h" />
     <ClInclude Include="..\..\plugins\tools\behaviourtree\condition_triggerfired.h" />

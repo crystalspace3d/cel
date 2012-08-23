@@ -27,7 +27,33 @@
  * The default selector. Executes children in order until one succeeds.
  */
 
-CEL_DECLARE_BTNODE(DefaultSelector)
+class celDefaultSelector : public scfImplementation2<		
+		celDefaultSelector, 
+		iBTNode, iComponent>			
+{		
+private: 
+  iObjectRegistry* object_reg;						
+  csRefArray<iBTNode> children; 
+  BTStatus status;
+  csString name;
+
+  const char* execution_limit_param;
+  int noOfChildren;
+  int currentChild;
+
+public:									
+  celDefaultSelector (iBase* parent);			
+  virtual ~celDefaultSelector () { }					
+  virtual bool Initialize (iObjectRegistry*);	
+
+  //From iBTNode
+  virtual BTStatus Execute (iCelParameterBlock* params, csRefArray<iBTNode>* BTStack = 0);		
+  virtual bool AddChild (iBTNode* child);
+  virtual BTStatus GetStatus ();
+  virtual void SetStatus (BTStatus newStatus);
+  virtual void SetName (csString nodeName);
+
+};
 
 #endif // __CEL_TOOLS_SELECTORS_DEFAULT__
 

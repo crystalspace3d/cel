@@ -11,7 +11,6 @@
 #include <physicallayer/propclas.h>
 
 #include "app.h"
-#include "behave.h"
 
 
 /*
@@ -22,8 +21,12 @@
  */
 
 MainApp::MainApp ()
+  : DemoApplication ("CrystalSpace.Steering") 
 {
-  SetApplicationName ("Steering Test");
+  renderNavMesh = true;
+  renderPath = true;
+  navStructMeshes = 0;
+  pathMeshes = 0;
 }
 
 MainApp::~MainApp ()
@@ -48,9 +51,9 @@ bool MainApp::LoadLevel ()
   mapfile->SetPath ("/cellib/lev");
   mapfile->SetFile ("walktut_world");
 
-  iCelMapFile* entitiesfile = region->CreateMapFile ();
+  /*iCelMapFile* entitiesfile = region->CreateMapFile ();
   entitiesfile->SetPath ("/cellib/lev");
-  entitiesfile->SetFile ("walktut_entities");
+  entitiesfile->SetFile ("walktut_entities");*/
 
   return true;
 }
@@ -69,7 +72,13 @@ bool MainApp::CreatePlayer ()
     return ReportError ("Error creating player entity!");
 
   // Get the iPcCamera interface so that we can set the camera.
-  csRef<iPcCamera> pccamera = celQueryPropertyClassEntity<iPcCamera> (player_entity);
+  pccamera = celQueryPropertyClassEntity<iPcCamera> (player_entity);
+
+  // Since we want to be able to see the navigation meshes and paths, we have to turn AutoDraw off
+  // and Draw the camera manually in the Frame method, along with the navmeshes and in the right
+  // order.
+  pccamera->SetAutoDraw(false);
+
   // Get the zone manager from the level entity which should have been created
   // by now.
   csRef<iPcZoneManager> pczonemgr = celQueryPropertyClassEntity<iPcZoneManager> (level_entity);
@@ -80,7 +89,8 @@ bool MainApp::CreatePlayer ()
   csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (player_entity);
   pcmesh->SetPath ("/cellib/objects");
   pcmesh->SetMesh ("test", "cally.cal3d");
-  if (!pcmesh->GetMesh ())
+  csRef<iMeshWrapper> mesh = pcmesh->GetMesh();
+  if (!mesh)
     return ReportError ("Error loading model!");
 
   if (pczonemgr->PointMesh ("player", "main", "Camera"))
@@ -129,7 +139,8 @@ bool MainApp::LoadSteering ()
   steering_entity = pl->CreateEntity ("steer", bl, "steering_behave",
 				      "pcmove.linear",
 				      "pcmove.actor.standard",
-				      "pcmove.steer",
+				      "pcmove.steer", 
+                                      "pcmove.mover",
 				      "pcobject.mesh",
 				      "pcinput.standard",
 				      CEL_PROPCLASS_END);
@@ -140,8 +151,17 @@ bool MainApp::LoadSteering ()
   csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (steering_entity);
   pcmesh->SetPath ("/cellib/objects");
   pcmesh->SetMesh ("test", "cally.cal3d");
-  if (!pcmesh->GetMesh ())
+  csRef<iMeshWrapper> mesh = pcmesh->GetMesh();
+  if (!mesh)
     return ReportError ("Error loading model!");
+
+  // Get Cally's dimensions for use by recast & detour  
+  csRef<iObjectModel> objectModel = mesh->GetMeshObject()->GetObjectModel(); 
+  float x = objectModel->GetObjectBoundingBox().MaxY() - objectModel->GetObjectBoundingBox().MinY();
+  float y = objectModel->GetObjectBoundingBox().MaxY() - objectModel->GetObjectBoundingBox().MinY();
+  float z = objectModel->GetObjectBoundingBox().MaxY() - objectModel->GetObjectBoundingBox().MinY();
+  agentHeight = y;
+  agentRadius = csQsqrt(csSquare(x) + csSquare(z)) * 0.5f;
 
   csRef<iPcZoneManager> pczonemgr = celQueryPropertyClassEntity<iPcZoneManager> (level_entity);
 
@@ -188,6 +208,35 @@ bool MainApp::LoadSteering ()
 
 void MainApp::Frame ()
 {
+  pccamera->Draw();
+
+  // Render navigation structure
+  if (navStructMeshes && renderNavMesh)
+  {
+    csArray<csSimpleRenderMesh*>::Iterator it = navStructMeshes->GetIterator();
+    while (it.HasNext())
+    {
+      g3d->DrawSimpleMesh(*it.Next());
+    }
+  }
+
+  // Render path
+  if (bl->GetPath() && path != bl->GetPath())
+  {
+    path = bl->GetPath();
+    if (path)
+    {
+      pathMeshes = path->GetDebugMeshes();
+    }
+  }
+  if (pathMeshes && path && renderPath)
+  {
+    csArray<csSimpleRenderMesh*>::Iterator it = pathMeshes->GetIterator();
+    while (it.HasNext())
+    {
+      g3d->DrawSimpleMesh(*it.Next());
+    }
+  }
 }
 
 bool MainApp::OnKeyboard(iEvent& ev)
@@ -210,24 +259,75 @@ bool MainApp::OnKeyboard(iEvent& ev)
       if (q.IsValid()) q->GetEventOutlet()->Broadcast(
 	  csevQuit (GetObjectRegistry ()));
     }
+   else if (code == 'b') // Build navstruct
+    {
+      navStruct.Invalidate();
+      path.Invalidate();
+      bl->SetPath(0);
+      if (!params)
+      {
+        params.AttachNew(navStructBuilder->GetNavMeshParams()->Clone());
+        params->SetSuggestedValues(agentHeight, agentRadius, 45.0f);
+        params->SetPolygonSearchBox(csVector3(2, 4, 2));
+        navStructBuilder->SetNavMeshParams(params);
+      }
+      csRefArray<iSector> sectorList; 
+      int size = engine->GetSectors()->GetCount();
+      for (int i = 0; i < size; i++)
+      {
+        sectorList.Push(engine->GetSectors()->Get(i));    
+      }
+      navStructBuilder->SetSectors(&sectorList);
+      navStruct = navStructBuilder->BuildHNavStruct();
+      //bl->SetNavStruct(navStruct);
+
+      navStructMeshes = navStruct->GetDebugMeshes();
+
+      csRef<iPcSteer> pcsteer = celQueryPropertyClassEntity<iPcSteer> (steering_entity);
+      pcsteer->SetNavStruct(navStruct);
+    }
+    else if (code == 'c') // Clear navstruct, positions and path
+    {
+      csRef<iPcSteer> pcsteer = celQueryPropertyClassEntity<iPcSteer> (steering_entity);
+      pcsteer->SetNavStruct(0);
+      navStruct.Invalidate();
+      path.Invalidate();
+      bl->SetPath(0);
+      pathMeshes = 0;
+      navStructMeshes = 0;
+    }
+    else if (code == '6') // Switch navmesh rendering
+    {
+      renderNavMesh = !renderNavMesh;
+    }
+    else if (code == '7') // Switch path rendering
+    {
+      renderPath = !renderPath;
+    }
   }
   return false;
 }
 
+void MainApp::PrintHelp () 
+{ 
+  csCommandLineHelper commandLineHelper; 
+  
+  // Printing help 
+  commandLineHelper.PrintApplicationHelp 
+  (GetObjectRegistry (), "steering", "steering", "App to demonstrate steering behaviours, both with and without navmeshes."); 
+} 
+
 bool MainApp::OnInitialize (int argc, char* argv[])
 {
+  // Default behavior from DemoApplication 
+  if (!DemoApplication::OnInitialize (argc, argv)) 
+    return false; 
+
   if (!celInitializer::RequestPlugins (object_reg,
-        CS_REQUEST_VFS,
-    	CS_REQUEST_OPENGL3D,
-    	CS_REQUEST_ENGINE,
-    	CS_REQUEST_FONTSERVER,
-    	CS_REQUEST_IMAGELOADER,
-    	CS_REQUEST_LEVELLOADER,
-    	CS_REQUEST_REPORTER,
-    	CS_REQUEST_REPORTERLISTENER,
     	CS_REQUEST_PLUGIN ("cel.physicallayer", iCelPlLayer),
     	CS_REQUEST_PLUGIN ("crystalspace.collisiondetection.opcode",
 		    iCollideSystem),
+      CS_REQUEST_PLUGIN("cel.hnavstructbuilder", iCelHNavStructBuilder),
       CS_REQUEST_END))
     return ReportError ("Can't initialize plugins!");
 
@@ -241,15 +341,9 @@ bool MainApp::OnInitialize (int argc, char* argv[])
 
 bool MainApp::Application ()
 {
-  if (!OpenApplication (object_reg))
-    return ReportError ("Error opening system!");
-
-  g3d = csQueryRegistry<iGraphics3D> (object_reg);
-  engine = csQueryRegistry<iEngine> (object_reg);
-  loader = csQueryRegistry<iLoader> (object_reg);
-  vfs = csQueryRegistry<iVFS> (object_reg);
-  vc = csQueryRegistry<iVirtualClock> (object_reg);
-  kbd = csQueryRegistry<iKeyboardDriver> (object_reg);
+  // Default behavior from DemoApplication 
+  if (!DemoApplication::Application ()) 
+    return false; 
 
   pl = csQueryRegistry<iCelPlLayer> (object_reg);
   bl.AttachNew (new BehaviourLayer(pl));
@@ -260,6 +354,12 @@ bool MainApp::Application ()
 
   pl->RegisterBehaviourLayer (bl);
 
+  navStructBuilder = csQueryRegistry<iCelHNavStructBuilder>(object_reg);
+  if (!navStructBuilder)
+  {
+    return ReportError("Failed to locate Navigation Structure Builder");
+  }
+
   if (!LoadLevel ())
     return ReportError ("Error loading level!");
  if (!CreatePlayer ())
@@ -267,7 +367,26 @@ bool MainApp::Application ()
  if (!LoadSteering ())
     return ReportError ("Couldn't create steering entity!");
     
-  printer.AttachNew (new FramePrinter (object_reg));
+  // Define the available keys 
+  hudManager->GetKeyDescriptions ()->Empty(); 
+  hudManager->GetKeyDescriptions ()->Push ("b: build NavMesh"); 
+  hudManager->GetKeyDescriptions ()->Push ("s: seek camera"); 
+  hudManager->GetKeyDescriptions ()->Push ("p: pursue camera"); 
+  hudManager->GetKeyDescriptions ()->Push ("f: flee from camera"); 
+  hudManager->GetKeyDescriptions ()->Push ("w: wander"); 
+  hudManager->GetKeyDescriptions ()->Push ("-"); 
+  hudManager->GetKeyDescriptions ()->Push ("Without NavMesh built:");
+  hudManager->GetKeyDescriptions ()->Push ("1: switch arrival checking on/off"); 
+  hudManager->GetKeyDescriptions ()->Push ("2: switch collision avoidance on/off"); 
+  hudManager->GetKeyDescriptions ()->Push ("3: switch cohesion on/off"); 
+  hudManager->GetKeyDescriptions ()->Push ("4: switch separation on/off"); 
+  hudManager->GetKeyDescriptions ()->Push ("5: switch direction matching on/off"); 
+  hudManager->GetKeyDescriptions ()->Push ("esc: exit application"); 
+  hudManager->GetKeyDescriptions ()->Push ("-"); 
+  hudManager->GetKeyDescriptions ()->Push ("With NavMesh built/loaded:"); 
+  hudManager->GetKeyDescriptions ()->Push ("c: clear NavMesh");  
+  hudManager->GetKeyDescriptions ()->Push ("6: switch rendering NavMesh on/off"); 
+  hudManager->GetKeyDescriptions ()->Push ("7: switch rendering path on/off"); 
 
   Run ();
 

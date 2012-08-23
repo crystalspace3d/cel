@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- addon_behaviourtreeload.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>cel.addons.behaviourtree.loader</name>
+        <implementation>celAddOnBehaviourTreeLoader</implementation>
+        <description>CEL AddOn for Behaviour Tree Loader</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>

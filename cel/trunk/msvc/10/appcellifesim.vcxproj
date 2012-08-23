@@ -485,13 +485,21 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\apps\lifesim\behave.cpp" />
+    <ClCompile Include="..\..\apps\lifesim\butterfly.cpp" />
     <ClCompile Include="..\..\apps\lifesim\frankie.cpp" />
     <ClCompile Include="..\..\apps\lifesim\lifesim.cpp" />
+    <ClCompile Include="..\..\apps\lifesim\ram.cpp" />
+    <ClCompile Include="..\..\apps\lifesim\rat.cpp" />
+    <ClCompile Include="..\..\apps\lifesim\sheep.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\apps\lifesim\behave.h" />
+    <ClInclude Include="..\..\apps\lifesim\butterfly.h" />
     <ClInclude Include="..\..\apps\lifesim\frankie.h" />
     <ClInclude Include="..\..\apps\lifesim\lifesim.h" />
+    <ClInclude Include="..\..\apps\lifesim\ram.h" />
+    <ClInclude Include="..\..\apps\lifesim\rat.h" />
+    <ClInclude Include="..\..\apps\lifesim\sheep.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\msvc\appcellifesim.rc" />

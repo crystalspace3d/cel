@@ -25,10 +25,36 @@
 
 /**
  * A random selector. 
- * Executes children in a random order until one succeeds.
+ * Executes a random child.
+ * Succeeds or fails the same as child.
  */
 
-CEL_DECLARE_BTNODE(RandomSelector)
+class celRandomSelector : public scfImplementation2<		
+		celRandomSelector, 
+		iBTNode, iComponent>			
+{		
+private: 
+  iObjectRegistry* object_reg;						
+  csRefArray<iBTNode> children; 
+  BTStatus status;
+  csString name;
+
+  const char* execution_limit_param;
+  int randChildIndex;
+
+public:									
+  celRandomSelector (iBase* parent);			
+  virtual ~celRandomSelector () { }					
+  virtual bool Initialize (iObjectRegistry*);	
+
+  //From iBTNode
+  virtual BTStatus Execute (iCelParameterBlock* params, csRefArray<iBTNode>* BTStack = 0);		
+  virtual bool AddChild (iBTNode* child);
+  virtual BTStatus GetStatus ();
+  virtual void SetStatus (BTStatus newStatus);
+  virtual void SetName (csString nodeName);
+
+};
 
 #endif // __CEL_TOOLS_SELECTORS_RANDOM__
 
