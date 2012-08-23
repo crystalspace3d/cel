@@ -521,6 +521,7 @@ public:
   virtual void LinkEntity (iCelEntity* entity);
   virtual void UnlinkEntity ();
   virtual iCelEntityTemplate* GetEntityTemplate () const { return entityTemplate; }
+  virtual iCelParameterBlock* GetEntityParameters () const { return params; }
   virtual iCelEntity* GetEntity () const { return entity; }
   virtual csPtr<iString> GetDescription () const;
 

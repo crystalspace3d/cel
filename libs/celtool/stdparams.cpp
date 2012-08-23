@@ -44,68 +44,128 @@ celEntityParameterBlock::celEntityParameterBlock (iCelPlLayer* pl, iCelEntity* e
 
 //---------------------------------------------------------------------------
 
+csString celParameterTools::GetTypeName (celDataType type)
+{
+  switch (type)
+  {
+    case CEL_DATA_NONE: return "none";
+    case CEL_DATA_BOOL: return "bool";
+    case CEL_DATA_BYTE: return "byte";
+    case CEL_DATA_WORD: return "word";
+    case CEL_DATA_LONG: return "long";
+    case CEL_DATA_UBYTE: return "ubyte";
+    case CEL_DATA_UWORD: return "uword";
+    case CEL_DATA_ULONG: return "ulong";
+    case CEL_DATA_FLOAT: return "float";
+    case CEL_DATA_VECTOR2: return "vector2";
+    case CEL_DATA_VECTOR3: return "vector3";
+    case CEL_DATA_VECTOR4: return "vector4";
+    case CEL_DATA_COLOR: return "color";
+    case CEL_DATA_COLOR4: return "color4";
+    case CEL_DATA_STRING: return "string";
+    case CEL_DATA_PCLASS: return "pclass";
+    case CEL_DATA_ENTITY: return "entity";
+    case CEL_DATA_ACTION: return "action";
+    case CEL_DATA_IBASE: return "ibase";
+    case CEL_DATA_PARAMETER: return "parameter";
+    default: return "?";
+  }
+}
+
+celDataType celParameterTools::GetType (const char* name)
+{
+  csString n = name;
+  n.Downcase ();
+  if (n == "long") return CEL_DATA_LONG;
+  if (n == "float") return CEL_DATA_FLOAT;
+  if (n == "bool") return CEL_DATA_BOOL;
+  if (n == "string") return CEL_DATA_STRING;
+  if (n == "byte") return CEL_DATA_BYTE;
+  if (n == "word") return CEL_DATA_WORD;
+  if (n == "ubyte") return CEL_DATA_UBYTE;
+  if (n == "uword") return CEL_DATA_UWORD;
+  if (n == "ulong") return CEL_DATA_ULONG;
+  if (n == "vector2") return CEL_DATA_VECTOR2;
+  if (n == "vector3") return CEL_DATA_VECTOR3;
+  if (n == "vector4") return CEL_DATA_VECTOR4;
+  if (n == "color") return CEL_DATA_COLOR;
+  if (n == "color4") return CEL_DATA_COLOR4;
+  if (n == "pclass") return CEL_DATA_PCLASS;
+  if (n == "entity") return CEL_DATA_ENTITY;
+  if (n == "action") return CEL_DATA_ACTION;
+  if (n == "ibase") return CEL_DATA_IBASE;
+  if (n == "parameter") return CEL_DATA_PARAMETER;
+  return CEL_DATA_NONE;
+}
+
 csString celParameterTools::GetDebugData (const celData* data)
 {
   csString buffer;
   switch (data->type)
   {
-  case CEL_DATA_NONE:
-    buffer = "\tData not typed!";
-    break;
-  case CEL_DATA_BOOL:
-    buffer.Format ("\tBool: %d", data->value.bo);
-    break;
-  case CEL_DATA_BYTE:
-    buffer.Format ("\tByte: %d", data->value.b);
-    break;
-  case CEL_DATA_WORD:
-    buffer.Format ("\tWord: %d", data->value.w);
-    break;
-  case CEL_DATA_LONG:
-    buffer.Format ("\tLong: %d", data->value.l);
-    break;
-  case CEL_DATA_UBYTE:
-    buffer.Format ("\tuByte: %d", data->value.ub);
-    break;
-  case CEL_DATA_UWORD:
-    buffer.Format ("\tuWord: %d", data->value.uw);
-    break;
-  case CEL_DATA_ULONG:
-    buffer.Format ("\tuLong: %d", data->value.ul);
-    break;
-  case CEL_DATA_FLOAT:
-    buffer.Format ("\tFloat: %f", data->value.f);
-    break;
-  case CEL_DATA_VECTOR2:
-    buffer.Format ("\tVector2: %f %f", data->value.v.x, data->value.v.y);
-    break;
-  case CEL_DATA_VECTOR3:
-    buffer.Format ("\tVector3: %f %f %f", data->value.v.x, data->value.v.y, data->value.v.z);
-    break;
-  case CEL_DATA_COLOR:
-    buffer.Format ("\tColor: %f %f %f", data->value.col.red, data->value.col.green, data->value.col.blue);
-    break;
-  case CEL_DATA_STRING:
-    buffer.Format ("\tString: %s", data->value.s->GetData ());
-    break;
-  case CEL_DATA_PCLASS:
-    buffer.Format ("\tPC: %s %s", data->value.pc->GetName (), data->value.pc->GetTag ());
-    break;
-  case CEL_DATA_ENTITY:
-    buffer.Format ("\tEnt: id %d", data->value.ent->GetID ());
-    break;
-  case CEL_DATA_ACTION:
-    buffer.Format ("\tAction: %s", data->value.s->GetData ());
-    break;
-  case CEL_DATA_IBASE:
-    buffer.Format ("\tiBase");
-    break;
-  case CEL_DATA_PARAMETER:
-    buffer.Format ("\tParameter: name %s type %d", data->value.par.parname->GetData (), data->value.par.partype);
-    break;
-  default:
-    buffer.Format ("\tError: not a type!");
-    break;
+    case CEL_DATA_NONE:
+      buffer = "\tData not typed!";
+      break;
+    case CEL_DATA_BOOL:
+      buffer.Format ("\tBool: %d", data->value.bo);
+      break;
+    case CEL_DATA_BYTE:
+      buffer.Format ("\tByte: %d", data->value.b);
+      break;
+    case CEL_DATA_WORD:
+      buffer.Format ("\tWord: %d", data->value.w);
+      break;
+    case CEL_DATA_LONG:
+      buffer.Format ("\tLong: %d", data->value.l);
+      break;
+    case CEL_DATA_UBYTE:
+      buffer.Format ("\tuByte: %d", data->value.ub);
+      break;
+    case CEL_DATA_UWORD:
+      buffer.Format ("\tuWord: %d", data->value.uw);
+      break;
+    case CEL_DATA_ULONG:
+      buffer.Format ("\tuLong: %d", data->value.ul);
+      break;
+    case CEL_DATA_FLOAT:
+      buffer.Format ("\tFloat: %f", data->value.f);
+      break;
+    case CEL_DATA_VECTOR2:
+      buffer.Format ("\tVector2: %f %f", data->value.v.x, data->value.v.y);
+      break;
+    case CEL_DATA_VECTOR3:
+      buffer.Format ("\tVector3: %f %f %f", data->value.v.x, data->value.v.y, data->value.v.z);
+      break;
+    case CEL_DATA_VECTOR4:
+      buffer.Format ("\tVector4: %f %f %f %f", data->value.v.x, data->value.v.y, data->value.v.z, data->value.v.w);
+      break;
+    case CEL_DATA_COLOR:
+      buffer.Format ("\tColor: %f %f %f", data->value.col.red, data->value.col.green, data->value.col.blue);
+      break;
+    case CEL_DATA_COLOR4:
+      buffer.Format ("\tColor4: %f %f %f %f", data->value.col.red, data->value.col.green, data->value.col.blue, data->value.col.alpha);
+      break;
+    case CEL_DATA_STRING:
+      buffer.Format ("\tString: %s", data->value.s->GetData ());
+      break;
+    case CEL_DATA_PCLASS:
+      buffer.Format ("\tPC: %s %s", data->value.pc->GetName (), data->value.pc->GetTag ());
+      break;
+    case CEL_DATA_ENTITY:
+      buffer.Format ("\tEnt: id %d", data->value.ent->GetID ());
+      break;
+    case CEL_DATA_ACTION:
+      buffer.Format ("\tAction: %s", data->value.s->GetData ());
+      break;
+    case CEL_DATA_IBASE:
+      buffer.Format ("\tiBase");
+      break;
+    case CEL_DATA_PARAMETER:
+      buffer.Format ("\tParameter: name %s type %d", data->value.par.parname->GetData (), data->value.par.partype);
+      break;
+    default:
+      buffer.Format ("\tError: not a type!");
+      break;
   }
   return buffer;
 }
@@ -134,6 +194,37 @@ void celParameterTools::Dump (const char* title, iCelParameterBlock* params,
     printf ("%s\n", debugInfo.GetData ());
   }
   fflush (stdout);
+}
+
+bool celParameterTools::WriteParams (iObjectRegistry* object_reg,
+    iDocumentNode* node, iCelParameterBlock* params)
+{
+  csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (object_reg);
+  csRef<iSyntaxService> synldr = csQueryRegistry<iSyntaxService> (object_reg);
+
+  for (size_t i = 0 ; i < params->GetParameterCount () ; i++)
+  {
+    celDataType t;
+    csStringID id = params->GetParameterDef (i, t);
+    csString name = pl->FetchString (id);
+    const celData* data = params->GetParameterByIndex (i);
+    if (!data)
+    {
+      if (synldr)
+        synldr->ReportError ("cel.params", node,
+              "Parameter block is missing data!");
+      else
+	printf ("Parameter block is missing data!\n");
+      return false;
+    }
+    csRef<iDocumentNode> parNode = node->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+    parNode->SetValue ("par");
+    parNode->SetAttribute ("name", name);
+    csString value;
+    ToString (*data, value);
+    parNode->SetAttribute (GetTypeName (t), value);
+  }
+  return true;
 }
 
 csRef<iCelParameterBlock> celParameterTools::ParseParams (

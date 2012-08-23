@@ -620,6 +620,12 @@ struct iDynamicObject : public virtual iBase
   virtual iCelEntityTemplate* GetEntityTemplate () const = 0;
 
   /**
+   * Get the optional parameter block that will be used to create the entity for
+   * this object.
+   */
+  virtual iCelParameterBlock* GetEntityParameters () const = 0;
+
+  /**
    * Get the (optional) entity for this dynamic object. If the dynamic object
    * is out of reach it is possible that the entity is not created yet.
    */

@@ -613,7 +613,6 @@ csRef<iString> DynamicCell::Load (iDocumentNode* node)
       CS::Geometry::KDTreeChild* child = tree->AddObject (dynobj->GetBSphere (),
 	  dynobj);
       dynobj->SetChild (child);
-      dynobj->SetEntity (0, dynobj->GetFactory ()->GetName (), 0);
     }
   }
 
@@ -776,7 +775,7 @@ void DynamicCell::RestoreModifications (iCelCompactDataBufferReader* buf,
       LoadTransform (buf, trans);
       dynobj = static_cast<DynamicObject*> (AddObject (dynName, trans));
       dynobj->SetID (id);
-      dynobj->SetEntity (entName, tmpName, 0);
+      dynobj->SetEntity (entName, tmpName, 0);	// Parameters?@@@@@@
       entity = dynobj->ForceEntity ();
       elcm->RegisterNewEntity (entity);
     }
@@ -1724,6 +1723,7 @@ void DynamicObject::SetTransform (const csReversibleTransform& trans)
 
 void DynamicObject::Save (iDocumentNode* node, iSyntaxService* syn)
 {
+  // @@@ Error checking???
   csReversibleTransform& tr = trans;
   if (mesh)
     tr = mesh->GetMovable ()->GetTransform ();
@@ -1746,6 +1746,15 @@ void DynamicObject::Save (iDocumentNode* node, iSyntaxService* syn)
   node->SetAttribute ("v", (const char*)vector);
   node->SetAttributeAsInt ("id", id);
 
+  if (params)
+  {
+    csRef<iDocumentNode> paramsNode = node->CreateNodeBefore (CS_NODE_ELEMENT);
+    paramsNode->SetValue ("params");
+    if (!celParameterTools::WriteParams (factory->GetWorld ()->GetObjectRegistry (),
+	  paramsNode, params))
+      ; // @@@ TODO
+  }
+
   if (entity)
   {
     csStringID tmpID = entity->GetTemplateNameID ();
@@ -1757,6 +1766,13 @@ void DynamicObject::Save (iDocumentNode* node, iSyntaxService* syn)
       if (defaultTmpName != tmpName)
         node->SetAttribute ("ent", tmpName);
     }
+  }
+  else if (entityTemplate)
+  {
+    csString defaultTmpName = factory->GetDefaultEntityTemplate ();
+    // The entity differs from the default factory template.
+    if (defaultTmpName != entityTemplate->GetName ())
+      node->SetAttribute ("ent", entityTemplate->GetName ());
   }
 }
 
@@ -1794,11 +1810,19 @@ bool DynamicObject::Load (iDocumentNode* node, iSyntaxService* syn,
   trans.SetO2T (m);
   trans.SetO2TTranslation (v);
 
+  csRef<iCelParameterBlock> params;
+  csRef<iDocumentNode> paramsNode = node->GetNode ("params");
+  if (paramsNode)
+    params = celParameterTools::ParseParams (factory->GetWorld ()->GetObjectRegistry (),
+	paramsNode, CEL_PARAM_END);
+
   csString tmpName = node->GetAttributeValue ("ent");
   if (tmpName)
-    SetEntity (0, tmpName, 0);
+    SetEntity (0, tmpName, params);
   else if (factory->GetDefaultEntityTemplate ())
-    SetEntity (0, factory->GetDefaultEntityTemplate (), 0);
+    SetEntity (0, factory->GetDefaultEntityTemplate (), params);
+  else
+    SetEntity (0, factory->GetName (), params);
 
   return true;
 }
@@ -1880,6 +1904,7 @@ const csSphere& DynamicObject::GetBSphere () const
 bool DynamicObject::SetEntity (const char* entityName, const char* entityTplName,
     iCelParameterBlock* params)
 {
+  DynamicObject::params = params;
   if (!entityTplName)
   {
     entityTplName = factory->GetDefaultEntityTemplate ();
@@ -1892,7 +1917,6 @@ bool DynamicObject::SetEntity (const char* entityName, const char* entityTplName
     printf ("Can't find entity template '%s'!\n", entityTplName);
   }
   SetEntityName (entityName);
-  DynamicObject::params = params;
   return true;
 }
 
