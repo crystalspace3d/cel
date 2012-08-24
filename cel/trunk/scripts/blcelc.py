@@ -1025,6 +1025,9 @@ class celParameterTools(object):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     __repr__ = _swig_repr
     ParseParams = staticmethod(_blcelc.celParameterTools_ParseParams)
+    WriteParams = staticmethod(_blcelc.celParameterTools_WriteParams)
+    GetTypeName = staticmethod(_blcelc.celParameterTools_GetTypeName)
+    GetType = staticmethod(_blcelc.celParameterTools_GetType)
     ToString = staticmethod(_blcelc.celParameterTools_ToString)
     ToLong = staticmethod(_blcelc.celParameterTools_ToLong)
     ToBool = staticmethod(_blcelc.celParameterTools_ToBool)
@@ -1050,6 +1053,9 @@ class celParameterTools(object):
 celParameterTools_swigregister = _blcelc.celParameterTools_swigregister
 celParameterTools_swigregister(celParameterTools)
 celParameterTools_ParseParams = _blcelc.celParameterTools_ParseParams
+celParameterTools_WriteParams = _blcelc.celParameterTools_WriteParams
+celParameterTools_GetTypeName = _blcelc.celParameterTools_GetTypeName
+celParameterTools_GetType = _blcelc.celParameterTools_GetType
 celParameterTools_ToString = _blcelc.celParameterTools_ToString
 celParameterTools_ToLong = _blcelc.celParameterTools_ToLong
 celParameterTools_ToBool = _blcelc.celParameterTools_ToBool
@@ -3678,6 +3684,8 @@ class iPcSteer(cspace.iBase):
     def RandomBinomial(*args): return _blcelc.iPcSteer_RandomBinomial(*args)
     def SetDelayRecheck(*args): return _blcelc.iPcSteer_SetDelayRecheck(*args)
     def IsMoving(*args): return _blcelc.iPcSteer_IsMoving(*args)
+    def SetNavStruct(*args): return _blcelc.iPcSteer_SetNavStruct(*args)
+    def GetPath(*args): return _blcelc.iPcSteer_GetPath(*args)
     Sector = _swig_property(_blcelc.iPcSteer_Sector_get, None, None,
                     "iPcSteer.Sector -> iSector*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iSector* iPcSteer::GetSector()")
 
