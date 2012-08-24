@@ -304,7 +304,7 @@ void MainApp::PrintHelp ()
 
   // Printing help
   commandLineHelper.PrintApplicationHelp
-    (GetObjectRegistry (), "navmeshtest", "navmeshtest <terrain||castle>", "App to build, save and test NavMeshes.");
+    (GetObjectRegistry (), "navmeshtest", "navmeshtest [VFS directory|terrain|castle]", "App to build, save and test NavMeshes.");
 }
 
 
@@ -314,26 +314,11 @@ bool MainApp::OnInitialize (int argc, char* argv[])
   if (!DemoApplication::OnInitialize (argc, argv))
     return false;
 
-  if (argc < 2)
-  {
+  mapLocation = clp->GetName ();
+  if (mapLocation.IsEmpty () || mapLocation == "castle")
     mapLocation = "/lev/castle";
-  }
-  else
-  {
-    csString mapName(argv[1]);
-    if (mapName == "terrain")
-    {
-      mapLocation = "/lev/terrainf";
-    }
-    else if (mapName == "castle")
-    {
-      mapLocation = "/lev/castle";
-    }
-    else  
-    {
-      return ReportError("Map not supported!");
-    }
-  }
+  else if (mapLocation == "terrain")
+    mapLocation = "/lev/terrainf";
 
   if (!csInitializer::RequestPlugins(object_reg,
     CS_REQUEST_PLUGIN("crystalspace.collisiondetection.opcode", iCollideSystem),

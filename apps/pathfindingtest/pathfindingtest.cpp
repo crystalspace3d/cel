@@ -53,13 +53,15 @@ bool MainApp::LoadLevel ()
   zone->LinkRegion(region);
 
   mapfile = region->CreateMapFile();
-
-  mapfile->SetPath("/lev/castle");  
+  csString mappath = clp->GetName();
+  if (mappath.IsEmpty())
+    mappath = "/lev/castle";
+  mapfile->SetPath(mappath);
   // vfs->Mount("/bias/", "$@data$/bias$/world.zip");
   // mapfile->SetPath("/bias");  
 
   mapfile->SetFile("world");
-  vfs->ChDir("/lev/castle");
+  vfs->ChDir(mappath);
 
   return true;
 }
@@ -460,7 +462,7 @@ void MainApp::PrintHelp ()
   
   // Printing help 
   commandLineHelper.PrintApplicationHelp 
-  (GetObjectRegistry (), "pathfindingtest", "pathfindingtest", "App to build, save and test NavMeshes and Paths."); 
+  (GetObjectRegistry (), "pathfindingtest", "pathfindingtest [VFS directory]", "App to build, save and test NavMeshes and Paths."); 
 } 
 
 bool MainApp::OnInitialize (int argc, char* argv[])
