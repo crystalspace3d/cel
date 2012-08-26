@@ -241,6 +241,12 @@ struct iDynamicFactory : public virtual iBase
   virtual iGeometryGenerator* GetGeometryGenerator () const = 0;
 
   /**
+   * Get the number of dynamic objects that currently exist in memory
+   * and which depend on this factory.
+   */
+  virtual size_t GetObjectCount () const = 0;
+
+  /**
    * Generic attribute system.
    */
   virtual void SetAttribute (csStringID nameID, const char* value) = 0;
