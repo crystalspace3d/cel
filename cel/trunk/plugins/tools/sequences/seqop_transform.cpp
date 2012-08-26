@@ -106,6 +106,7 @@ bool celTransformSeqOpFactory::Load (iDocumentNode* node)
     vectory_par = v_node->GetAttributeValue ("y");
     vectorz_par = v_node->GetAttributeValue ("z");
   }
+  rot_axis = -1;
   csRef<iDocumentNode> rotx_node = node->GetNode ("rotx");
   if (rotx_node)
   {

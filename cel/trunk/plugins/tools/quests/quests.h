@@ -133,7 +133,8 @@ private:
   celFactorySequences sequences;
   csRef<celVariableParameterBlock> defaults;
 
-  bool SaveRewardArray (const csRefArray<iRewardFactory>& rewards, iDocumentNode* node);
+  bool SaveRewardArray (const csRefArray<iRewardFactory>& rewards, iDocumentNode* node,
+      const char* nodename);
   csRef<iRewardFactory> LoadReward (iDocumentNode* child);
   bool LoadRewards (iQuestStateFactory* statefact, bool oninit,
   	iDocumentNode* node);
