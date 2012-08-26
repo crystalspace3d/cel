@@ -88,7 +88,6 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     ptanimimg
     rendloop_loader
     rendstep_std
-    rendstep_stencil
     reporter
     sequence
     shadermgr
@@ -162,7 +161,6 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     blxml
     celconsole
     celgraph
-    cpersist
     mgr_quests
     mgr_billboard
     pfactormove
@@ -197,7 +195,6 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     pfzone
     pfprojectile
     stdphyslayer
-    xmlpersist
   : blpython
   ;
 
