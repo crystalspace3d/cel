@@ -29,7 +29,7 @@
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;WIN32;CS_USE_STATIC_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include"
 				PrecompiledHeaderFile="..\..\out\release9\build\libbttest_static_plugins\libbttest_static_plugins.pch"
 				AssemblerListingLocation="..\..\out\release9\build\libbttest_static_plugins\"
 				ObjectFile="..\..\out\release9\build\libbttest_static_plugins\"
@@ -52,7 +52,7 @@
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;$(CRYSTAL)\out\release9\libs"
 				LargeAddressAware="2"
 				TargetMachine="1"/>
 			<Tool
@@ -77,7 +77,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\apps\bttest;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				AdditionalIncludeDirectories=".;..\..\apps\bttest;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -88,8 +88,7 @@
 			Name="ReleaseWithDlls|Win32"
 			OutputDirectory="..\..\out\release9\build\libbttest_static_plugins\"
 			IntermediateDirectory="..\..\out\release9\build\libbttest_static_plugins\"
-			ConfigurationType="2"
-			WholeProgramOptimization="1"
+			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
@@ -99,11 +98,11 @@
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
-				ProgramDatabaseFileName="..\..\out\release9\build\libbttest_static_plugins\Win32\bttest_static_plugins-2.1-vc9.pdb"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
+				ProgramDataBaseFileName="..\..\out\release9\build\libbttest_static_plugins\Win32\bttest_static_plugins.pdb"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include"
 				PrecompiledHeaderFile="..\..\out\release9\build\libbttest_static_plugins\libbttest_static_plugins.pch"
 				AssemblerListingLocation="..\..\out\release9\build\libbttest_static_plugins\"
 				ObjectFile="..\..\out\release9\build\libbttest_static_plugins\"
@@ -123,21 +122,19 @@
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-                        OutputFile="..\..\bttest_static_plugins-2.1-vc9.dll"
-				ImportLibrary="..\..\out\release9\libs\libbttest_static_plugins.lib"
-				ProgramDatabaseFile="..\..\out\release9\build\libbttest_static_plugins\Win32\bttest_static_plugins-2.1-vc9.pdb"
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;$(CRYSTAL)\out\release9\libs"
 				LargeAddressAware="2"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
+				OutputFile="..\..\out\release9\libs\libbttest_static_plugins.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
@@ -152,8 +149,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\apps\bttest;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;PROJECTGEN_VERSION=9"
+				AdditionalIncludeDirectories=".;..\..\apps\bttest;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -178,7 +175,7 @@
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;WIN32;CS_USE_STATIC_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include"
 				PrecompiledHeaderFile="..\..\out\debug9\build\libbttest_static_plugins\libbttest_static_plugins.pch"
 				AssemblerListingLocation="..\..\out\debug9\build\libbttest_static_plugins\"
 				ObjectFile="..\..\out\debug9\build\libbttest_static_plugins\"
@@ -199,7 +196,7 @@
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;$(CRYSTAL)\out\debug9\libs"
 				LargeAddressAware="2"
 				TargetMachine="1"/>
 			<Tool
@@ -224,7 +221,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\apps\bttest;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				AdditionalIncludeDirectories=".;..\..\apps\bttest;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -235,7 +232,7 @@
 			Name="DebugWithDlls|Win32"
 			OutputDirectory="..\..\out\debug9\build\libbttest_static_plugins\"
 			IntermediateDirectory="..\..\out\debug9\build\libbttest_static_plugins\"
-			ConfigurationType="2"
+			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
@@ -245,12 +242,11 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-
-				ProgramDatabaseFileName="..\..\out\debug9\build\libbttest_static_plugins\Win32\bttest_static_plugins-2.1-vc9_d.pdb"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
+				ProgramDataBaseFileName="..\..\out\debug9\build\libbttest_static_plugins\Win32\bttest_static_plugins.pdb"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include"
 				PrecompiledHeaderFile="..\..\out\debug9\build\libbttest_static_plugins\libbttest_static_plugins.pch"
 				AssemblerListingLocation="..\..\out\debug9\build\libbttest_static_plugins\"
 				ObjectFile="..\..\out\debug9\build\libbttest_static_plugins\"
@@ -268,21 +264,19 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
-                        OutputFile="..\..\bttest_static_plugins-2.1-vc9_d.dll"
-				ImportLibrary="..\..\out\debug9\libs\libbttest_static_plugins_d.lib"
-				ProgramDatabaseFile="..\..\out\debug9\build\libbttest_static_plugins\Win32\bttest_static_plugins-2.1-vc9_d.pdb"
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;$(CRYSTAL)\out\debug9\libs"
 				LargeAddressAware="2"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
+				OutputFile="..\..\out\debug9\libs\libbttest_static_plugins_d.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
@@ -297,8 +291,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\apps\bttest;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;PROJECTGEN_VERSION=9"
+				AdditionalIncludeDirectories=".;..\..\apps\bttest;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -323,7 +317,7 @@
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;WIN32;CS_USE_STATIC_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include"
 				PrecompiledHeaderFile="..\..\out\release9-x64\build\libbttest_static_plugins\libbttest_static_plugins.pch"
 				AssemblerListingLocation="..\..\out\release9-x64\build\libbttest_static_plugins\"
 				ObjectFile="..\..\out\release9-x64\build\libbttest_static_plugins\"
@@ -346,7 +340,7 @@
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				AdditionalLibraryDirectories="..\..\..\CS\out\release9-x64\libs;$(CRYSTAL)\out\release9-x64\libs"
 				LargeAddressAware="2"
 				TargetMachine="17"/>
 			<Tool
@@ -371,7 +365,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\apps\bttest;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				AdditionalIncludeDirectories=".;..\..\apps\bttest;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -382,8 +376,7 @@
 			Name="ReleaseWithDlls|x64"
 			OutputDirectory="..\..\out\release9-x64\build\libbttest_static_plugins\"
 			IntermediateDirectory="..\..\out\release9-x64\build\libbttest_static_plugins\"
-			ConfigurationType="2"
-			WholeProgramOptimization="1"
+			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
@@ -393,11 +386,11 @@
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
-				ProgramDatabaseFileName="..\..\out\release9-x64\build\libbttest_static_plugins\x64\bttest_static_plugins-2.1-vc9-x64.pdb"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
+				ProgramDataBaseFileName="..\..\out\release9-x64\build\libbttest_static_plugins\x64\bttest_static_plugins.pdb"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include"
 				PrecompiledHeaderFile="..\..\out\release9-x64\build\libbttest_static_plugins\libbttest_static_plugins.pch"
 				AssemblerListingLocation="..\..\out\release9-x64\build\libbttest_static_plugins\"
 				ObjectFile="..\..\out\release9-x64\build\libbttest_static_plugins\"
@@ -417,21 +410,19 @@
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-                        OutputFile="..\..\bttest_static_plugins-2.1-vc9-x64.dll"
-				ImportLibrary="..\..\out\release9-x64\libs\libbttest_static_plugins.lib"
-				ProgramDatabaseFile="..\..\out\release9-x64\build\libbttest_static_plugins\x64\bttest_static_plugins-2.1-vc9-x64.pdb"
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				AdditionalLibraryDirectories="..\..\..\CS\out\release9-x64\libs;$(CRYSTAL)\out\release9-x64\libs"
 				LargeAddressAware="2"
 				TargetMachine="17"/>
 			<Tool
 				Name="VCLibrarianTool"
+				OutputFile="..\..\out\release9-x64\libs\libbttest_static_plugins.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
@@ -446,8 +437,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\apps\bttest;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;PROJECTGEN_VERSION=9"
+				AdditionalIncludeDirectories=".;..\..\apps\bttest;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -472,7 +463,7 @@
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;WIN32;CS_USE_STATIC_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include"
 				PrecompiledHeaderFile="..\..\out\debug9-x64\build\libbttest_static_plugins\libbttest_static_plugins.pch"
 				AssemblerListingLocation="..\..\out\debug9-x64\build\libbttest_static_plugins\"
 				ObjectFile="..\..\out\debug9-x64\build\libbttest_static_plugins\"
@@ -493,7 +484,7 @@
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				AdditionalLibraryDirectories="..\..\..\CS\out\debug9-x64\libs;$(CRYSTAL)\out\debug9-x64\libs"
 				LargeAddressAware="2"
 				TargetMachine="17"/>
 			<Tool
@@ -518,7 +509,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\apps\bttest;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				AdditionalIncludeDirectories=".;..\..\apps\bttest;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -529,7 +520,7 @@
 			Name="DebugWithDlls|x64"
 			OutputDirectory="..\..\out\debug9-x64\build\libbttest_static_plugins\"
 			IntermediateDirectory="..\..\out\debug9-x64\build\libbttest_static_plugins\"
-			ConfigurationType="2"
+			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
@@ -539,12 +530,11 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-
-				ProgramDatabaseFileName="..\..\out\debug9-x64\build\libbttest_static_plugins\x64\bttest_static_plugins-2.1-vc9-x64_d.pdb"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
+				ProgramDataBaseFileName="..\..\out\debug9-x64\build\libbttest_static_plugins\x64\bttest_static_plugins.pdb"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include"
 				PrecompiledHeaderFile="..\..\out\debug9-x64\build\libbttest_static_plugins\libbttest_static_plugins.pch"
 				AssemblerListingLocation="..\..\out\debug9-x64\build\libbttest_static_plugins\"
 				ObjectFile="..\..\out\debug9-x64\build\libbttest_static_plugins\"
@@ -562,21 +552,19 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
-                        OutputFile="..\..\bttest_static_plugins-2.1-vc9-x64_d.dll"
-				ImportLibrary="..\..\out\debug9-x64\libs\libbttest_static_plugins_d.lib"
-				ProgramDatabaseFile="..\..\out\debug9-x64\build\libbttest_static_plugins\x64\bttest_static_plugins-2.1-vc9-x64_d.pdb"
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug9\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				AdditionalLibraryDirectories="..\..\..\CS\out\debug9-x64\libs;$(CRYSTAL)\out\debug9-x64\libs"
 				LargeAddressAware="2"
 				TargetMachine="17"/>
 			<Tool
 				Name="VCLibrarianTool"
+				OutputFile="..\..\out\debug9-x64\libs\libbttest_static_plugins_d.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
@@ -591,8 +579,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\apps\bttest;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;PROJECTGEN_VERSION=9"
+				AdditionalIncludeDirectories=".;..\..\apps\bttest;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -605,17 +593,7 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\..\msvc\appbttest_static_static_glue_lib.cpp">
-			</File>
-			<File
 				RelativePath="..\..\msvc\appbttest_static_staticuse.cpp">
-			</File>
-		</Filter>
-		<Filter
-			Name="Resource Files"
-			Filter="">
-			<File
-				RelativePath="..\..\msvc\libbttest_static_plugins.rc">
 			</File>
 		</Filter>
 	</Files>

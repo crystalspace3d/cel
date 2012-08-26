@@ -45,8 +45,7 @@
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='ReleaseWithDlls'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='DebugWithStaticLibs'" Label="Configuration">
@@ -54,7 +53,7 @@
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='DebugWithDlls'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -76,7 +75,7 @@
     <OutDir Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDlls|Win32'">..\..\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDlls|Win32'">..\..\out\release10\build\libbootstrap_static_plugins\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDlls|Win32'">false</LinkIncremental>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDlls|Win32'">bootstrap_static_plugins-2.1-vc10</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDlls|Win32'">out\release10\libs\libbootstrap_static_plugins</TargetName>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='DebugWithStaticLibs|Win32'">..\..\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='DebugWithStaticLibs|Win32'">..\..\out\debug10\build\libbootstrap_static_plugins\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='DebugWithStaticLibs|Win32'">true</LinkIncremental>
@@ -84,7 +83,7 @@
     <OutDir Condition="'$(Configuration)|$(Platform)'=='DebugWithDlls|Win32'">..\..\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='DebugWithDlls|Win32'">..\..\out\debug10\build\libbootstrap_static_plugins\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='DebugWithDlls|Win32'">true</LinkIncremental>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='DebugWithDlls|Win32'">bootstrap_static_plugins-2.1-vc10_d</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='DebugWithDlls|Win32'">out\debug10\libs\libbootstrap_static_plugins_d</TargetName>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='ReleaseWithStaticLibs|x64'">..\..\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='ReleaseWithStaticLibs|x64'">..\..\out\release10-x64\build\libbootstrap_static_plugins\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='ReleaseWithStaticLibs|x64'">false</LinkIncremental>
@@ -92,7 +91,7 @@
     <OutDir Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDlls|x64'">..\..\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDlls|x64'">..\..\out\release10-x64\build\libbootstrap_static_plugins\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDlls|x64'">false</LinkIncremental>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDlls|x64'">bootstrap_static_plugins-2.1-vc10-x64</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDlls|x64'">out\release10-x64\libs\libbootstrap_static_plugins</TargetName>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='DebugWithStaticLibs|x64'">..\..\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='DebugWithStaticLibs|x64'">..\..\out\debug10-x64\build\libbootstrap_static_plugins\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='DebugWithStaticLibs|x64'">true</LinkIncremental>
@@ -100,7 +99,7 @@
     <OutDir Condition="'$(Configuration)|$(Platform)'=='DebugWithDlls|x64'">..\..\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='DebugWithDlls|x64'">..\..\out\debug10-x64\build\libbootstrap_static_plugins\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='DebugWithDlls|x64'">true</LinkIncremental>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='DebugWithDlls|x64'">bootstrap_static_plugins-2.1-vc10-x64_d</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='DebugWithDlls|x64'">out\debug10-x64\libs\libbootstrap_static_plugins_d</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseWithStaticLibs|Win32'">
     <ClCompile>
@@ -112,7 +111,7 @@
       <ProgramDataBaseFileName>..\..\out\release10\build\libbootstrap_static_plugins\Win32\bootstrap_static_plugins.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\release10\build\libbootstrap_static_plugins\libbootstrap_static_plugins.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\release10\build\libbootstrap_static_plugins\</AssemblerListingLocation>
       <ObjectFileName>..\..\out\release10\build\libbootstrap_static_plugins\</ObjectFileName>
@@ -130,7 +129,7 @@
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>libcrystalspace.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>..\..\..\CS\out\release10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\..\CS\out\release10\libs;$(CRYSTAL)\out\release10\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX86</TargetMachine>
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
@@ -145,7 +144,7 @@ copy /y "$(TargetPath)" ..\..\out\release10\bin\
     </PostBuildEvent>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\..\apps\bootstrap;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..\apps\bootstrap;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include</AdditionalIncludeDirectories>
       <Culture>0x0409</Culture>
     </ResourceCompile>
   </ItemDefinitionGroup>
@@ -156,10 +155,10 @@ copy /y "$(TargetPath)" ..\..\out\release10\bin\
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
-      <ProgramDataBaseFileName>..\..\out\release10\build\libbootstrap_static_plugins\Win32\bootstrap_static_plugins-2.1-vc10.pdb</ProgramDataBaseFileName>
-      <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ProgramDataBaseFileName>..\..\out\release10\build\libbootstrap_static_plugins\Win32\bootstrap_static_plugins.pdb</ProgramDataBaseFileName>
+      <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\release10\build\libbootstrap_static_plugins\libbootstrap_static_plugins.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\release10\build\libbootstrap_static_plugins\</AssemblerListingLocation>
       <ObjectFileName>..\..\out\release10\build\libbootstrap_static_plugins\</ObjectFileName>
@@ -174,17 +173,15 @@ copy /y "$(TargetPath)" ..\..\out\release10\bin\
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>LIBC;LIBCD;LIBCMT;LIBCMTD;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <OutputFile>..\..\bootstrap_static_plugins-2.1-vc10.dll</OutputFile>
-      <ImportLibrary>..\..\out\release10\libs\libbootstrap_static_plugins.lib</ImportLibrary>
-      <ProgramDatabaseFile>..\..\out\release10\build\libbootstrap_static_plugins\Win32\bootstrap_static_plugins-2.1-vc10.pdb</ProgramDatabaseFile>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>libcrystalspace.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>..\..\..\CS\out\release10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\..\CS\out\release10\libs;$(CRYSTAL)\out\release10\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX86</TargetMachine>
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
     <Lib>
+      <OutputFile>..\..\out\release10\libs\libbootstrap_static_plugins.lib</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </Lib>
     <PostBuildEvent>
@@ -193,8 +190,8 @@ copy /y "$(TargetPath)" ..\..\out\release10\bin\
 </Command>
     </PostBuildEvent>
     <ResourceCompile>
-      <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\..\apps\bootstrap;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;..\..\apps\bootstrap;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include</AdditionalIncludeDirectories>
       <Culture>0x0409</Culture>
     </ResourceCompile>
   </ItemDefinitionGroup>
@@ -206,7 +203,7 @@ copy /y "$(TargetPath)" ..\..\out\release10\bin\
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <ProgramDataBaseFileName>..\..\out\debug10\build\libbootstrap_static_plugins\Win32\bootstrap_static_plugins.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\debug10\build\libbootstrap_static_plugins\libbootstrap_static_plugins.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\debug10\build\libbootstrap_static_plugins\</AssemblerListingLocation>
       <ObjectFileName>..\..\out\debug10\build\libbootstrap_static_plugins\</ObjectFileName>
@@ -222,7 +219,7 @@ copy /y "$(TargetPath)" ..\..\out\release10\bin\
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>libcrystalspace_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>..\..\..\CS\out\debug10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\..\CS\out\debug10\libs;$(CRYSTAL)\out\debug10\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX86</TargetMachine>
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
@@ -237,7 +234,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10\bin\
     </PostBuildEvent>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\..\apps\bootstrap;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..\apps\bootstrap;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include</AdditionalIncludeDirectories>
       <Culture>0x0409</Culture>
     </ResourceCompile>
   </ItemDefinitionGroup>
@@ -246,10 +243,10 @@ copy /y "$(TargetPath)" ..\..\out\debug10\bin\
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>true</MinimalRebuild>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <ProgramDataBaseFileName>..\..\out\debug10\build\libbootstrap_static_plugins\Win32\bootstrap_static_plugins-2.1-vc10_d.pdb</ProgramDataBaseFileName>
-      <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <ProgramDataBaseFileName>..\..\out\debug10\build\libbootstrap_static_plugins\Win32\bootstrap_static_plugins.pdb</ProgramDataBaseFileName>
+      <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\debug10\build\libbootstrap_static_plugins\libbootstrap_static_plugins.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\debug10\build\libbootstrap_static_plugins\</AssemblerListingLocation>
       <ObjectFileName>..\..\out\debug10\build\libbootstrap_static_plugins\</ObjectFileName>
@@ -262,17 +259,15 @@ copy /y "$(TargetPath)" ..\..\out\debug10\bin\
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>LIBC;LIBCD;LIBCMT;LIBCMTD;MSVCRT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <OutputFile>..\..\bootstrap_static_plugins-2.1-vc10_d.dll</OutputFile>
-      <ImportLibrary>..\..\out\debug10\libs\libbootstrap_static_plugins_d.lib</ImportLibrary>
-      <ProgramDatabaseFile>..\..\out\debug10\build\libbootstrap_static_plugins\Win32\bootstrap_static_plugins-2.1-vc10_d.pdb</ProgramDatabaseFile>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>libcrystalspace_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>..\..\..\CS\out\debug10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\..\CS\out\debug10\libs;$(CRYSTAL)\out\debug10\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX86</TargetMachine>
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
     <Lib>
+      <OutputFile>..\..\out\debug10\libs\libbootstrap_static_plugins_d.lib</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </Lib>
     <PostBuildEvent>
@@ -281,8 +276,8 @@ copy /y "$(TargetPath)" ..\..\out\debug10\bin\
 </Command>
     </PostBuildEvent>
     <ResourceCompile>
-      <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\..\apps\bootstrap;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;..\..\apps\bootstrap;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include</AdditionalIncludeDirectories>
       <Culture>0x0409</Culture>
     </ResourceCompile>
   </ItemDefinitionGroup>
@@ -296,7 +291,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10\bin\
       <ProgramDataBaseFileName>..\..\out\release10-x64\build\libbootstrap_static_plugins\x64\bootstrap_static_plugins.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\release10-x64\build\libbootstrap_static_plugins\libbootstrap_static_plugins.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\release10-x64\build\libbootstrap_static_plugins\</AssemblerListingLocation>
       <ObjectFileName>..\..\out\release10-x64\build\libbootstrap_static_plugins\</ObjectFileName>
@@ -314,7 +309,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10\bin\
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>libcrystalspace.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>..\..\..\CS\out\release10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\..\CS\out\release10-x64\libs;$(CRYSTAL)\out\release10-x64\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX64</TargetMachine>
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
@@ -329,7 +324,7 @@ copy /y "$(TargetPath)" ..\..\out\release10-x64\bin\
     </PostBuildEvent>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\..\apps\bootstrap;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..\apps\bootstrap;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include</AdditionalIncludeDirectories>
       <Culture>0x0409</Culture>
     </ResourceCompile>
   </ItemDefinitionGroup>
@@ -340,10 +335,10 @@ copy /y "$(TargetPath)" ..\..\out\release10-x64\bin\
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
-      <ProgramDataBaseFileName>..\..\out\release10-x64\build\libbootstrap_static_plugins\x64\bootstrap_static_plugins-2.1-vc10-x64.pdb</ProgramDataBaseFileName>
-      <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ProgramDataBaseFileName>..\..\out\release10-x64\build\libbootstrap_static_plugins\x64\bootstrap_static_plugins.pdb</ProgramDataBaseFileName>
+      <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\release10-x64\build\libbootstrap_static_plugins\libbootstrap_static_plugins.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\release10-x64\build\libbootstrap_static_plugins\</AssemblerListingLocation>
       <ObjectFileName>..\..\out\release10-x64\build\libbootstrap_static_plugins\</ObjectFileName>
@@ -358,17 +353,15 @@ copy /y "$(TargetPath)" ..\..\out\release10-x64\bin\
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>LIBC;LIBCD;LIBCMT;LIBCMTD;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <OutputFile>..\..\bootstrap_static_plugins-2.1-vc10-x64.dll</OutputFile>
-      <ImportLibrary>..\..\out\release10-x64\libs\libbootstrap_static_plugins.lib</ImportLibrary>
-      <ProgramDatabaseFile>..\..\out\release10-x64\build\libbootstrap_static_plugins\x64\bootstrap_static_plugins-2.1-vc10-x64.pdb</ProgramDatabaseFile>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>libcrystalspace.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>..\..\..\CS\out\release10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\..\CS\out\release10-x64\libs;$(CRYSTAL)\out\release10-x64\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX64</TargetMachine>
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
     <Lib>
+      <OutputFile>..\..\out\release10-x64\libs\libbootstrap_static_plugins.lib</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </Lib>
     <PostBuildEvent>
@@ -377,8 +370,8 @@ copy /y "$(TargetPath)" ..\..\out\release10-x64\bin\
 </Command>
     </PostBuildEvent>
     <ResourceCompile>
-      <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\..\apps\bootstrap;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;..\..\apps\bootstrap;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include</AdditionalIncludeDirectories>
       <Culture>0x0409</Culture>
     </ResourceCompile>
   </ItemDefinitionGroup>
@@ -390,7 +383,7 @@ copy /y "$(TargetPath)" ..\..\out\release10-x64\bin\
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <ProgramDataBaseFileName>..\..\out\debug10-x64\build\libbootstrap_static_plugins\x64\bootstrap_static_plugins.pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\debug10-x64\build\libbootstrap_static_plugins\libbootstrap_static_plugins.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\debug10-x64\build\libbootstrap_static_plugins\</AssemblerListingLocation>
       <ObjectFileName>..\..\out\debug10-x64\build\libbootstrap_static_plugins\</ObjectFileName>
@@ -406,7 +399,7 @@ copy /y "$(TargetPath)" ..\..\out\release10-x64\bin\
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>libcrystalspace_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>..\..\..\CS\out\debug10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\..\CS\out\debug10-x64\libs;$(CRYSTAL)\out\debug10-x64\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX64</TargetMachine>
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
@@ -421,7 +414,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     </PostBuildEvent>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\..\apps\bootstrap;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..\apps\bootstrap;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include</AdditionalIncludeDirectories>
       <Culture>0x0409</Culture>
     </ResourceCompile>
   </ItemDefinitionGroup>
@@ -430,10 +423,10 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>true</MinimalRebuild>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <ProgramDataBaseFileName>..\..\out\debug10-x64\build\libbootstrap_static_plugins\x64\bootstrap_static_plugins-2.1-vc10-x64_d.pdb</ProgramDataBaseFileName>
-      <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <ProgramDataBaseFileName>..\..\out\debug10-x64\build\libbootstrap_static_plugins\x64\bootstrap_static_plugins.pdb</ProgramDataBaseFileName>
+      <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\debug10-x64\build\libbootstrap_static_plugins\libbootstrap_static_plugins.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\debug10-x64\build\libbootstrap_static_plugins\</AssemblerListingLocation>
       <ObjectFileName>..\..\out\debug10-x64\build\libbootstrap_static_plugins\</ObjectFileName>
@@ -446,17 +439,15 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>LIBC;LIBCD;LIBCMT;LIBCMTD;MSVCRT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <OutputFile>..\..\bootstrap_static_plugins-2.1-vc10-x64_d.dll</OutputFile>
-      <ImportLibrary>..\..\out\debug10-x64\libs\libbootstrap_static_plugins_d.lib</ImportLibrary>
-      <ProgramDatabaseFile>..\..\out\debug10-x64\build\libbootstrap_static_plugins\x64\bootstrap_static_plugins-2.1-vc10-x64_d.pdb</ProgramDatabaseFile>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>libcrystalspace_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>..\..\..\CS\out\debug10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\..\CS\out\debug10-x64\libs;$(CRYSTAL)\out\debug10-x64\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX64</TargetMachine>
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
     <Lib>
+      <OutputFile>..\..\out\debug10-x64\libs\libbootstrap_static_plugins_d.lib</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </Lib>
     <PostBuildEvent>
@@ -465,17 +456,13 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
 </Command>
     </PostBuildEvent>
     <ResourceCompile>
-      <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\..\apps\bootstrap;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;..\..\apps\bootstrap;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include</AdditionalIncludeDirectories>
       <Culture>0x0409</Culture>
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\msvc\appbootstrap_static_static_glue_lib.cpp" />
     <ClCompile Include="..\..\msvc\appbootstrap_static_staticuse.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="..\..\msvc\libbootstrap_static_plugins.rc" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="libcel_staticplugins.vcxproj">
