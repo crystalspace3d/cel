@@ -110,9 +110,9 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <ProgramDataBaseFileName>..\..\out\release10\build\libelcmtest_static_plugins_CRYSTAL\Win32\elcmtest_static_plugins_CRYSTAL.pdb</ProgramDataBaseFileName>
-      <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_GLUE_IS_SHARED;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include;..\..\..\CS\winlibs\x86\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\winlibs\x86\include;$(CRYSTAL)\win32libs\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\release10\build\libelcmtest_static_plugins_CRYSTAL\libelcmtest_static_plugins_CRYSTAL.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\release10\build\libelcmtest_static_plugins_CRYSTAL\</AssemblerListingLocation>
       <ObjectFileName>..\..\out\release10\build\libelcmtest_static_plugins_CRYSTAL\</ObjectFileName>
@@ -130,7 +130,7 @@
       <AdditionalOptions>freetype2.lib libjpeg.lib libpng.lib cg.lib cgGL.lib bulletsoftbody-vc10.lib bulletcollision-vc10.lib bulletdynamics-vc10.lib bulletmath-vc10.lib CEGUIBase-vc10.lib libcrystalspace_windows.lib libcrystalspace_opengl.lib opengl32.lib version.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins.lib libcrystalspace_directx.lib libcrystalspace.lib zlib.lib dsound.lib dinput8.lib  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>libcrystalspace.lib;CEGUIBase-vc10.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>..\..\..\CS\out\release10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\..\CS\out\release10\libs;$(CRYSTAL)\out\release10\libs;..\..\..\CS\winlibs\x86\lib;..\..\..\CS\win32libs\lib;$(CRYSTAL)\winlibs\x86\lib;$(CRYSTAL)\win32libs\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX86</TargetMachine>
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
@@ -144,8 +144,8 @@ copy /y "$(TargetPath)" ..\..\out\release10\bin\
 </Command>
     </PostBuildEvent>
     <ResourceCompile>
-      <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\..\apps\elcmtest;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_GLUE_IS_SHARED;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;..\..\apps\elcmtest;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include;..\..\..\CS\winlibs\x86\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\winlibs\x86\include;$(CRYSTAL)\win32libs\include</AdditionalIncludeDirectories>
       <Culture>0x0409</Culture>
     </ResourceCompile>
   </ItemDefinitionGroup>
@@ -157,9 +157,9 @@ copy /y "$(TargetPath)" ..\..\out\release10\bin\
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <ProgramDataBaseFileName>..\..\out\release10\build\libelcmtest_static_plugins_CRYSTAL\Win32\elcmtest_static_plugins_CRYSTAL-2.1-vc10.pdb</ProgramDataBaseFileName>
-      <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CS_GLUE_IS_SHARED;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include;..\..\..\CS\winlibs\x86\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\winlibs\x86\include;$(CRYSTAL)\win32libs\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\release10\build\libelcmtest_static_plugins_CRYSTAL\libelcmtest_static_plugins_CRYSTAL.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\release10\build\libelcmtest_static_plugins_CRYSTAL\</AssemblerListingLocation>
       <ObjectFileName>..\..\out\release10\build\libelcmtest_static_plugins_CRYSTAL\</ObjectFileName>
@@ -180,7 +180,7 @@ copy /y "$(TargetPath)" ..\..\out\release10\bin\
       <AdditionalOptions>freetype2.lib libjpeg.lib libpng.lib cg.lib cgGL.lib bulletsoftbody-vc10.lib bulletcollision-vc10.lib bulletdynamics-vc10.lib bulletmath-vc10.lib CEGUIBase-vc10.lib libcrystalspace_windows.lib libcrystalspace_opengl.lib opengl32.lib version.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins.lib libcrystalspace_directx.lib libcrystalspace.lib zlib.lib dsound.lib dinput8.lib  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>libcrystalspace.lib;CEGUIBase-vc10.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>..\..\..\CS\out\release10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\..\CS\out\release10\libs;$(CRYSTAL)\out\release10\libs;..\..\..\CS\winlibs\x86\lib;..\..\..\CS\win32libs\lib;$(CRYSTAL)\winlibs\x86\lib;$(CRYSTAL)\win32libs\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX86</TargetMachine>
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
@@ -193,8 +193,8 @@ copy /y "$(TargetPath)" ..\..\out\release10\bin\
 </Command>
     </PostBuildEvent>
     <ResourceCompile>
-      <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\..\apps\elcmtest;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CS_GLUE_IS_SHARED;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;..\..\apps\elcmtest;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include;..\..\..\CS\winlibs\x86\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\winlibs\x86\include;$(CRYSTAL)\win32libs\include</AdditionalIncludeDirectories>
       <Culture>0x0409</Culture>
     </ResourceCompile>
   </ItemDefinitionGroup>
@@ -204,9 +204,9 @@ copy /y "$(TargetPath)" ..\..\out\release10\bin\
       <MinimalRebuild>true</MinimalRebuild>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <ProgramDataBaseFileName>..\..\out\debug10\build\libelcmtest_static_plugins_CRYSTAL\Win32\elcmtest_static_plugins_CRYSTAL.pdb</ProgramDataBaseFileName>
-      <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_GLUE_IS_SHARED;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include;..\..\..\CS\winlibs\x86\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\winlibs\x86\include;$(CRYSTAL)\win32libs\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\debug10\build\libelcmtest_static_plugins_CRYSTAL\libelcmtest_static_plugins_CRYSTAL.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\debug10\build\libelcmtest_static_plugins_CRYSTAL\</AssemblerListingLocation>
       <ObjectFileName>..\..\out\debug10\build\libelcmtest_static_plugins_CRYSTAL\</ObjectFileName>
@@ -222,7 +222,7 @@ copy /y "$(TargetPath)" ..\..\out\release10\bin\
       <AdditionalOptions>freetype2.lib libjpeg.lib libpng.lib cg.lib cgGL.lib bulletsoftbody-vc10_d.lib bulletcollision-vc10_d.lib bulletdynamics-vc10_d.lib bulletmath-vc10_d.lib CEGUIBase-vc10_d.lib libcrystalspace_windows_d.lib libcrystalspace_opengl_d.lib opengl32.lib version.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins_d.lib libcrystalspace_directx_d.lib libcrystalspace_d.lib zlib.lib dsound.lib dinput8.lib  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>libcrystalspace_d.lib;CEGUIBase-vc10_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>..\..\..\CS\out\debug10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\..\CS\out\debug10\libs;$(CRYSTAL)\out\debug10\libs;..\..\..\CS\winlibs\x86\lib;..\..\..\CS\win32libs\lib;$(CRYSTAL)\winlibs\x86\lib;$(CRYSTAL)\win32libs\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX86</TargetMachine>
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
@@ -236,8 +236,8 @@ copy /y "$(TargetPath)" ..\..\out\debug10\bin\
 </Command>
     </PostBuildEvent>
     <ResourceCompile>
-      <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\..\apps\elcmtest;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_GLUE_IS_SHARED;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;..\..\apps\elcmtest;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include;..\..\..\CS\winlibs\x86\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\winlibs\x86\include;$(CRYSTAL)\win32libs\include</AdditionalIncludeDirectories>
       <Culture>0x0409</Culture>
     </ResourceCompile>
   </ItemDefinitionGroup>
@@ -247,9 +247,9 @@ copy /y "$(TargetPath)" ..\..\out\debug10\bin\
       <MinimalRebuild>true</MinimalRebuild>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <ProgramDataBaseFileName>..\..\out\debug10\build\libelcmtest_static_plugins_CRYSTAL\Win32\elcmtest_static_plugins_CRYSTAL-2.1-vc10_d.pdb</ProgramDataBaseFileName>
-      <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CS_GLUE_IS_SHARED;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include;..\..\..\CS\winlibs\x86\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\winlibs\x86\include;$(CRYSTAL)\win32libs\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\debug10\build\libelcmtest_static_plugins_CRYSTAL\libelcmtest_static_plugins_CRYSTAL.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\debug10\build\libelcmtest_static_plugins_CRYSTAL\</AssemblerListingLocation>
       <ObjectFileName>..\..\out\debug10\build\libelcmtest_static_plugins_CRYSTAL\</ObjectFileName>
@@ -268,7 +268,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10\bin\
       <AdditionalOptions>freetype2.lib libjpeg.lib libpng.lib cg.lib cgGL.lib bulletsoftbody-vc10_d.lib bulletcollision-vc10_d.lib bulletdynamics-vc10_d.lib bulletmath-vc10_d.lib CEGUIBase-vc10_d.lib libcrystalspace_windows_d.lib libcrystalspace_opengl_d.lib opengl32.lib version.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins_d.lib libcrystalspace_directx_d.lib libcrystalspace_d.lib zlib.lib dsound.lib dinput8.lib  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>libcrystalspace_d.lib;CEGUIBase-vc10_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>..\..\..\CS\out\debug10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\..\CS\out\debug10\libs;$(CRYSTAL)\out\debug10\libs;..\..\..\CS\winlibs\x86\lib;..\..\..\CS\win32libs\lib;$(CRYSTAL)\winlibs\x86\lib;$(CRYSTAL)\win32libs\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX86</TargetMachine>
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
@@ -281,8 +281,8 @@ copy /y "$(TargetPath)" ..\..\out\debug10\bin\
 </Command>
     </PostBuildEvent>
     <ResourceCompile>
-      <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\..\apps\elcmtest;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CS_GLUE_IS_SHARED;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;..\..\apps\elcmtest;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include;..\..\..\CS\winlibs\x86\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\winlibs\x86\include;$(CRYSTAL)\win32libs\include</AdditionalIncludeDirectories>
       <Culture>0x0409</Culture>
     </ResourceCompile>
   </ItemDefinitionGroup>
@@ -294,9 +294,9 @@ copy /y "$(TargetPath)" ..\..\out\debug10\bin\
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <ProgramDataBaseFileName>..\..\out\release10-x64\build\libelcmtest_static_plugins_CRYSTAL\x64\elcmtest_static_plugins_CRYSTAL.pdb</ProgramDataBaseFileName>
-      <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_GLUE_IS_SHARED;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include;..\..\..\CS\winlibs\x64\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\winlibs\x64\include;$(CRYSTAL)\win32libs\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\release10-x64\build\libelcmtest_static_plugins_CRYSTAL\libelcmtest_static_plugins_CRYSTAL.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\release10-x64\build\libelcmtest_static_plugins_CRYSTAL\</AssemblerListingLocation>
       <ObjectFileName>..\..\out\release10-x64\build\libelcmtest_static_plugins_CRYSTAL\</ObjectFileName>
@@ -314,7 +314,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10\bin\
       <AdditionalOptions>freetype2.lib libjpeg.lib libpng.lib cg.lib cgGL.lib bulletsoftbody-vc10.lib bulletcollision-vc10.lib bulletdynamics-vc10.lib bulletmath-vc10.lib CEGUIBase-vc10.lib libcrystalspace_windows.lib libcrystalspace_opengl.lib opengl32.lib version.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins.lib libcrystalspace_directx.lib libcrystalspace.lib zlib.lib dsound.lib dinput8.lib  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>libcrystalspace.lib;CEGUIBase-vc10.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>..\..\..\CS\out\release10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\..\CS\out\release10-x64\libs;$(CRYSTAL)\out\release10-x64\libs;..\..\..\CS\winlibs\x64\lib;..\..\..\CS\win32libs\lib;$(CRYSTAL)\winlibs\x64\lib;$(CRYSTAL)\win32libs\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX64</TargetMachine>
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
@@ -328,8 +328,8 @@ copy /y "$(TargetPath)" ..\..\out\release10-x64\bin\
 </Command>
     </PostBuildEvent>
     <ResourceCompile>
-      <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\..\apps\elcmtest;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_GLUE_IS_SHARED;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;..\..\apps\elcmtest;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include;..\..\..\CS\winlibs\x64\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\winlibs\x64\include;$(CRYSTAL)\win32libs\include</AdditionalIncludeDirectories>
       <Culture>0x0409</Culture>
     </ResourceCompile>
   </ItemDefinitionGroup>
@@ -341,9 +341,9 @@ copy /y "$(TargetPath)" ..\..\out\release10-x64\bin\
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <ProgramDataBaseFileName>..\..\out\release10-x64\build\libelcmtest_static_plugins_CRYSTAL\x64\elcmtest_static_plugins_CRYSTAL-2.1-vc10-x64.pdb</ProgramDataBaseFileName>
-      <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CS_GLUE_IS_SHARED;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include;..\..\..\CS\winlibs\x64\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\winlibs\x64\include;$(CRYSTAL)\win32libs\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\release10-x64\build\libelcmtest_static_plugins_CRYSTAL\libelcmtest_static_plugins_CRYSTAL.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\release10-x64\build\libelcmtest_static_plugins_CRYSTAL\</AssemblerListingLocation>
       <ObjectFileName>..\..\out\release10-x64\build\libelcmtest_static_plugins_CRYSTAL\</ObjectFileName>
@@ -364,7 +364,7 @@ copy /y "$(TargetPath)" ..\..\out\release10-x64\bin\
       <AdditionalOptions>freetype2.lib libjpeg.lib libpng.lib cg.lib cgGL.lib bulletsoftbody-vc10.lib bulletcollision-vc10.lib bulletdynamics-vc10.lib bulletmath-vc10.lib CEGUIBase-vc10.lib libcrystalspace_windows.lib libcrystalspace_opengl.lib opengl32.lib version.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins.lib libcrystalspace_directx.lib libcrystalspace.lib zlib.lib dsound.lib dinput8.lib  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>libcrystalspace.lib;CEGUIBase-vc10.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>..\..\..\CS\out\release10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\..\CS\out\release10-x64\libs;$(CRYSTAL)\out\release10-x64\libs;..\..\..\CS\winlibs\x64\lib;..\..\..\CS\win32libs\lib;$(CRYSTAL)\winlibs\x64\lib;$(CRYSTAL)\win32libs\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX64</TargetMachine>
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
@@ -377,8 +377,8 @@ copy /y "$(TargetPath)" ..\..\out\release10-x64\bin\
 </Command>
     </PostBuildEvent>
     <ResourceCompile>
-      <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\..\apps\elcmtest;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CS_GLUE_IS_SHARED;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;..\..\apps\elcmtest;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include;..\..\..\CS\winlibs\x64\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\winlibs\x64\include;$(CRYSTAL)\win32libs\include</AdditionalIncludeDirectories>
       <Culture>0x0409</Culture>
     </ResourceCompile>
   </ItemDefinitionGroup>
@@ -388,9 +388,9 @@ copy /y "$(TargetPath)" ..\..\out\release10-x64\bin\
       <MinimalRebuild>true</MinimalRebuild>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <ProgramDataBaseFileName>..\..\out\debug10-x64\build\libelcmtest_static_plugins_CRYSTAL\x64\elcmtest_static_plugins_CRYSTAL.pdb</ProgramDataBaseFileName>
-      <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_GLUE_IS_SHARED;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include;..\..\..\CS\winlibs\x64\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\winlibs\x64\include;$(CRYSTAL)\win32libs\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\debug10-x64\build\libelcmtest_static_plugins_CRYSTAL\libelcmtest_static_plugins_CRYSTAL.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\debug10-x64\build\libelcmtest_static_plugins_CRYSTAL\</AssemblerListingLocation>
       <ObjectFileName>..\..\out\debug10-x64\build\libelcmtest_static_plugins_CRYSTAL\</ObjectFileName>
@@ -406,7 +406,7 @@ copy /y "$(TargetPath)" ..\..\out\release10-x64\bin\
       <AdditionalOptions>freetype2.lib libjpeg.lib libpng.lib cg.lib cgGL.lib bulletsoftbody-vc10_d.lib bulletcollision-vc10_d.lib bulletdynamics-vc10_d.lib bulletmath-vc10_d.lib CEGUIBase-vc10_d.lib libcrystalspace_windows_d.lib libcrystalspace_opengl_d.lib opengl32.lib version.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins_d.lib libcrystalspace_directx_d.lib libcrystalspace_d.lib zlib.lib dsound.lib dinput8.lib  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>libcrystalspace_d.lib;CEGUIBase-vc10_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>..\..\..\CS\out\debug10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\..\CS\out\debug10-x64\libs;$(CRYSTAL)\out\debug10-x64\libs;..\..\..\CS\winlibs\x64\lib;..\..\..\CS\win32libs\lib;$(CRYSTAL)\winlibs\x64\lib;$(CRYSTAL)\win32libs\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX64</TargetMachine>
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
@@ -420,8 +420,8 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
 </Command>
     </PostBuildEvent>
     <ResourceCompile>
-      <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\..\apps\elcmtest;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_GLUE_IS_SHARED;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;..\..\apps\elcmtest;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include;..\..\..\CS\winlibs\x64\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\winlibs\x64\include;$(CRYSTAL)\win32libs\include</AdditionalIncludeDirectories>
       <Culture>0x0409</Culture>
     </ResourceCompile>
   </ItemDefinitionGroup>
@@ -431,9 +431,9 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
       <MinimalRebuild>true</MinimalRebuild>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <ProgramDataBaseFileName>..\..\out\debug10-x64\build\libelcmtest_static_plugins_CRYSTAL\x64\elcmtest_static_plugins_CRYSTAL-2.1-vc10-x64_d.pdb</ProgramDataBaseFileName>
-      <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CS_GLUE_IS_SHARED;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include;..\..\..\CS\winlibs\x64\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\winlibs\x64\include;$(CRYSTAL)\win32libs\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>..\..\out\debug10-x64\build\libelcmtest_static_plugins_CRYSTAL\libelcmtest_static_plugins_CRYSTAL.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>..\..\out\debug10-x64\build\libelcmtest_static_plugins_CRYSTAL\</AssemblerListingLocation>
       <ObjectFileName>..\..\out\debug10-x64\build\libelcmtest_static_plugins_CRYSTAL\</ObjectFileName>
@@ -452,7 +452,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
       <AdditionalOptions>freetype2.lib libjpeg.lib libpng.lib cg.lib cgGL.lib bulletsoftbody-vc10_d.lib bulletcollision-vc10_d.lib bulletdynamics-vc10_d.lib bulletmath-vc10_d.lib CEGUIBase-vc10_d.lib libcrystalspace_windows_d.lib libcrystalspace_opengl_d.lib opengl32.lib version.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins_d.lib libcrystalspace_directx_d.lib libcrystalspace_d.lib zlib.lib dsound.lib dinput8.lib  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>libcrystalspace_d.lib;CEGUIBase-vc10_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>..\..\..\CS\out\debug10\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug10\libs;$(CRYSTAL)\libs\csutil\win32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\..\CS\out\debug10-x64\libs;$(CRYSTAL)\out\debug10-x64\libs;..\..\..\CS\winlibs\x64\lib;..\..\..\CS\win32libs\lib;$(CRYSTAL)\winlibs\x64\lib;$(CRYSTAL)\win32libs\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX64</TargetMachine>
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
@@ -465,13 +465,12 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
 </Command>
     </PostBuildEvent>
     <ResourceCompile>
-      <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\..\apps\elcmtest;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CS_GLUE_IS_SHARED;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;..\..\apps\elcmtest;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include;..\..\..\CS\winlibs\x64\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\winlibs\x64\include;$(CRYSTAL)\win32libs\include</AdditionalIncludeDirectories>
       <Culture>0x0409</Culture>
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\msvc\appelcmtest_static_static_glue_lib_CRYSTAL.cpp" />
     <ClCompile Include="..\..\msvc\appelcmtest_static_staticuse_CRYSTAL.cpp" />
   </ItemGroup>
   <ItemGroup>
