@@ -183,14 +183,26 @@ void celSequenceReward::Reward (iCelParameterBlock* params)
     if (!quest)
     {
       quest = celQueryPropertyClassTagEntity<iPcQuest> (ent, t);
-      if (!quest) return;
+      if (!quest)
+      {
+        Report (type->object_reg,
+      	  "Can't find quest in entity '%s' and tag '%s'!",
+	      entity->Get (params), t);
+	return;
+      }
     }
 
     // @@@
     // Remove Quest Dependency?
     iQuest* q = quest->GetQuest ();
     const char* s = sequence_name->Get (params);
-    if (!s) return;
+    if (!s)
+    {
+      Report (type->object_reg,
+      	  "Can't find sequence name in entity '%s' and tag '%s'!",
+	      entity->Get (params), t);
+      return;
+    }
     seq = q->FindSequence (s);
     if (!seq)
     {
