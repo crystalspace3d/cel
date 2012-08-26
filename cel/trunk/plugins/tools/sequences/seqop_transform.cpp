@@ -49,6 +49,7 @@ celTransformSeqOpFactory::celTransformSeqOpFactory (
 {
   celTransformSeqOpFactory::type = type;
   rot_axis = -1;
+  reversed = false;
 }
 
 celTransformSeqOpFactory::~celTransformSeqOpFactory ()
@@ -60,7 +61,7 @@ csPtr<iSeqOp> celTransformSeqOpFactory::CreateSeqOp (
 {
   celTransformSeqOp* seqop = new celTransformSeqOp (type,
   	params, entity_par, tag_par, vectorx_par, vectory_par, vectorz_par,
-	rot_axis, rot_angle_par);
+	rot_axis, rot_angle_par, reversed);
   return seqop;
 }
 
@@ -84,6 +85,8 @@ bool celTransformSeqOpFactory::Save (iDocumentNode* node)
     else if (rot_axis == CS_AXIS_Z) rotNode->SetValue ("rotz");
     rotNode->SetAttribute ("angle", rot_angle_par);
   }
+  if (reversed)
+    node->SetAttribute ("reversed", "true");
   return true;
 }
 
@@ -125,6 +128,7 @@ bool celTransformSeqOpFactory::Load (iDocumentNode* node)
     rot_axis = CS_AXIS_Z;
     rot_angle_par = rotz_node->GetAttributeValue ("angle");
   }
+  reversed = node->GetAttributeValueAsBool ("reversed");
   
   return true;
 }
@@ -158,7 +162,7 @@ celTransformSeqOp::celTransformSeqOp (
   	iCelParameterBlock* params,
 	const char* entity_par, const char* tag_par,
 	const char* vectorx, const char* vectory, const char* vectorz,
-	int axis, const char* angle) : scfImplementationType (this)
+	int axis, const char* angle, bool reversed) : scfImplementationType (this)
 {
   celTransformSeqOp::type = type;
 
@@ -173,6 +177,8 @@ celTransformSeqOp::celTransformSeqOp (
 
   rot_axis = axis;
   rot_angle_param = pm->GetParameter (params, angle);
+
+  celTransformSeqOp::reversed = reversed;
 }
 
 celTransformSeqOp::~celTransformSeqOp ()
@@ -209,6 +215,7 @@ void celTransformSeqOp::Do (float time, iCelParameterBlock* params)
     vector.x = vectorx_param->GetFloat (params);
     vector.y = vectory_param->GetFloat (params);
     vector.z = vectorz_param->GetFloat (params);
+    if (reversed) vector = -vector;
     do_move = !(vector < .00001f);
 
     if (do_move)
@@ -219,6 +226,7 @@ void celTransformSeqOp::Do (float time, iCelParameterBlock* params)
     if (rot_axis >= 0)
     {
       rot_angle = rot_angle_param->GetFloat (params);
+      if (reversed) rot_angle = -rot_angle;
 
       csMatrix3 m = start_matrix;
       switch (rot_axis)

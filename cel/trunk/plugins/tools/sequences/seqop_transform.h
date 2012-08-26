@@ -58,6 +58,7 @@ private:
   csString vectorz_par;
   int rot_axis;
   csString rot_angle_par;
+  bool reversed;
 
 public:
   celTransformSeqOpFactory (celTransformSeqOpType* type);
@@ -80,6 +81,8 @@ public:
   virtual void SetRotationParameter (int axis, const char* angle);
   virtual int GetRotationAxis () const { return rot_axis; }
   virtual const char* GetRotationAngle () const { return rot_angle_par; }
+  virtual void SetReversed (bool r) { reversed = r; }
+  virtual bool IsReversed () const { return reversed; }
 };
 
 /**
@@ -96,6 +99,7 @@ private:
   bool do_move;
   int rot_axis;
   float rot_angle;
+  bool reversed;
 
   csRef<iParameter> entity_param;
   csRef<iParameter> tag_param;
@@ -116,7 +120,8 @@ public:
   	iCelParameterBlock* params,
 	const char* entity_par, const char* tag_par,
 	const char* vectorx, const char* vectory, const char* vectorz,
-	int axis, const char* angle);
+	int axis, const char* angle,
+	bool reversed);
   virtual ~celTransformSeqOp ();
 
   virtual void Init (iCelParameterBlock* params);

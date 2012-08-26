@@ -602,12 +602,19 @@ struct iTransformSeqOpFactory : public virtual iBase
 
   /**
    * Set the relative rotation parameter.
-   * \param rot_axis is 0, 1, or 2 for x, y, or z axis.
+   * \param rot_axis is 0, 1, or 2 for x, y, or z axis. Use -1 for disabling rotation.
    * \param rot_angle the amount of rotation.
    */
   virtual void SetRotationParameter (int rot_axis, const char* rot_angle) = 0;
   virtual int GetRotationAxis () const = 0;
   virtual const char* GetRotationAngle () const = 0;
+
+  /**
+   * If reversed is set then the transform will be in reverse. This is useful
+   * for going back with the same parameters.
+   */
+  virtual void SetReversed (bool r) = 0;
+  virtual bool IsReversed () const = 0;
 };
 
 //-------------------------------------------------------------------------
