@@ -487,6 +487,8 @@ public:
   virtual iDynamicCell* GetCell () const;
   DynamicCell* GetCellInternal () const { return cell; }
 
+  void ClearEntity ();
+
   CS::Geometry::KDTreeChild* GetChild () const { return child; }
   void SetChild (CS::Geometry::KDTreeChild* child)
   { DynamicObject::child = child; }
@@ -629,6 +631,7 @@ public:
       const csReversibleTransform& trans);
   virtual size_t GetObjectCount () const { return objects.GetSize (); }
   virtual iDynamicObject* GetObject (size_t i) const { return objects[i]; }
+  DynamicObject* GetObjectInt (size_t i) const { return objects[i]; }
 
   virtual void Save (iDocumentNode* node);
   virtual csRef<iString> Load (iDocumentNode* node);
@@ -762,7 +765,7 @@ public:
 
   virtual void SetELCM (iELCM* elcm);
 
-  virtual void InhibitEntities (bool e) { inhibitEntities = e; }
+  virtual void InhibitEntities (bool e);
   virtual bool IsInhibitEntities () const { return inhibitEntities; }
   virtual void EnableGameMode (bool e);
   virtual bool IsGameMode () const { return gameMode; }
