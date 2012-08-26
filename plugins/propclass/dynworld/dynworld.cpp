@@ -2854,7 +2854,12 @@ void celPcDynamicWorld::InhibitEntities (bool e)
     for (size_t i = 0 ; i < cell->GetObjectCount () ; i++)
     {
       DynamicObject* obj = cell->GetObjectInt (i);
-      obj->ClearEntity ();
+      iCelEntity* entity = obj->GetEntity ();
+      if (entity)
+      {
+	safeToRemove.Delete (entity);
+        obj->ClearEntity ();
+      }
     }
   }
 }
