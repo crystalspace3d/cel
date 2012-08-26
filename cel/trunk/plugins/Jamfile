@@ -11,3 +11,6 @@ SubInclude TOP plugins tools ;
 # Assemble big static plugins lib
 StaticPluginLibrary cel_staticplugins ;
 ExternalLibs cel_staticplugins : CRYSTAL ;
+# Enable compiler-provided multithreading.
+# This makes sense here since the static plugins lib is usually built alone.
+MsvcParallelCompile cel_staticplugins ;
