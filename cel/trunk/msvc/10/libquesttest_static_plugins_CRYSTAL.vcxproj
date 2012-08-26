@@ -471,6 +471,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\msvc\appquesttest_static_static_glue_lib_CRYSTAL.cpp" />
     <ClCompile Include="..\..\msvc\appquesttest_static_staticuse_CRYSTAL.cpp" />
   </ItemGroup>
   <ItemGroup>

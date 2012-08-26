@@ -462,6 +462,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\msvc\appceltst_static_static_glue_lib.cpp" />
     <ClCompile Include="..\..\msvc\appceltst_static_staticuse.cpp" />
   </ItemGroup>
   <ItemGroup>

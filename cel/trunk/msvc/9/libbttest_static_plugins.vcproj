@@ -593,6 +593,9 @@
 			Name="Source Files"
 			Filter="">
 			<File
+				RelativePath="..\..\msvc\appbttest_static_static_glue_lib.cpp">
+			</File>
+			<File
 				RelativePath="..\..\msvc\appbttest_static_staticuse.cpp">
 			</File>
 		</Filter>
