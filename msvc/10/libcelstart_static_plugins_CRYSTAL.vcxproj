@@ -471,6 +471,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\msvc\appcelstart_static_static_glue_lib_CRYSTAL.cpp" />
     <ClCompile Include="..\..\msvc\appcelstart_static_staticuse_CRYSTAL.cpp" />
     <ClCompile Include="..\..\msvc\OPENAL.fake_stub.c" />
   </ItemGroup>
