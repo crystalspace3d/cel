@@ -29,7 +29,7 @@
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_GLUE_IS_SHARED;WIN32;CS_USE_STATIC_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\winlibs\x86\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\winlibs\x86\include;$(CRYSTAL)\win32libs\include"
 				PrecompiledHeaderFile="..\..\out\release9\build\libbootstrap_static_plugins_CRYSTAL\libbootstrap_static_plugins_CRYSTAL.pch"
 				AssemblerListingLocation="..\..\out\release9\build\libbootstrap_static_plugins_CRYSTAL\"
 				ObjectFile="..\..\out\release9\build\libbootstrap_static_plugins_CRYSTAL\"
@@ -52,7 +52,7 @@
 				AdditionalOptions="libmng.lib libjpeg.lib libpng.lib freetype2.lib ode.lib libcrystalspace_windows.lib version.lib libcrystalspace_directx.lib dsound.lib dinput8.lib libcrystalspace_opengl.lib cg.lib cgGL.lib opengl32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins.lib libcrystalspace.lib zlib.lib "
 				AdditionalDependencies="libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;$(CRYSTAL)\out\release9\libs"
+				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\winlibs\x86\lib;..\..\..\CS\win32libs\lib;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\winlibs\x86\lib;$(CRYSTAL)\win32libs\lib"
 				LargeAddressAware="2"
 				TargetMachine="1"/>
 			<Tool
@@ -77,7 +77,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_GLUE_IS_SHARED;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\apps\bootstrap;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include"
+				AdditionalIncludeDirectories=".;..\..\apps\bootstrap;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\winlibs\x86\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\winlibs\x86\include;$(CRYSTAL)\win32libs\include"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -103,7 +103,7 @@
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CS_GLUE_IS_SHARED;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\winlibs\x86\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\winlibs\x86\include;$(CRYSTAL)\win32libs\include"
 				PrecompiledHeaderFile="..\..\out\release9\build\libbootstrap_static_plugins_CRYSTAL\libbootstrap_static_plugins_CRYSTAL.pch"
 				AssemblerListingLocation="..\..\out\release9\build\libbootstrap_static_plugins_CRYSTAL\"
 				ObjectFile="..\..\out\release9\build\libbootstrap_static_plugins_CRYSTAL\"
@@ -129,7 +129,7 @@
 				AdditionalOptions="libmng.lib libjpeg.lib libpng.lib freetype2.lib ode.lib libcrystalspace_windows.lib version.lib libcrystalspace_directx.lib dsound.lib dinput8.lib libcrystalspace_opengl.lib cg.lib cgGL.lib opengl32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins.lib libcrystalspace.lib zlib.lib "
 				AdditionalDependencies="libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;$(CRYSTAL)\out\release9\libs"
+				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\winlibs\x86\lib;..\..\..\CS\win32libs\lib;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\winlibs\x86\lib;$(CRYSTAL)\win32libs\lib"
 				LargeAddressAware="2"
 				TargetMachine="1"/>
 			<Tool
@@ -153,7 +153,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CS_GLUE_IS_SHARED;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\apps\bootstrap;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include"
+				AdditionalIncludeDirectories=".;..\..\apps\bootstrap;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\winlibs\x86\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\winlibs\x86\include;$(CRYSTAL)\win32libs\include"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -178,7 +178,7 @@
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_GLUE_IS_SHARED;WIN32;CS_USE_STATIC_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\winlibs\x86\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\winlibs\x86\include;$(CRYSTAL)\win32libs\include"
 				PrecompiledHeaderFile="..\..\out\debug9\build\libbootstrap_static_plugins_CRYSTAL\libbootstrap_static_plugins_CRYSTAL.pch"
 				AssemblerListingLocation="..\..\out\debug9\build\libbootstrap_static_plugins_CRYSTAL\"
 				ObjectFile="..\..\out\debug9\build\libbootstrap_static_plugins_CRYSTAL\"
@@ -199,7 +199,7 @@
 				AdditionalOptions="libmng.lib libjpeg.lib libpng.lib freetype2.lib ode.lib libcrystalspace_windows_d.lib version.lib libcrystalspace_directx_d.lib dsound.lib dinput8.lib libcrystalspace_opengl_d.lib cg.lib cgGL.lib opengl32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins_d.lib libcrystalspace_d.lib zlib.lib "
 				AdditionalDependencies="libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;$(CRYSTAL)\out\debug9\libs"
+				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;..\..\..\CS\winlibs\x86\lib;..\..\..\CS\win32libs\lib;$(CRYSTAL)\out\debug9\libs;$(CRYSTAL)\winlibs\x86\lib;$(CRYSTAL)\win32libs\lib"
 				LargeAddressAware="2"
 				TargetMachine="1"/>
 			<Tool
@@ -224,7 +224,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_GLUE_IS_SHARED;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\apps\bootstrap;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include"
+				AdditionalIncludeDirectories=".;..\..\apps\bootstrap;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\winlibs\x86\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\winlibs\x86\include;$(CRYSTAL)\win32libs\include"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -250,7 +250,7 @@
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CS_GLUE_IS_SHARED;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\winlibs\x86\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\winlibs\x86\include;$(CRYSTAL)\win32libs\include"
 				PrecompiledHeaderFile="..\..\out\debug9\build\libbootstrap_static_plugins_CRYSTAL\libbootstrap_static_plugins_CRYSTAL.pch"
 				AssemblerListingLocation="..\..\out\debug9\build\libbootstrap_static_plugins_CRYSTAL\"
 				ObjectFile="..\..\out\debug9\build\libbootstrap_static_plugins_CRYSTAL\"
@@ -274,7 +274,7 @@
 				AdditionalOptions="libmng.lib libjpeg.lib libpng.lib freetype2.lib ode.lib libcrystalspace_windows_d.lib version.lib libcrystalspace_directx_d.lib dsound.lib dinput8.lib libcrystalspace_opengl_d.lib cg.lib cgGL.lib opengl32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins_d.lib libcrystalspace_d.lib zlib.lib "
 				AdditionalDependencies="libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;$(CRYSTAL)\out\debug9\libs"
+				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;..\..\..\CS\winlibs\x86\lib;..\..\..\CS\win32libs\lib;$(CRYSTAL)\out\debug9\libs;$(CRYSTAL)\winlibs\x86\lib;$(CRYSTAL)\win32libs\lib"
 				LargeAddressAware="2"
 				TargetMachine="1"/>
 			<Tool
@@ -298,7 +298,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CS_GLUE_IS_SHARED;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\apps\bootstrap;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include"
+				AdditionalIncludeDirectories=".;..\..\apps\bootstrap;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\winlibs\x86\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\winlibs\x86\include;$(CRYSTAL)\win32libs\include"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -323,7 +323,7 @@
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_GLUE_IS_SHARED;WIN32;CS_USE_STATIC_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\winlibs\x64\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\winlibs\x64\include;$(CRYSTAL)\win32libs\include"
 				PrecompiledHeaderFile="..\..\out\release9-x64\build\libbootstrap_static_plugins_CRYSTAL\libbootstrap_static_plugins_CRYSTAL.pch"
 				AssemblerListingLocation="..\..\out\release9-x64\build\libbootstrap_static_plugins_CRYSTAL\"
 				ObjectFile="..\..\out\release9-x64\build\libbootstrap_static_plugins_CRYSTAL\"
@@ -346,7 +346,7 @@
 				AdditionalOptions="libmng.lib libjpeg.lib libpng.lib freetype2.lib ode.lib libcrystalspace_windows.lib version.lib libcrystalspace_directx.lib dsound.lib dinput8.lib libcrystalspace_opengl.lib cg.lib cgGL.lib opengl32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins.lib libcrystalspace.lib zlib.lib "
 				AdditionalDependencies="libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\release9-x64\libs;$(CRYSTAL)\out\release9-x64\libs"
+				AdditionalLibraryDirectories="..\..\..\CS\out\release9-x64\libs;..\..\..\CS\winlibs\x64\lib;..\..\..\CS\win32libs\lib;$(CRYSTAL)\out\release9-x64\libs;$(CRYSTAL)\winlibs\x64\lib;$(CRYSTAL)\win32libs\lib"
 				LargeAddressAware="2"
 				TargetMachine="17"/>
 			<Tool
@@ -371,7 +371,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_GLUE_IS_SHARED;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\apps\bootstrap;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include"
+				AdditionalIncludeDirectories=".;..\..\apps\bootstrap;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\winlibs\x64\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\winlibs\x64\include;$(CRYSTAL)\win32libs\include"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -397,7 +397,7 @@
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CS_GLUE_IS_SHARED;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\winlibs\x64\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\winlibs\x64\include;$(CRYSTAL)\win32libs\include"
 				PrecompiledHeaderFile="..\..\out\release9-x64\build\libbootstrap_static_plugins_CRYSTAL\libbootstrap_static_plugins_CRYSTAL.pch"
 				AssemblerListingLocation="..\..\out\release9-x64\build\libbootstrap_static_plugins_CRYSTAL\"
 				ObjectFile="..\..\out\release9-x64\build\libbootstrap_static_plugins_CRYSTAL\"
@@ -423,7 +423,7 @@
 				AdditionalOptions="libmng.lib libjpeg.lib libpng.lib freetype2.lib ode.lib libcrystalspace_windows.lib version.lib libcrystalspace_directx.lib dsound.lib dinput8.lib libcrystalspace_opengl.lib cg.lib cgGL.lib opengl32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins.lib libcrystalspace.lib zlib.lib "
 				AdditionalDependencies="libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\release9-x64\libs;$(CRYSTAL)\out\release9-x64\libs"
+				AdditionalLibraryDirectories="..\..\..\CS\out\release9-x64\libs;..\..\..\CS\winlibs\x64\lib;..\..\..\CS\win32libs\lib;$(CRYSTAL)\out\release9-x64\libs;$(CRYSTAL)\winlibs\x64\lib;$(CRYSTAL)\win32libs\lib"
 				LargeAddressAware="2"
 				TargetMachine="17"/>
 			<Tool
@@ -447,7 +447,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CS_GLUE_IS_SHARED;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\apps\bootstrap;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include"
+				AdditionalIncludeDirectories=".;..\..\apps\bootstrap;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\winlibs\x64\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\winlibs\x64\include;$(CRYSTAL)\win32libs\include"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -472,7 +472,7 @@
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_GLUE_IS_SHARED;WIN32;CS_USE_STATIC_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\winlibs\x64\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\winlibs\x64\include;$(CRYSTAL)\win32libs\include"
 				PrecompiledHeaderFile="..\..\out\debug9-x64\build\libbootstrap_static_plugins_CRYSTAL\libbootstrap_static_plugins_CRYSTAL.pch"
 				AssemblerListingLocation="..\..\out\debug9-x64\build\libbootstrap_static_plugins_CRYSTAL\"
 				ObjectFile="..\..\out\debug9-x64\build\libbootstrap_static_plugins_CRYSTAL\"
@@ -493,7 +493,7 @@
 				AdditionalOptions="libmng.lib libjpeg.lib libpng.lib freetype2.lib ode.lib libcrystalspace_windows_d.lib version.lib libcrystalspace_directx_d.lib dsound.lib dinput8.lib libcrystalspace_opengl_d.lib cg.lib cgGL.lib opengl32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins_d.lib libcrystalspace_d.lib zlib.lib "
 				AdditionalDependencies="libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\debug9-x64\libs;$(CRYSTAL)\out\debug9-x64\libs"
+				AdditionalLibraryDirectories="..\..\..\CS\out\debug9-x64\libs;..\..\..\CS\winlibs\x64\lib;..\..\..\CS\win32libs\lib;$(CRYSTAL)\out\debug9-x64\libs;$(CRYSTAL)\winlibs\x64\lib;$(CRYSTAL)\win32libs\lib"
 				LargeAddressAware="2"
 				TargetMachine="17"/>
 			<Tool
@@ -518,7 +518,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;CS_GLUE_IS_SHARED;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\apps\bootstrap;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include"
+				AdditionalIncludeDirectories=".;..\..\apps\bootstrap;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\winlibs\x64\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\winlibs\x64\include;$(CRYSTAL)\win32libs\include"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -544,7 +544,7 @@
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CS_GLUE_IS_SHARED;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\winlibs\x64\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\winlibs\x64\include;$(CRYSTAL)\win32libs\include"
 				PrecompiledHeaderFile="..\..\out\debug9-x64\build\libbootstrap_static_plugins_CRYSTAL\libbootstrap_static_plugins_CRYSTAL.pch"
 				AssemblerListingLocation="..\..\out\debug9-x64\build\libbootstrap_static_plugins_CRYSTAL\"
 				ObjectFile="..\..\out\debug9-x64\build\libbootstrap_static_plugins_CRYSTAL\"
@@ -568,7 +568,7 @@
 				AdditionalOptions="libmng.lib libjpeg.lib libpng.lib freetype2.lib ode.lib libcrystalspace_windows_d.lib version.lib libcrystalspace_directx_d.lib dsound.lib dinput8.lib libcrystalspace_opengl_d.lib cg.lib cgGL.lib opengl32.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins_d.lib libcrystalspace_d.lib zlib.lib "
 				AdditionalDependencies="libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\debug9-x64\libs;$(CRYSTAL)\out\debug9-x64\libs"
+				AdditionalLibraryDirectories="..\..\..\CS\out\debug9-x64\libs;..\..\..\CS\winlibs\x64\lib;..\..\..\CS\win32libs\lib;$(CRYSTAL)\out\debug9-x64\libs;$(CRYSTAL)\winlibs\x64\lib;$(CRYSTAL)\win32libs\lib"
 				LargeAddressAware="2"
 				TargetMachine="17"/>
 			<Tool
@@ -592,7 +592,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;_WINDOWS;CS_GLUE_IS_SHARED;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\apps\bootstrap;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include"
+				AdditionalIncludeDirectories=".;..\..\apps\bootstrap;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\winlibs\x64\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\winlibs\x64\include;$(CRYSTAL)\win32libs\include"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
