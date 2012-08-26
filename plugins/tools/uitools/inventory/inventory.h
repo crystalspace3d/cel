@@ -30,6 +30,10 @@
 #include "tools/uitools/inventory.h"
 
 struct iEngine;
+
+CS_PLUGIN_NAMESPACE_BEGIN(UIInventory)
+{
+
 class InvListener;
 
 class DefaultInfo : public scfImplementation1<DefaultInfo,iUIInventoryInfo>
@@ -101,6 +105,9 @@ public:
     return false;
   }
 };
+
+}
+CS_PLUGIN_NAMESPACE_END(UIInventory)
 
 #endif // __CEL_UITOOLS_INVENTORY_IMP__
 

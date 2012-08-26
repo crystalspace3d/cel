@@ -36,6 +36,9 @@
 #include "physicallayer/entity.h"
 #include "physicallayer/entitytpl.h"
 
+CS_PLUGIN_NAMESPACE_BEGIN(UIInventory)
+{
+
 SCF_IMPLEMENT_FACTORY (celUIInventory)
 
 //--------------------------------------------------------------------------
@@ -276,3 +279,5 @@ void celUIInventory::Close ()
 
 //---------------------------------------------------------------------------
 
+}
+CS_PLUGIN_NAMESPACE_END(UIInventory)
