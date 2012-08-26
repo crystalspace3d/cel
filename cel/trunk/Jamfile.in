@@ -46,10 +46,6 @@ MsvcGenConfig CRYSTAL.CFLAGS ;
 MsvcGenConfig CRYSTAL.LFLAGS ;
 MsvcGenConfig CRYSTAL.LIBS : "libcrystalspace.lib" ;
 MsvcGenConfig CRYSTAL.LIBS.DEBUG : "libcrystalspace_d.lib" ;
-MsvcGenConfig CRYSTAL.INCDIRS :
-  [ ConcatDirs .. .. .. CS include ]
-  [ ConcatDirs "$(hash)(CRYSTAL)" include ]
-  ;
 
 local varsuffix.x86 = X86 ;
 local varsuffix.x64 = X64 ;
@@ -58,13 +54,29 @@ local dirsuffix.x64 = "-x64" ;
 local a ;
 for a in x86 x64
 {
+  MsvcGenConfig CRYSTAL.INCDIRS.$(varsuffix.$(a)) :
+    [ ConcatDirs .. .. .. CS include ]
+    [ ConcatDirs .. .. .. CS winlibs $(a) include ]
+    [ ConcatDirs .. .. .. CS win32libs include ]
+    [ ConcatDirs "$(hash)(CRYSTAL)" include ]
+    [ ConcatDirs "$(hash)(CRYSTAL)" winlibs $(a) include ]
+    [ ConcatDirs "$(hash)(CRYSTAL)" win32libs include ]
+    ;
   MsvcGenConfig CRYSTAL.LIBDIRS.$(varsuffix.$(a)) :
     [ ConcatDirs .. .. .. CS out release$(MSVC_VERSION)$(dirsuffix.$(a)) libs ]
+    [ ConcatDirs .. .. .. CS winlibs $(a) lib ]
+    [ ConcatDirs .. .. .. CS win32libs lib ]
     [ ConcatDirs "$(hash)(CRYSTAL)" out release$(MSVC_VERSION)$(dirsuffix.$(a)) libs ]
+    [ ConcatDirs "$(hash)(CRYSTAL)" winlibs $(a) lib ]
+    [ ConcatDirs "$(hash)(CRYSTAL)" win32libs lib ]
     ;
   MsvcGenConfig CRYSTAL.LIBDIRS.DEBUG.$(varsuffix.$(a)) :
     [ ConcatDirs .. .. .. CS out debug$(MSVC_VERSION)$(dirsuffix.$(a)) libs ]
+    [ ConcatDirs .. .. .. CS winlibs $(a) lib ]
+    [ ConcatDirs .. .. .. CS win32libs lib ]
     [ ConcatDirs "$(hash)(CRYSTAL)" out debug$(MSVC_VERSION)$(dirsuffix.$(a)) libs ]
+    [ ConcatDirs "$(hash)(CRYSTAL)" winlibs $(a) lib ]
+    [ ConcatDirs "$(hash)(CRYSTAL)" win32libs lib ]
     ;
 }
 
@@ -87,28 +99,6 @@ MsvcGenConfig CEGUI.LIBS.9 : "CEGUIBase-vc9.lib" ;
 MsvcGenConfig CEGUI.LIBS.DEBUG.9 : "CEGUIBase-vc9_d.lib" ;
 MsvcGenConfig CEGUI.LIBS.10 : "CEGUIBase-vc10.lib" ;
 MsvcGenConfig CEGUI.LIBS.DEBUG.10 : "CEGUIBase-vc10_d.lib" ;
-
-for a in x86 x64
-{
-  MsvcGenConfig CEGUI.INCDIRS.$(varsuffix.$(a)) :
-    [ ConcatDirs .. .. .. CS winlibs $(a) include ]
-    [ ConcatDirs .. .. .. CS win32libs include ]
-    [ ConcatDirs "$(hash)(CRYSTAL)" winlibs $(a) include ]
-    [ ConcatDirs "$(hash)(CRYSTAL)" win32libs include ]
-    ;
-  MsvcGenConfig CEGUI.LIBDIRS.$(varsuffix.$(a)) :
-    [ ConcatDirs .. .. .. CS winlibs $(a) lib ]
-    [ ConcatDirs .. .. .. CS win32libs lib ]
-    [ ConcatDirs "$(hash)(CRYSTAL)" winlibs $(a) lib ]
-    [ ConcatDirs "$(hash)(CRYSTAL)" win32libs lib ]
-    ;
-  MsvcGenConfig CEGUI.LIBDIRS.DEBUG.$(varsuffix.$(a)) :
-    [ ConcatDirs .. .. .. CS winlibs $(a) lib ]
-    [ ConcatDirs .. .. .. CS win32libs lib ]
-    [ ConcatDirs "$(hash)(CRYSTAL)" winlibs $(a) lib ]
-    [ ConcatDirs "$(hash)(CRYSTAL)" win32libs lib ]
-    ;
-}
 
 # Create a string combining compiler type and version.
 # Can be used for ABI identification
