@@ -918,6 +918,7 @@ DynamicFactory::DynamicFactory (celPcDynamicWorld* world, const char* name,
 
   factory = 0;
   lightFactory = 0;
+  objCounter = 0;
 
   hasCollider = false;
 
@@ -1286,10 +1287,12 @@ DynamicObject::DynamicObject (DynamicCell* cell, DynamicFactory* factory,
   DynamicObject::factory = factory;
   DynamicObject::trans = trans;
   child = 0;
+  if (factory) factory->RegisterNewObject ();
 }
 
 DynamicObject::~DynamicObject ()
 {
+  if (factory) factory->RegisterDeletedObject ();
   RemovePivotJoints ();
   RemoveJoints ();
   if (entityName)
@@ -1784,6 +1787,7 @@ bool DynamicObject::Load (iDocumentNode* node, iSyntaxService* syn,
   // @@@ TODO Light factory
   if (!factory)
     return world->Error ("Can't find factory '%s'!\n", factname.GetData ());
+  factory->RegisterNewObject ();
   if (!syn->ParseBoolAttribute (node, "static", is_static, false, false))
     return false;
 

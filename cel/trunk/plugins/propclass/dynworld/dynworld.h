@@ -318,6 +318,7 @@ private:
   float maxradiusRelative;
   bool isLogic;
   bool hasCollider;
+  size_t objCounter;	// Count how many objects are in memory for this factory.
 
   csArray<csVector3> pivotJoints;
   csArray<DynFactJointDefinition> joints;
@@ -356,6 +357,11 @@ public:
   {
     return geometryGenerator;
   }
+
+  virtual size_t GetObjectCount () const { return objCounter; }
+  void RegisterNewObject () { objCounter++; }
+  void RegisterDeletedObject () { objCounter--; }
+
   virtual void SetAttribute (const char* name, const char* value);
   virtual void SetAttribute (csStringID nameID, const char* value);
   virtual void ClearAttribute (csStringID nameID);
