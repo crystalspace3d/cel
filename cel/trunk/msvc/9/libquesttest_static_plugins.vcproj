@@ -29,7 +29,7 @@
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;WIN32;CS_USE_STATIC_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\winlibs\x86\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\winlibs\x86\include;$(CRYSTAL)\win32libs\include"
 				PrecompiledHeaderFile="..\..\out\release9\build\libquesttest_static_plugins\libquesttest_static_plugins.pch"
 				AssemblerListingLocation="..\..\out\release9\build\libquesttest_static_plugins\"
 				ObjectFile="..\..\out\release9\build\libquesttest_static_plugins\"
@@ -52,7 +52,7 @@
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;$(CRYSTAL)\out\release9\libs"
+				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\winlibs\x86\lib;..\..\..\CS\win32libs\lib;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\winlibs\x86\lib;$(CRYSTAL)\win32libs\lib"
 				LargeAddressAware="2"
 				TargetMachine="1"/>
 			<Tool
@@ -77,7 +77,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\apps\questtest;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include"
+				AdditionalIncludeDirectories=".;..\..\apps\questtest;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\winlibs\x86\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\winlibs\x86\include;$(CRYSTAL)\win32libs\include"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -102,7 +102,7 @@
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\winlibs\x86\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\winlibs\x86\include;$(CRYSTAL)\win32libs\include"
 				PrecompiledHeaderFile="..\..\out\release9\build\libquesttest_static_plugins\libquesttest_static_plugins.pch"
 				AssemblerListingLocation="..\..\out\release9\build\libquesttest_static_plugins\"
 				ObjectFile="..\..\out\release9\build\libquesttest_static_plugins\"
@@ -125,7 +125,7 @@
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;$(CRYSTAL)\out\release9\libs"
+				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\winlibs\x86\lib;..\..\..\CS\win32libs\lib;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\winlibs\x86\lib;$(CRYSTAL)\win32libs\lib"
 				LargeAddressAware="2"
 				TargetMachine="1"/>
 			<Tool
@@ -150,7 +150,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\apps\questtest;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include"
+				AdditionalIncludeDirectories=".;..\..\apps\questtest;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\winlibs\x86\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\winlibs\x86\include;$(CRYSTAL)\win32libs\include"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -175,7 +175,7 @@
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;WIN32;CS_USE_STATIC_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\winlibs\x86\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\winlibs\x86\include;$(CRYSTAL)\win32libs\include"
 				PrecompiledHeaderFile="..\..\out\debug9\build\libquesttest_static_plugins\libquesttest_static_plugins.pch"
 				AssemblerListingLocation="..\..\out\debug9\build\libquesttest_static_plugins\"
 				ObjectFile="..\..\out\debug9\build\libquesttest_static_plugins\"
@@ -196,7 +196,7 @@
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;$(CRYSTAL)\out\debug9\libs"
+				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;..\..\..\CS\winlibs\x86\lib;..\..\..\CS\win32libs\lib;$(CRYSTAL)\out\debug9\libs;$(CRYSTAL)\winlibs\x86\lib;$(CRYSTAL)\win32libs\lib"
 				LargeAddressAware="2"
 				TargetMachine="1"/>
 			<Tool
@@ -221,7 +221,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\apps\questtest;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include"
+				AdditionalIncludeDirectories=".;..\..\apps\questtest;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\winlibs\x86\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\winlibs\x86\include;$(CRYSTAL)\win32libs\include"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -246,7 +246,7 @@
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\winlibs\x86\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\winlibs\x86\include;$(CRYSTAL)\win32libs\include"
 				PrecompiledHeaderFile="..\..\out\debug9\build\libquesttest_static_plugins\libquesttest_static_plugins.pch"
 				AssemblerListingLocation="..\..\out\debug9\build\libquesttest_static_plugins\"
 				ObjectFile="..\..\out\debug9\build\libquesttest_static_plugins\"
@@ -267,7 +267,7 @@
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;$(CRYSTAL)\out\debug9\libs"
+				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;..\..\..\CS\winlibs\x86\lib;..\..\..\CS\win32libs\lib;$(CRYSTAL)\out\debug9\libs;$(CRYSTAL)\winlibs\x86\lib;$(CRYSTAL)\win32libs\lib"
 				LargeAddressAware="2"
 				TargetMachine="1"/>
 			<Tool
@@ -292,7 +292,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\apps\questtest;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include"
+				AdditionalIncludeDirectories=".;..\..\apps\questtest;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\winlibs\x86\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\winlibs\x86\include;$(CRYSTAL)\win32libs\include"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -317,7 +317,7 @@
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;WIN32;CS_USE_STATIC_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\winlibs\x64\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\winlibs\x64\include;$(CRYSTAL)\win32libs\include"
 				PrecompiledHeaderFile="..\..\out\release9-x64\build\libquesttest_static_plugins\libquesttest_static_plugins.pch"
 				AssemblerListingLocation="..\..\out\release9-x64\build\libquesttest_static_plugins\"
 				ObjectFile="..\..\out\release9-x64\build\libquesttest_static_plugins\"
@@ -340,7 +340,7 @@
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\release9-x64\libs;$(CRYSTAL)\out\release9-x64\libs"
+				AdditionalLibraryDirectories="..\..\..\CS\out\release9-x64\libs;..\..\..\CS\winlibs\x64\lib;..\..\..\CS\win32libs\lib;$(CRYSTAL)\out\release9-x64\libs;$(CRYSTAL)\winlibs\x64\lib;$(CRYSTAL)\win32libs\lib"
 				LargeAddressAware="2"
 				TargetMachine="17"/>
 			<Tool
@@ -365,7 +365,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\apps\questtest;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include"
+				AdditionalIncludeDirectories=".;..\..\apps\questtest;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\winlibs\x64\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\winlibs\x64\include;$(CRYSTAL)\win32libs\include"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -390,7 +390,7 @@
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\winlibs\x64\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\winlibs\x64\include;$(CRYSTAL)\win32libs\include"
 				PrecompiledHeaderFile="..\..\out\release9-x64\build\libquesttest_static_plugins\libquesttest_static_plugins.pch"
 				AssemblerListingLocation="..\..\out\release9-x64\build\libquesttest_static_plugins\"
 				ObjectFile="..\..\out\release9-x64\build\libquesttest_static_plugins\"
@@ -413,7 +413,7 @@
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\release9-x64\libs;$(CRYSTAL)\out\release9-x64\libs"
+				AdditionalLibraryDirectories="..\..\..\CS\out\release9-x64\libs;..\..\..\CS\winlibs\x64\lib;..\..\..\CS\win32libs\lib;$(CRYSTAL)\out\release9-x64\libs;$(CRYSTAL)\winlibs\x64\lib;$(CRYSTAL)\win32libs\lib"
 				LargeAddressAware="2"
 				TargetMachine="17"/>
 			<Tool
@@ -438,7 +438,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\apps\questtest;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include"
+				AdditionalIncludeDirectories=".;..\..\apps\questtest;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\winlibs\x64\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\winlibs\x64\include;$(CRYSTAL)\win32libs\include"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -463,7 +463,7 @@
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;WIN32;CS_USE_STATIC_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\winlibs\x64\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\winlibs\x64\include;$(CRYSTAL)\win32libs\include"
 				PrecompiledHeaderFile="..\..\out\debug9-x64\build\libquesttest_static_plugins\libquesttest_static_plugins.pch"
 				AssemblerListingLocation="..\..\out\debug9-x64\build\libquesttest_static_plugins\"
 				ObjectFile="..\..\out\debug9-x64\build\libquesttest_static_plugins\"
@@ -484,7 +484,7 @@
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\debug9-x64\libs;$(CRYSTAL)\out\debug9-x64\libs"
+				AdditionalLibraryDirectories="..\..\..\CS\out\debug9-x64\libs;..\..\..\CS\winlibs\x64\lib;..\..\..\CS\win32libs\lib;$(CRYSTAL)\out\debug9-x64\libs;$(CRYSTAL)\winlibs\x64\lib;$(CRYSTAL)\win32libs\lib"
 				LargeAddressAware="2"
 				TargetMachine="17"/>
 			<Tool
@@ -509,7 +509,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\apps\questtest;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include"
+				AdditionalIncludeDirectories=".;..\..\apps\questtest;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\winlibs\x64\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\winlibs\x64\include;$(CRYSTAL)\win32libs\include"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -534,7 +534,7 @@
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;WIN32;CS_USE_SHARED_LIBS;CEL_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\winlibs\x64\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\winlibs\x64\include;$(CRYSTAL)\win32libs\include"
 				PrecompiledHeaderFile="..\..\out\debug9-x64\build\libquesttest_static_plugins\libquesttest_static_plugins.pch"
 				AssemblerListingLocation="..\..\out\debug9-x64\build\libquesttest_static_plugins\"
 				ObjectFile="..\..\out\debug9-x64\build\libquesttest_static_plugins\"
@@ -555,7 +555,7 @@
 				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\debug9-x64\libs;$(CRYSTAL)\out\debug9-x64\libs"
+				AdditionalLibraryDirectories="..\..\..\CS\out\debug9-x64\libs;..\..\..\CS\winlibs\x64\lib;..\..\..\CS\win32libs\lib;$(CRYSTAL)\out\debug9-x64\libs;$(CRYSTAL)\winlibs\x64\lib;$(CRYSTAL)\win32libs\lib"
 				LargeAddressAware="2"
 				TargetMachine="17"/>
 			<Tool
@@ -580,7 +580,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;PACKAGE_NAME=CEL;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\apps\questtest;..\..;..\..\include;..\..\..\CS\include;$(CRYSTAL)\include"
+				AdditionalIncludeDirectories=".;..\..\apps\questtest;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\winlibs\x64\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\winlibs\x64\include;$(CRYSTAL)\win32libs\include"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
