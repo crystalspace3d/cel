@@ -269,11 +269,19 @@ csRef<iRewardFactory> celQuestFactory::LoadReward (iDocumentNode* child)
 }
 
 bool celQuestFactory::SaveRewardArray (
-    const csRefArray<iRewardFactory>& rewards, iDocumentNode* node)
+    const csRefArray<iRewardFactory>& rewards, iDocumentNode* node, const char* nodename)
 {
+  csRef<iDocumentNode> n;
+  if (nodename && rewards.GetSize () > 0)
+  {
+    n = node->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+    n->SetValue (nodename);
+  }
+  else
+    n = node;
   for (size_t i = 0 ; i < rewards.GetSize () ; i++)
   {
-    csRef<iDocumentNode> rewardNode = node->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+    csRef<iDocumentNode> rewardNode = n->CreateNodeBefore (CS_NODE_ELEMENT, 0);
     rewardNode->SetValue ("reward");
     rewardNode->SetAttribute ("type", rewards[i]->GetRewardType ()->GetName ());
     if (!rewards[i]->Save (rewardNode))
@@ -288,9 +296,9 @@ bool celQuestFactory::SaveRewards (
 {
   celQuestStateFactory* statefactT = static_cast<celQuestStateFactory*> (statefact);
   if (oninit)
-    return SaveRewardArray (statefactT->GetOninitRewardFactories (), node);
+    return SaveRewardArray (statefactT->GetOninitRewardFactories (), node, "oninit");
   else
-    return SaveRewardArray (statefactT->GetOnexitRewardFactories (), node);
+    return SaveRewardArray (statefactT->GetOnexitRewardFactories (), node, "onexit");
 }
 
 bool celQuestFactory::LoadRewards (
@@ -340,6 +348,7 @@ bool celQuestFactory::SaveSequenceFactory (iCelSequenceFactory* seqFact,
       opNode->SetValue ("op");
       opNode->SetAttribute ("duration", duration);
       opNode->SetAttribute ("type", f->GetSeqOpType ()->GetName ());
+      f->Save (opNode);
     }
     else
     {
@@ -411,7 +420,7 @@ bool celQuestFactory::SaveTriggerResponse (
     return false;
   celQuestTriggerResponseFactory* respfactT = static_cast<celQuestTriggerResponseFactory*> (respfact);
   const csRefArray<iRewardFactory>& rewards = respfactT->GetRewardFactoriesInt ();
-  return SaveRewardArray (rewards, node);
+  return SaveRewardArray (rewards, node, 0);
 }
 
 bool celQuestFactory::LoadTriggerResponse (
