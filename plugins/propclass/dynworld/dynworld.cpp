@@ -1953,6 +1953,15 @@ void DynamicObject::UnlinkEntity ()
   entity = 0;
 }
 
+void DynamicObject::ClearEntity ()
+{
+  if (entity)
+  {
+    factory->GetWorld ()->pl->RemoveEntity (entity);
+    UnlinkEntity ();
+  }
+}
+
 iCelEntity* DynamicObject::ForceEntity ()
 {
   celPcDynamicWorld* world = factory->GetWorld ();
@@ -2830,6 +2839,23 @@ void celPcDynamicWorld::RestoreModifications (iDataBuffer* dbuf)
     CS_ASSERT (cell != 0);
     cell->RestoreModifications (buf, strings);
     cellID = buf->GetID ();
+  }
+}
+
+void celPcDynamicWorld::InhibitEntities (bool e)
+{
+  inhibitEntities = e;
+  if (!inhibitEntities) return;
+  csHash<csRef<DynamicCell>,csString>::GlobalIterator it = cells.GetIterator ();
+  while (it.HasNext ())
+  {
+    csString name;
+    csRef<DynamicCell> cell = it.Next (name);
+    for (size_t i = 0 ; i < cell->GetObjectCount () ; i++)
+    {
+      DynamicObject* obj = cell->GetObjectInt (i);
+      obj->ClearEntity ();
+    }
   }
 }
 
