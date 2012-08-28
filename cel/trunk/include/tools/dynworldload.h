@@ -23,6 +23,8 @@
 
 struct iDocumentNode;
 struct iPcDynamicWorld;
+struct iCollection;
+struct iStreamSource;
 
 /**
  * Implement this interface if you want to make an extension for the
@@ -38,6 +40,23 @@ struct iDynamicWorldLoaderExtension : public virtual iBase
    * does not recognize this node.
    */
   virtual bool Parse (iDocumentNode* node, iPcDynamicWorld* dynworld) = 0;
+};
+
+/**
+ * The dynamic world save plugin implements this interface so that you can
+ * save dynamic factories for a collection only.
+ */
+struct iDynamicWorldSaver : public virtual iBase
+{
+  SCF_INTERFACE (iDynamicWorldSaver, 0, 0, 1);
+
+  /**
+   * Save dynamic factories.
+   * @param collection an optional collection. Only factories in this collection will
+   * be saved.
+   */
+  virtual bool WriteFactories (iPcDynamicWorld* dynworld, iDocumentNode* parent,
+    iCollection* collection = 0, iStreamSource* ssource = 0) = 0;
 };
 
 

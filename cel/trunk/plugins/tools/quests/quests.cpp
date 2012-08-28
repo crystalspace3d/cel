@@ -30,6 +30,8 @@
 #include "iutil/document.h"
 #include "iutil/plugin.h"
 #include "ivaria/reporter.h"
+#include "imap/ldrctxt.h"
+#include "iengine/collection.h"
 
 #include "physicallayer/persist.h"
 #include "tools/parameters.h"
@@ -164,7 +166,7 @@ celQuestFactory::celQuestFactory (celQuestManager* questmgr, const char* name) :
 	scfImplementationType (this)
 {
   celQuestFactory::questmgr = questmgr;
-  celQuestFactory::name = name;
+  SetName (name);
   InitTokenTable (xmltokens);
 }
 
@@ -259,7 +261,7 @@ csRef<iRewardFactory> celQuestFactory::LoadReward (iDocumentNode* child)
     csReport (questmgr->object_reg, CS_REPORTER_SEVERITY_ERROR,
 		"cel.questmanager.load",
 		"Unknown reward type '%s' while loading quest '%s'!",
-		(const char*)type, (const char*)name);
+		(const char*)type, (const char*)Name);
     return 0;
   }
   csRef<iRewardFactory> rewardfact = rewardtype->CreateRewardFactory ();
@@ -328,7 +330,7 @@ bool celQuestFactory::LoadRewards (
         csReport (questmgr->object_reg, CS_REPORTER_SEVERITY_ERROR,
 		"cel.questmanager.load",
 		"Unknown token '%s' while loading '%s' in quest '%s'!",
-		(const char*)value, oninit ? "oninit" : "onexit", (const char*)name);
+		(const char*)value, oninit ? "oninit" : "onexit", (const char*)Name);
         return false;
     }
   }
@@ -383,7 +385,7 @@ bool celQuestFactory::LoadSequenceFactory (iCelSequenceFactory* seqFact, iDocume
 	    csReport (questmgr->object_reg,
 		  CS_REPORTER_SEVERITY_ERROR, "cel.questmanager.load",
 		  "Unknown sequence type '%s' while loading quest '%s'!",
-		  (const char*)type, (const char*)name);
+		  (const char*)type, (const char*)Name);
 	    return false;
 	  }
 	  csRef<iSeqOpFactory> seqopfact = seqoptype->CreateSeqOpFactory ();
@@ -451,7 +453,7 @@ bool celQuestFactory::LoadTriggerResponse (
         csReport (questmgr->object_reg, CS_REPORTER_SEVERITY_ERROR,
 		"cel.questmanager.load",
 		"Unknown token '%s' while loading trigger in quest '%s'!",
-		(const char*)value, (const char*)name);
+		(const char*)value, (const char*)Name);
         return false;
     }
   }
@@ -512,7 +514,7 @@ bool celQuestFactory::LoadState (iQuestStateFactory* statefact,
             csReport (questmgr->object_reg, CS_REPORTER_SEVERITY_ERROR,
 		"cel.questmanager.load",
 		"Unknown trigger type '%s' while loading state '%s/%s'!",
-		(const char*)type, (const char*)name, statefact->GetName ());
+		(const char*)type, (const char*)Name, statefact->GetName ());
 	    return false;
 	  }
 	  // First we create a trigger response factory.
@@ -530,7 +532,7 @@ bool celQuestFactory::LoadState (iQuestStateFactory* statefact,
         csReport (questmgr->object_reg, CS_REPORTER_SEVERITY_ERROR,
 		"cel.questmanager.load",
 		"Unknown token '%s' while loading state '%s/%s'!",
-		(const char*)value, (const char*)name, statefact->GetName ());
+		(const char*)value, (const char*)Name, statefact->GetName ());
         return false;
     }
   }
@@ -636,7 +638,7 @@ bool celQuestFactory::Load (iDocumentNode* node)
             csReport (questmgr->object_reg, CS_REPORTER_SEVERITY_ERROR,
 		  "cel.questmanager.load",
 		  "Couldn't load state '%s' while loading quest '%s'!",
-		  (const char*)statename, (const char*)name);
+		  (const char*)statename, (const char*)Name);
 	    return false;
 	  }
 	  if (!LoadState (statefact, child))
@@ -654,7 +656,7 @@ bool celQuestFactory::Load (iDocumentNode* node)
 	    csReport (questmgr->object_reg, CS_REPORTER_SEVERITY_ERROR,
 		  "cel.questmanager.load",
 		  "Couldn't load sequence '%s' while loading quest '%s'!",
-		(  const char*)seqname, (const char*)name);
+		(  const char*)seqname, (const char*)Name);
 	    return false;
 	  }
 	  if (!LoadSequenceFactory (seqfact, child))
@@ -665,7 +667,7 @@ bool celQuestFactory::Load (iDocumentNode* node)
         csReport (questmgr->object_reg, CS_REPORTER_SEVERITY_ERROR,
 		"cel.questmanager.load",
 		"Unknown token '%s' while loading quest '%s'!",
-		value, (const char*)name);
+		value, (const char*)Name);
         return false;
     }
   }
@@ -1199,23 +1201,26 @@ iSeqOpType* celQuestManager::GetSeqOpType (const char* name)
 }
 
 
-bool celQuestManager::Save (iDocumentNode* node)
+bool celQuestManager::Save (iDocumentNode* node, iCollection* collection)
 {
   csHash<csRef<celQuestFactory>,csStringBase>::GlobalIterator it = quest_factories.GetIterator ();
   while (it.HasNext ())
   {
     csString name;
     celQuestFactory* questFact = it.Next (name);
-    csRef<iDocumentNode> questNode = node->CreateNodeBefore (CS_NODE_ELEMENT, 0);
-    questNode->SetValue ("quest");
-    questNode->SetAttribute ("name", questFact->GetName ());
-    if (!questFact->Save (questNode))
-      return false;
+    if (!collection || collection->IsParentOf (questFact->QueryObject ()))
+    {
+      csRef<iDocumentNode> questNode = node->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+      questNode->SetValue ("quest");
+      questNode->SetAttribute ("name", questFact->GetName ());
+      if (!questFact->Save (questNode))
+        return false;
+    }
   }
   return true;
 }
 
-bool celQuestManager::Load (iDocumentNode* node)
+bool celQuestManager::Load (iDocumentNode* node, iLoaderContext* context)
 {
   csRef<iDocumentNodeIterator> it = node->GetNodes ();
   while (it->HasNext ())
@@ -1253,8 +1258,12 @@ bool celQuestManager::Load (iDocumentNode* node)
       // It is possible that questfact is 0. That means that the factory
       // already existed.
       if (questfact)
+      {
+	if (context && context->GetCollection ())
+          context->GetCollection ()->Add (questfact->QueryObject ());
         if (!questfact->Load (questnode))
           return false;
+      }
     }
     else
     {

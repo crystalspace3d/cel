@@ -73,7 +73,7 @@ csPtr<iBase> celAddOnQuestDef::Parse (iDocumentNode* node,
     }
   }
 
-  if (!questmgr->Load (node))
+  if (!questmgr->Load (node, ldr_context))
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
 	  "cel.addons.questdef",

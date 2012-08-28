@@ -26,6 +26,7 @@
 struct iDocumentNode;
 struct iMeshWrapper;
 struct iCelEntityTemplate;
+struct iLoaderContext;
 
 /**
  * This interface allows one to access the celentitytpl addon
@@ -42,7 +43,7 @@ struct iEntityTemplateLoader : virtual public iBase
    * Returns entity template or 0 on failure. In case of failure the
    * error has been reported to the reporter.
    */
-  virtual iCelEntityTemplate* Load (iDocumentNode* node) = 0;
+  virtual iCelEntityTemplate* Load (iDocumentNode* node, iLoaderContext* context) = 0;
 
   /**
    * Conveniance function to load the entity template from a vfs file.

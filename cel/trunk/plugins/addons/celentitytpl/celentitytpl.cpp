@@ -27,6 +27,8 @@
 #include "iutil/vfs.h"
 #include "ivaria/reporter.h"
 #include "imap/services.h"
+#include "imap/ldrctxt.h"
+#include "iengine/collection.h"
 #include "iengine/mesh.h"
 
 #include "physicallayer/pl.h"
@@ -480,7 +482,7 @@ bool celAddOnCelEntityTemplate::WriteDown (iBase* obj, iDocumentNode* parent,
 csPtr<iBase> celAddOnCelEntityTemplate::Parse (iDocumentNode* node,
 	iStreamSource*, iLoaderContext* ldr_context, iBase*)
 {
-  iCelEntityTemplate* ent = Load (node);
+  iCelEntityTemplate* ent = Load (node, ldr_context);
   csRef<iBase> ent_return = (iBase*)ent;
   return csPtr<iBase> (ent_return);
 }
@@ -520,7 +522,7 @@ iCelEntityTemplate* celAddOnCelEntityTemplate::Load (const char* path,
 	    "Document system error for file '%s': %s!", file, error);
     return 0;
   }
-  iCelEntityTemplate* tpl = Load (doc->GetRoot ()->GetNode ("addon"));
+  iCelEntityTemplate* tpl = Load (doc->GetRoot ()->GetNode ("addon"), 0);
 
   if (path)
   {
@@ -530,7 +532,8 @@ iCelEntityTemplate* celAddOnCelEntityTemplate::Load (const char* path,
   return tpl;
 }
 
-iCelEntityTemplate* celAddOnCelEntityTemplate::Load (iDocumentNode* node)
+iCelEntityTemplate* celAddOnCelEntityTemplate::Load (iDocumentNode* node,
+		iLoaderContext* context)
 {
   const char* entityname = node->GetAttributeValue ("entityname");
   if (!entityname)
@@ -544,7 +547,11 @@ iCelEntityTemplate* celAddOnCelEntityTemplate::Load (iDocumentNode* node)
   // simply add additional stuff to it.
   ent = pl->FindEntityTemplate (entityname);
   if (!ent)
+  {
     ent = pl->CreateEntityTemplate (entityname);
+    if (context && context->GetCollection ())
+      context->GetCollection ()->Add (ent->QueryObject ());
+  }
 
   csRef<iDocumentNodeIterator> it = node->GetNodes ();
   while (it->HasNext ())

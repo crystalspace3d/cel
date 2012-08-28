@@ -910,11 +910,12 @@ void MeshCache::RemoveMesh (iMeshWrapper* mesh)
 DynamicFactory::DynamicFactory (celPcDynamicWorld* world, const char* name,
     bool usefact,
     float maxradiusRelative, float imposterradius, bool isLogic) :
-  scfImplementationType (this), name (name), world (world),
+  scfImplementationType (this), world (world),
   maxradiusRelative (maxradiusRelative), isLogic (isLogic)
 {
   bbox.StartBoundingBox ();
   physBbox.StartBoundingBox ();
+  SetName (name);
 
   factory = 0;
   lightFactory = 0;

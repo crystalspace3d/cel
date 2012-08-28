@@ -27,6 +27,7 @@
 #include "csutil/weakref.h"
 #include "csutil/csstring.h"
 #include "csutil/parray.h"
+#include "csutil/csobject.h"
 #include "iutil/comp.h"
 #include "iutil/eventh.h"
 #include "iutil/eventq.h"
@@ -123,12 +124,11 @@ typedef csHash<csRef<iCelSequenceFactory>,csStringBase>  celFactorySequences;
 /**
  * A quest factory.
  */
-class celQuestFactory : public scfImplementation1<celQuestFactory,
-	iQuestFactory>
+class celQuestFactory : public scfImplementationExt1<celQuestFactory,
+	csObject, iQuestFactory>
 {
 private:
   celQuestManager* questmgr;
-  csString name;
   celQuestFactoryStates states;
   celFactorySequences sequences;
   csRef<celVariableParameterBlock> defaults;
@@ -160,10 +160,11 @@ public:
 public:
   celQuestFactory (celQuestManager* questmgr, const char* name);
   virtual ~celQuestFactory () { }
+  virtual iObject* QueryObject () { return this; }
 
   virtual celQuestManager* GetQuestManager () const { return questmgr; }
 
-  virtual const char* GetName () const { return name; }
+  virtual const char* GetName () const { return Name; }
   virtual csPtr<iQuest> CreateQuest (iCelParameterBlock* params);
   virtual bool Load (iDocumentNode* node);
   virtual bool Save (iDocumentNode* node);
@@ -347,8 +348,8 @@ public:
   virtual void RemoveQuestFactory (const char* name);
   virtual void RemoveQuestFactories ();
 
-  virtual bool Load (iDocumentNode* node);
-  virtual bool Save (iDocumentNode* node);
+  virtual bool Load (iDocumentNode* node, iLoaderContext* context);
+  virtual bool Save (iDocumentNode* node, iCollection* collection = 0);
 
   virtual iRewardFactory* AddNewStateReward (
   	iQuestTriggerResponseFactory* response,
