@@ -34,8 +34,8 @@
 
 struct iDynamicFactory;
 
-class celAddOnDynamicWorldLoader : public scfImplementation3<celAddOnDynamicWorldLoader,
-  iLoaderPlugin, iSaverPlugin, iComponent>
+class celAddOnDynamicWorldLoader : public scfImplementation4<celAddOnDynamicWorldLoader,
+  iLoaderPlugin, iSaverPlugin, iDynamicWorldSaver, iComponent>
 {
 private:
   iObjectRegistry* object_reg;
@@ -46,7 +46,7 @@ private:
   csStringHash xmltokens;
   csRefArray<iDynamicWorldLoaderExtension> extensions;
 
-  bool ParseFactory (iDocumentNode* node);
+  bool ParseFactory (iDocumentNode* node, iLoaderContext* context);
   bool WriteBodies (iDocumentNode* factNode, iDynamicFactory* fact);
   bool WritePivots (iDocumentNode* factNode, iDynamicFactory* fact);
   bool WriteJoints (iDocumentNode* factNode, iDynamicFactory* fact);
@@ -62,6 +62,8 @@ public:
 
   virtual bool IsThreadSafe() { return false; }
 
+  virtual bool WriteFactories (iPcDynamicWorld* dynworld, iDocumentNode* parent,
+    iCollection* collection = 0, iStreamSource* ssource = 0);
   virtual bool WriteDown (iBase* obj, iDocumentNode* parent,
   	iStreamSource* ssource);
 };

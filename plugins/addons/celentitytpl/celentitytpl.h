@@ -76,7 +76,7 @@ public:
   	iStreamSource*, iLoaderContext* ldr_context,
   	iBase* context);
 
-  virtual iCelEntityTemplate* Load (iDocumentNode* node);
+  virtual iCelEntityTemplate* Load (iDocumentNode* node, iLoaderContext* context);
   virtual iCelEntityTemplate* Load (const char* path, const char* file);
 
   virtual bool IsThreadSafe() { return false; }

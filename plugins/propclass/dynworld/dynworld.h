@@ -301,11 +301,10 @@ public:
   }
 };
 
-class DynamicFactory : public scfImplementation1<DynamicFactory,
-  iDynamicFactory>
+class DynamicFactory : public scfImplementationExt1<DynamicFactory,
+	csObject, iDynamicFactory>
 {
 private:
-  csString name;
   csString tplName;
 
   celPcDynamicWorld* world;
@@ -334,6 +333,7 @@ public:
   DynamicFactory (celPcDynamicWorld* world, const char* name, bool usefact,
       float maxradiusRelative, float imposterradius, bool isLogic = false);
   virtual ~DynamicFactory () { }
+  virtual iObject* QueryObject () { return this; }
   virtual float GetMaximumRadiusRelative () const { return maxradiusRelative; }
   virtual void SetMaximumRadiusRelative (float r) { maxradiusRelative = r; }
   virtual float GetImposterRadius () const { return imposterradius; }
@@ -410,8 +410,7 @@ public:
   const csPDelArray<DOCollider>& GetColliders () const { return colliders; }
   iMeshFactoryWrapper* GetMeshFactory () const { return factory; }
   iLightFactory* GetLightFactory () const { return lightFactory; }
-  virtual const char* GetName () const { return name; }
-  const csString& GetCsName () const { return name; }
+  virtual const char* GetName () const { return Name; }
   celPcDynamicWorld* GetWorld () const { return world; }
   iImposterFactory* GetImposterFactory () const { return imposterFactory; }
   void ChangeFactory (iMeshFactoryWrapper* fact) { factory = fact; }

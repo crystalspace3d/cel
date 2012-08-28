@@ -24,6 +24,8 @@
 #include "iutil/plugin.h"
 #include "iutil/document.h"
 #include "imap/services.h"
+#include "imap/ldrctxt.h"
+#include "iengine/collection.h"
 #include "iengine/mesh.h"
 #include "imesh/genmesh.h"
 
@@ -100,7 +102,7 @@ bool celAddOnDynamicWorldLoader::Initialize (iObjectRegistry *object_reg)
   return true;
 }
 
-bool celAddOnDynamicWorldLoader::ParseFactory (iDocumentNode* node)
+bool celAddOnDynamicWorldLoader::ParseFactory (iDocumentNode* node, iLoaderContext* context)
 {
   csString name = node->GetAttributeValue ("name");
   iDynamicFactory* fact = dynworld->FindFactory (name);
@@ -169,6 +171,9 @@ bool celAddOnDynamicWorldLoader::ParseFactory (iDocumentNode* node)
 	"Could not add factory '%s'!", name.GetData ());
     return false;
   }
+  if (context && context->GetCollection ())
+    context->GetCollection ()->Add (fact->QueryObject ());
+
   if (node->GetAttribute ("template"))
   {
     csString tmpName = node->GetAttributeValue ("template");
@@ -490,7 +495,7 @@ csPtr<iBase> celAddOnDynamicWorldLoader::Parse (iDocumentNode* node,
 	}
 	break;
       case XMLTOKEN_FACTORY:
-	if (!ParseFactory (child)) return 0;
+	if (!ParseFactory (child, ldr_context)) return 0;
 	break;
       default:
 	{
@@ -664,6 +669,74 @@ bool celAddOnDynamicWorldLoader::WriteJoints (iDocumentNode* factNode, iDynamicF
   return true;
 }
 
+bool celAddOnDynamicWorldLoader::WriteFactories (iPcDynamicWorld* dynworld, iDocumentNode* parent,
+    iCollection* collection, iStreamSource* ssource)
+{
+  csRef<iCelPropertyClass> pcdynworld = scfQueryInterface<iCelPropertyClass> (dynworld);
+
+  csRef<iDocumentNode> dynworldNode = parent->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+  dynworldNode->SetValue ("dynworld");
+  iCelEntity* entity = pcdynworld->GetEntity ();
+  dynworldNode->SetAttribute ("name", entity->GetName ());
+
+  for (size_t i = 0 ; i < dynworld->GetFactoryCount () ; i++)
+  {
+    iDynamicFactory* fact = dynworld->GetFactory (i);
+    if (!collection || collection->IsParentOf (fact->QueryObject ()))
+	  {
+			csRef<iDocumentNode> factNode = parent->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+			factNode->SetValue ("factory");
+			factNode->SetAttribute ("name", fact->GetName ());
+			factNode->SetAttributeAsFloat ("maxradius", fact->GetMaximumRadiusRelative ());
+			factNode->SetAttributeAsFloat ("imposterradius", fact->GetImposterRadius ());
+			if (fact->IsLogicFactory ())
+				factNode->SetAttribute ("logic", "true");
+			if (fact->IsLightFactory ())
+				factNode->SetAttribute ("light", "true");
+			if (fact->GetDefaultEntityTemplate ())
+				factNode->SetAttribute ("template", fact->GetDefaultEntityTemplate ());
+			if (fact->IsColliderEnabled ())
+				factNode->SetAttribute ("collider", "true");
+			if (fact->IsLogicFactory ())
+			{
+				const csBox3& bbox = fact->GetBBox ();
+				csRef<iDocumentNode> boxNode = factNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+				boxNode->SetValue ("logicbox");
+				csRef<iDocumentNode> minNode = boxNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+				minNode->SetValue ("min");
+				minNode->SetAttributeAsFloat ("x", bbox.MinX ());
+				minNode->SetAttributeAsFloat ("y", bbox.MinY ());
+				minNode->SetAttributeAsFloat ("z", bbox.MinZ ());
+				csRef<iDocumentNode> maxNode = boxNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+				maxNode->SetValue ("max");
+				maxNode->SetAttributeAsFloat ("x", bbox.MaxX ());
+				maxNode->SetAttributeAsFloat ("y", bbox.MaxY ());
+				maxNode->SetAttributeAsFloat ("z", bbox.MaxZ ());
+			}
+
+			csRef<iAttributeIterator> attrIt = fact->GetAttributes ();
+			while (attrIt->HasNext ())
+			{
+				csStringID nameID = attrIt->Next ();
+				csString name = pl->FetchString (nameID);
+				csString value = fact->GetAttribute (nameID);
+				csRef<iDocumentNode> attrNode = factNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+				attrNode->SetValue ("attr");
+				attrNode->SetAttribute ("name", name);
+				attrNode->SetAttribute ("value", value);
+			}
+			if (!WriteBodies (factNode, fact))
+				return false;
+			if (!WritePivots (factNode, fact))
+				return false;
+			if (!WriteJoints (factNode, fact))
+				return false;
+		}
+  }
+
+  return true;
+}
+
 bool celAddOnDynamicWorldLoader::WriteDown (iBase* obj, iDocumentNode* parent,
     iStreamSource* ssource)
 {
@@ -675,65 +748,6 @@ bool celAddOnDynamicWorldLoader::WriteDown (iBase* obj, iDocumentNode* parent,
 	"The given object is not a dynamic world!\n");
     return false;
   }
-  csRef<iCelPropertyClass> pcdynworld = scfQueryInterface<iCelPropertyClass> (dynworld);
-
-  csRef<iDocumentNode> dynworldNode = parent->CreateNodeBefore (CS_NODE_ELEMENT, 0);
-  dynworldNode->SetValue ("dynworld");
-  iCelEntity* entity = pcdynworld->GetEntity ();
-  dynworldNode->SetAttribute ("name", entity->GetName ());
-
-  for (size_t i = 0 ; i < dynworld->GetFactoryCount () ; i++)
-  {
-    iDynamicFactory* fact = dynworld->GetFactory (i);
-    csRef<iDocumentNode> factNode = parent->CreateNodeBefore (CS_NODE_ELEMENT, 0);
-    factNode->SetValue ("factory");
-    factNode->SetAttribute ("name", fact->GetName ());
-    factNode->SetAttributeAsFloat ("maxradius", fact->GetMaximumRadiusRelative ());
-    factNode->SetAttributeAsFloat ("imposterradius", fact->GetImposterRadius ());
-    if (fact->IsLogicFactory ())
-      factNode->SetAttribute ("logic", "true");
-    if (fact->IsLightFactory ())
-      factNode->SetAttribute ("light", "true");
-    if (fact->GetDefaultEntityTemplate ())
-      factNode->SetAttribute ("template", fact->GetDefaultEntityTemplate ());
-    if (fact->IsColliderEnabled ())
-      factNode->SetAttribute ("collider", "true");
-    if (fact->IsLogicFactory ())
-    {
-      const csBox3& bbox = fact->GetBBox ();
-      csRef<iDocumentNode> boxNode = factNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
-      boxNode->SetValue ("logicbox");
-      csRef<iDocumentNode> minNode = boxNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
-      minNode->SetValue ("min");
-      minNode->SetAttributeAsFloat ("x", bbox.MinX ());
-      minNode->SetAttributeAsFloat ("y", bbox.MinY ());
-      minNode->SetAttributeAsFloat ("z", bbox.MinZ ());
-      csRef<iDocumentNode> maxNode = boxNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
-      maxNode->SetValue ("max");
-      maxNode->SetAttributeAsFloat ("x", bbox.MaxX ());
-      maxNode->SetAttributeAsFloat ("y", bbox.MaxY ());
-      maxNode->SetAttributeAsFloat ("z", bbox.MaxZ ());
-    }
-
-    csRef<iAttributeIterator> attrIt = fact->GetAttributes ();
-    while (attrIt->HasNext ())
-    {
-      csStringID nameID = attrIt->Next ();
-      csString name = pl->FetchString (nameID);
-      csString value = fact->GetAttribute (nameID);
-      csRef<iDocumentNode> attrNode = factNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
-      attrNode->SetValue ("attr");
-      attrNode->SetAttribute ("name", name);
-      attrNode->SetAttribute ("value", value);
-    }
-    if (!WriteBodies (factNode, fact))
-      return false;
-    if (!WritePivots (factNode, fact))
-      return false;
-    if (!WriteJoints (factNode, fact))
-      return false;
-  }
-
-  return true;
+	return WriteFactories (dynworld, parent, 0, ssource);
 }
 

@@ -209,6 +209,8 @@ struct iDynamicFactory : public virtual iBase
 
   virtual const char* GetName () const = 0;
 
+  virtual iObject* QueryObject () = 0;
+
   /**
    * Return true if this dynamic factory is a logic factory
    * (created with AddLogicFactory()).

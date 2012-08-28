@@ -34,8 +34,8 @@
 struct iDocumentNode;
 struct iChangePropertyRewardFactory;
 struct iCelParameterBlock;
-
-class celQuestManager;
+struct iLoaderContext;
+struct iCollection;
 
 
 //-------------------------------------------------------------------------
@@ -203,7 +203,7 @@ struct iQuestFactory : public virtual iBase
 {
   SCF_INTERFACE (iQuestFactory, 0, 0, 1);
 
-  virtual celQuestManager* GetQuestManager () const = 0;
+  virtual iObject* QueryObject () = 0;
 
   /**
    * Get the name of this factory.
@@ -439,16 +439,19 @@ struct iQuestManager : public virtual iBase
   /**
    * Load a bunch of quest factories.
    * \param node is a node containing \<quest\> children.
+   * \param context is an optional loader context.
    * \return false on error (reporter is used to report).
    */
-  virtual bool Load (iDocumentNode* node) = 0;
+  virtual bool Load (iDocumentNode* node, iLoaderContext* context) = 0;
 
   /**
    * Save a bunch of quest factories.
    * \param node is a node which will be filled with \<quest\> children.
+   * \param collection if given then only the quest factories from this
+   * collection will be saved.
    * \return false on error (reporter is used to report).
    */
-  virtual bool Save (iDocumentNode* node) = 0;
+  virtual bool Save (iDocumentNode* node, iCollection* collection = 0) = 0;
 
   /**
    * Convenience method to add a 'newstate' reward factory
