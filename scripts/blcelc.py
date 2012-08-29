@@ -5196,7 +5196,7 @@ class iQuestFactory(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
-    def GetQuestManager(*args): return _blcelc.iQuestFactory_GetQuestManager(*args)
+    def QueryObject(*args): return _blcelc.iQuestFactory_QueryObject(*args)
     def GetName(*args): return _blcelc.iQuestFactory_GetName(*args)
     def CreateQuest(*args): return _blcelc.iQuestFactory_CreateQuest(*args)
     def Load(*args): return _blcelc.iQuestFactory_Load(*args)
