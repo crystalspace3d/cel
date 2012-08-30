@@ -343,6 +343,7 @@ public:
   virtual iSeqOpType* GetSeqOpType (const char* name);
 
   virtual iQuestFactory* GetQuestFactory (const char* name);
+  virtual csRef<iQuestFactoryIterator> GetQuestFactories () const;
   virtual iQuestFactory* CreateQuestFactory (const char* name);
 
   virtual void RemoveQuestFactory (const char* name);

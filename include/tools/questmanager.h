@@ -36,6 +36,7 @@ struct iChangePropertyRewardFactory;
 struct iCelParameterBlock;
 struct iLoaderContext;
 struct iCollection;
+struct iQuestFactory;
 
 
 //-------------------------------------------------------------------------
@@ -183,6 +184,17 @@ struct iCelSequenceFactoryIterator : public virtual iBase
 
   virtual bool HasNext () const = 0;
   virtual iCelSequenceFactory* Next () = 0;
+};
+
+/**
+ * Iterator to iterate over the quest factories.
+ */
+struct iQuestFactoryIterator : public virtual iBase
+{
+  SCF_INTERFACE (iQuestFactoryIterator, 0, 0, 1);
+
+  virtual bool HasNext () const = 0;
+  virtual iQuestFactory* Next () = 0;
 };
 
 /**
@@ -418,6 +430,11 @@ struct iQuestManager : public virtual iBase
    * Get a quest factory by name.
    */
   virtual iQuestFactory* GetQuestFactory (const char* name) = 0;
+
+  /**
+   * Get an iterator for all quest factories.
+   */
+  virtual csRef<iQuestFactoryIterator> GetQuestFactories () const = 0;
 
   /**
    * Delete a quest factory by name.
