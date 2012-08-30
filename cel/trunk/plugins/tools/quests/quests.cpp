@@ -160,6 +160,26 @@ public:
   }
 };
 
+class celQuestFactoryIterator : public scfImplementation1<celQuestFactoryIterator,
+	iQuestFactoryIterator>
+{
+private:
+  csHash<csRef<celQuestFactory>,csStringBase>::ConstGlobalIterator it;
+
+public:
+  celQuestFactoryIterator (const csHash<csRef<celQuestFactory>,csStringBase>::ConstGlobalIterator it) :
+	  scfImplementationType (this), it (it)
+  {
+  }
+  virtual ~celQuestFactoryIterator () { }
+  virtual bool HasNext () const { return it.HasNext (); }
+  virtual iQuestFactory* Next ()
+  {
+    csRef<iQuestFactory> par = it.Next ();
+    return par;
+  }
+};
+
 //---------------------------------------------------------------------------
 
 celQuestFactory::celQuestFactory (celQuestManager* questmgr, const char* name) :
@@ -1127,6 +1147,13 @@ iQuestFactory* celQuestManager::GetQuestFactory (const char* name)
 {
   celQuestFactory* fact = quest_factories.Get (name, 0);
   return (iQuestFactory*)fact;
+}
+
+csRef<iQuestFactoryIterator> celQuestManager::GetQuestFactories () const
+{
+  csRef<celQuestFactoryIterator> it;
+  it.AttachNew (new celQuestFactoryIterator (quest_factories.GetIterator ()));
+  return it;
 }
 
 void celQuestManager::RemoveQuestFactories ()
