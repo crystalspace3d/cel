@@ -39,7 +39,6 @@
 #include "csutil/randomgen.h"
 #include "csutil/hash.h"
 
-#include "tools/expression.h"
 #include "plugins/tools/celgraph/celgraph.h"
 
 #include <iengine/sector.h>

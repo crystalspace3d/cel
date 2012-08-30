@@ -32,15 +32,7 @@
 #include "ivaria/conin.h"
 #include "ivaria/conout.h"
 
-#include "physicallayer/pl.h"
-#include "physicallayer/entity.h"
-#include "physicallayer/entitytpl.h"
-#include "physicallayer/propclas.h"
-#include "behaviourlayer/behave.h"
-#include "behaviourlayer/bl.h"
 #include "tools/celgraph.h"
-#include "propclass/prop.h"
-#include "propclass/quest.h"
 
 #include <stdio.h>
 #include <string.h>
