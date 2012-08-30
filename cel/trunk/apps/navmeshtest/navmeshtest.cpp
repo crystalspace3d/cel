@@ -138,6 +138,38 @@ void MainApp::Frame ()
       g3d->DrawSimpleMesh(*it.Next());
     }
   }
+
+  hudManager->GetStateDescriptions ()->Empty ();
+  csString msg;
+  if (mapNodeOrigin)
+  {
+    msg.Format ("Origin mapnode: %s (sector %s) index %zu", mapNodeOrigin->QueryObject ()->GetName (),
+      mapNodeOrigin->GetSector ()->QueryObject ()->GetName (), mapNodes.Find (mapNodeOrigin));
+    hudManager->GetStateDescriptions ()->Push (msg.GetData ());
+  }
+  if (mapNodeTarget)
+  {
+    msg.Format ("Target mapnode: %s (sector %s) index %zu", mapNodeTarget->QueryObject ()->GetName (),
+      mapNodeTarget->GetSector ()->QueryObject ()->GetName (), mapNodes.Find (mapNodeTarget));
+    hudManager->GetStateDescriptions ()->Push (msg.GetData ());
+  }
+
+  if (mapNodes.GetSize () < 2) return;
+
+  if (!navStruct)
+    hudManager->GetStateDescriptions ()->Push ("Path distance: a navmesh is needed, press 'b' or load one first.");
+  else
+  {
+    float nodesDistance = GetMapNodesDistance ();
+    if (nodesDistance < 0)
+      hudManager->GetStateDescriptions ()->Push ("Path distance: no path between these two mapnodes");
+    else
+    {
+      csString msg;
+      msg.Format ("Path distance: %f", nodesDistance);
+      hudManager->GetStateDescriptions ()->Push (msg.GetData ());
+    }
+  }
 }
 
 bool MainApp::OnKeyboard(iEvent& ev) 
@@ -156,21 +188,39 @@ bool MainApp::OnKeyboard(iEvent& ev)
     }
     else if (code == 'b') // Build navstruct
     {
+      CS::MeasureTime measure ("Total time to build the navigation structure");
       navStruct.Invalidate();
+      // Get agent settings values from command line
+      // or use default values adapted to the castle level
+      float AgentHeight;
+      if (clp->GetOption ("height"))
+        csScanStr (clp->GetOption ("height"), "%f", &AgentHeight);
+      else AgentHeight = 1.0f; // Default for castle level
+      float AgentRadius;
+      if (clp->GetOption ("radius"))
+        csScanStr (clp->GetOption ("radius"), "%f", &AgentRadius);
+      else AgentRadius = 0.2f;
+      float AgentMaxSlope;
+      if (clp->GetOption ("maxslope"))
+        csScanStr (clp->GetOption ("maxslope"), "%f", &AgentMaxSlope);
+      else AgentMaxSlope = 45.0f;
+      float AgentMaxClimb;
+      if (clp->GetOption ("maxclimb"))
+        csScanStr (clp->GetOption ("maxclimb"), "%f", &AgentMaxClimb);
+      else AgentMaxClimb = 0.5f;
+
       if (!params)
       {
         params.AttachNew(navStructBuilder->GetNavMeshParams()->Clone());
-        if (mapLocation == "/lev/castle")
-        {
-          params->SetSuggestedValues(1.0f, 0.2f, 45.0f);
-        }
-        else
-        {
-          params->SetSuggestedValues(10.0f, 2.0f, 45.0f);
-        }
-        navStructBuilder->SetNavMeshParams(params);
+        params->SetSuggestedValues(AgentHeight, AgentRadius, AgentMaxSlope);
+        params->SetAgentMaxClimb (AgentMaxClimb);
       }
       navStructBuilder->SetNavMeshParams(params);
+      csPrintf ("AgentHeight = %f\n", params->GetAgentHeight ());
+      csPrintf ("AgentRadius = %f\n", params->GetAgentRadius ());
+      csPrintf ("AgentMaxSlope = %f\n", params->GetAgentMaxSlopeAngle ());
+      csPrintf ("AgentMaxClimb = %f\n", params->GetAgentMaxClimb ());
+     
       csRefArray<iSector> sectorList;
       int size = engine->GetSectors()->GetCount();
       for (int i = 0; i < size; i++)
@@ -181,19 +231,25 @@ bool MainApp::OnKeyboard(iEvent& ev)
       navStruct = navStructBuilder->BuildHNavStruct();
 
       navStructMeshes = navStruct->GetDebugMeshes();
+      //navStructMeshes = navStruct->GetDebugMeshes(view->GetCamera ()->GetSector ());
+
+      GetMapNodes ();
     }
     else if (code == 's') // Save navstruct
     {
       if (navStruct)
       {
+        CS::MeasureTime measure ("Total time to save the navigation structure");
         navStruct->SaveToFile(vfs, "navigationStructure.zip");
       }
     }
     else if (code == 'l') // Load navstruct
     {
+      CS::MeasureTime measure ("Total time to load the navigation structure");
       navStruct.Invalidate();
       navStruct = navStructBuilder->LoadHNavStruct(vfs, "navigationStructure.zip");
       navStructMeshes = navStruct->GetDebugMeshes();
+      GetMapNodes ();
     }
     else if (code == 'c') // Clear navstruct, positions and path
     {
@@ -204,6 +260,14 @@ bool MainApp::OnKeyboard(iEvent& ev)
       pathMeshes = 0;
       pathEndMeshes = 0;
       navStructMeshes = 0;
+    }
+    else if (code == 'e') // Change the path origin mapnode
+    {
+      CycleMapNode (mapNodeOrigin);
+    }
+    else if (code == 'r') // Change the path destination mapnode
+    {
+      CycleMapNode (mapNodeTarget);
     }
   }
   return false;
@@ -303,8 +367,13 @@ void MainApp::PrintHelp ()
   csCommandLineHelper commandLineHelper;
 
   // Printing help
+  commandLineHelper.AddCommandLineOption ("height", "Agent height", csVariant (1.0f));
+  commandLineHelper.AddCommandLineOption ("radius", "Agent radius", csVariant (0.2f));
+  commandLineHelper.AddCommandLineOption ("maxslope", "Maximum slope angle an agent can walk through, in degrees", csVariant (45.0f));
+  commandLineHelper.AddCommandLineOption ("maxclimb", "Maximum height an agent can climb", csVariant (1.0f));
+  commandLineHelper.AddCommandLineExample ("navmeshtest -height=1.8 -radius=0.4 -maxclimb=1.2 /this");
   commandLineHelper.PrintApplicationHelp
-    (GetObjectRegistry (), "navmeshtest", "navmeshtest [VFS directory|terrain|castle]", "App to build, save and test NavMeshes.");
+    (GetObjectRegistry (), "navmeshtest", "navmeshtest [OPTIONS] [VFS directory|terrain|castle]", "App to build, save and test NavMeshes.");
 }
 
 
@@ -378,6 +447,16 @@ bool MainApp::Application ()
   hudManager->GetKeyDescriptions ()->Push ("c: clear NavMesh");
   hudManager->GetKeyDescriptions ()->Push ("left mouse click: set path origin");
   hudManager->GetKeyDescriptions ()->Push ("shift+left mouse click: set path destination");
+
+  // Find all the map nodes
+  if (GetMapNodes () > 1)
+  {
+    mapNodeOrigin = mapNodes[0];
+    mapNodeTarget = mapNodes[1];
+    hudManager->GetKeyDescriptions ()->Push ("e: cycle origin mapnode");
+    hudManager->GetKeyDescriptions ()->Push ("r: cycle destination mapnode");
+  }
+  csPrintf ("%zu mapnodes found.\n", mapNodes.GetSize ());
 
   Run();
 
@@ -478,3 +557,55 @@ bool MainApp::CreateAgent ()
   actor->SetRenderPriority(engine->GetObjectRenderPriority());
   return true;
 }
+
+int MainApp::GetMapNodes ()
+{
+  mapNodes.Empty ();
+  // Search in all sectors
+  iSectorList* slist = engine->GetSectors ();
+  for (int i = 0; i < slist->GetCount (); i++)
+  {
+    iSector* sector = slist->Get (i);
+    csRef<iObjectIterator> it = sector->QueryObject ()->GetIterator ();
+    while (it->HasNext ())
+    {
+      iObject* obj = it->Next ();
+      csRef<iMapNode> mapnode = scfQueryInterface<iMapNode> (obj);
+      // Ignore mapnodes created by recast plugin :
+      // Building a navmesh create mapnodes named "hlg" (high-level graph), and
+      // loading create mapnodes named "n".
+      if (mapnode && (strcmp(obj->GetName (), "hlg")) && (strcmp(obj->GetName (), "n")))
+      { 
+        csVector3 pos (mapnode->GetPosition ());
+        csPrintf ("Map node %s at %f,%f,%f in sector %s\n", CS::Quote::Single (obj->GetName ()),
+          pos.x, pos.y, pos.z, mapnode->GetSector ()->QueryObject ()->GetName ());
+        mapNodes.Push (mapnode); 
+      }
+    }
+  }
+  return mapNodes.GetSize ();
+}
+
+void MainApp::CycleMapNode (csRef<iMapNode>& mapnode)
+{
+  // Change the selected mapnode to the next one
+  size_t idx = mapNodes.Find (mapnode);
+  if (idx++ < mapNodes.GetSize () - 1)
+    mapnode = mapNodes[idx];
+  else
+    mapnode = mapNodes[0];
+}
+
+float MainApp::GetMapNodesDistance ()
+{
+  // Get distance between the two map nodes. Set to -1.0 if there's no path.
+  if (navStruct && mapNodeOrigin && mapNodeTarget)
+  {
+    path.Invalidate ();
+    path = navStruct->ShortestPath (mapNodeOrigin, mapNodeTarget);
+    if (path)
+      return path->GetDistance ();
+  }
+  return -1.0f;
+}
+
