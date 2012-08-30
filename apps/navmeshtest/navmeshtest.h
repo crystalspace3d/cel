@@ -64,7 +64,14 @@ private:
   csRef<iCelHPath> path;
   csRef<iCelHNavStruct> navStruct;
   csRef<iCelNavMeshParams> params;
-  
+
+  csRef<iMapNode> mapNodeOrigin;
+  csRef<iMapNode> mapNodeTarget;
+  csRefArray<iMapNode> mapNodes;
+
+  int GetMapNodes ();
+  float GetMapNodesDistance ();
+  void CycleMapNode (csRef<iMapNode>& mapnode);
   bool LoadMap ();
   bool CreateAgent ();
   void Frame ();
