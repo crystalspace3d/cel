@@ -5192,6 +5192,17 @@ class iCelSequenceFactoryIterator(cspace.iBase):
 iCelSequenceFactoryIterator_swigregister = _blcelc.iCelSequenceFactoryIterator_swigregister
 iCelSequenceFactoryIterator_swigregister(iCelSequenceFactoryIterator)
 
+class iQuestFactoryIterator(cspace.iBase):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
+    __repr__ = _swig_repr
+    def HasNext(*args): return _blcelc.iQuestFactoryIterator_HasNext(*args)
+    def Next(*args): return _blcelc.iQuestFactoryIterator_Next(*args)
+    __swig_destroy__ = _blcelc.delete_iQuestFactoryIterator
+    __del__ = lambda self : None;
+iQuestFactoryIterator_swigregister = _blcelc.iQuestFactoryIterator_swigregister
+iQuestFactoryIterator_swigregister(iQuestFactoryIterator)
+
 class iQuestFactory(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
@@ -5231,6 +5242,7 @@ class iQuestManager(cspace.iBase):
     def RegisterSeqOpType(*args): return _blcelc.iQuestManager_RegisterSeqOpType(*args)
     def GetSeqOpType(*args): return _blcelc.iQuestManager_GetSeqOpType(*args)
     def GetQuestFactory(*args): return _blcelc.iQuestManager_GetQuestFactory(*args)
+    def GetQuestFactories(*args): return _blcelc.iQuestManager_GetQuestFactories(*args)
     def RemoveQuestFactory(*args): return _blcelc.iQuestManager_RemoveQuestFactory(*args)
     def RemoveQuestFactories(*args): return _blcelc.iQuestManager_RemoveQuestFactories(*args)
     def CreateQuestFactory(*args): return _blcelc.iQuestManager_CreateQuestFactory(*args)
