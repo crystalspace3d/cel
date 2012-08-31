@@ -2212,7 +2212,10 @@ void celPcDynamicWorld::UpdateObject (iDynamicObject* dynobj)
 {
   dynobj->RefreshColliders ();
   dynobj->RecreateJoints ();
+  bool hasmesh = dynobj->GetMesh () != 0;
   ForceInvisible (dynobj);
+  if (hasmesh)
+    ForceVisible (dynobj);
 }
 
 void celPcDynamicWorld::UpdateObjects (iDynamicCell* cell)
