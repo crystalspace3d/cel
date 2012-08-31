@@ -28,7 +28,8 @@
 
 class FramePrinter;
 
-class MainApp : public CS::Utility::DemoApplication
+class MainApp : public CS::Utility::DemoApplication,
+                public scfImplementation1<MainApp, iCameraListener>
 {
 private:
   csRef<iCollideSystem> cdsys;
@@ -86,6 +87,10 @@ private:
   void MouseClick3Handler (iEvent& ev);
 
   bool SetupModules ();
+
+  // iCameraListener callbacks
+  void CameraMoved (iCamera*) { } ;
+  void NewSector (iCamera* /*camera*/, iSector* sector);
 
 public:
   MainApp();

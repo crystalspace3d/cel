@@ -20,7 +20,8 @@
 #include "imesh/skeleton.h"
 
 MainApp::MainApp () 
-  : DemoApplication ("CrystalSpace.NavMeshTest")
+  : DemoApplication ("CrystalSpace.NavMeshTest"),
+    scfImplementationType (this)
 {
   originSet = false;
   destinationSet = false;
@@ -230,8 +231,7 @@ bool MainApp::OnKeyboard(iEvent& ev)
       navStructBuilder->SetSectors(&sectorList);
       navStruct = navStructBuilder->BuildHNavStruct();
 
-      navStructMeshes = navStruct->GetDebugMeshes();
-      //navStructMeshes = navStruct->GetDebugMeshes(view->GetCamera ()->GetSector ());
+      navStructMeshes = navStruct->GetDebugMeshes(currentSector);
 
       GetMapNodes ();
     }
@@ -248,7 +248,7 @@ bool MainApp::OnKeyboard(iEvent& ev)
       CS::MeasureTime measure ("Total time to load the navigation structure");
       navStruct.Invalidate();
       navStruct = navStructBuilder->LoadHNavStruct(vfs, "navigationStructure.zip");
-      navStructMeshes = navStruct->GetDebugMeshes();
+      navStructMeshes = navStruct->GetDebugMeshes(currentSector);
       GetMapNodes ();
     }
     else if (code == 'c') // Clear navstruct, positions and path
@@ -402,6 +402,7 @@ bool MainApp::OnInitialize (int argc, char* argv[])
 
 void MainApp::OnExit ()
 {
+  view->GetCamera ()->RemoveCameraListener (this);
 }
 
 bool MainApp::Application ()
@@ -435,6 +436,9 @@ bool MainApp::Application ()
   collider_actor.InitializeColliders(view->GetCamera(), legs, body, shift);
 
   collider_actor.SetGravity(0);
+
+  // Call back NewSector() on sector changes, to filter debug meshes
+  view->GetCamera ()->AddCameraListener (this);
 
   // Define the available keys
   hudManager->GetKeyDescriptions ()->Empty();
@@ -609,3 +613,12 @@ float MainApp::GetMapNodesDistance ()
   return -1.0f;
 }
 
+void MainApp::NewSector (iCamera* /*camera*/, iSector* sector)
+{
+  currentSector = sector;
+  csPrintf ("Now in sector %s\n", CS::Quote::Single (
+    currentSector->QueryObject ()->GetName ()));
+  if (navStruct)
+    navStructMeshes = navStruct->GetDebugMeshes(currentSector);
+}
+ 
