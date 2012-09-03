@@ -33,6 +33,7 @@ struct iDocumentNode;
 struct iLoaderContext;
 struct iSyntaxService;
 struct iCelPlLayer;
+struct iEngine;
 
 /**
  * This is an add-on to allow adding of cel entities through a standard
@@ -46,6 +47,7 @@ private:
   iObjectRegistry* object_reg;
   csWeakRef<iSyntaxService> synldr;
   csWeakRef<iCelPlLayer> pl;
+  csWeakRef<iEngine> engine;
   csRef<iParameterManager> pm;
   csStringHash xmltokens;
 

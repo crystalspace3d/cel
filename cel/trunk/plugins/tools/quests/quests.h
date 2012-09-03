@@ -42,6 +42,7 @@
 
 struct iObjectRegistry;
 struct iEvent;
+struct iEngine;
 class celQuestManager;
 class celQuestFactory;
 class celQuest;
@@ -322,6 +323,7 @@ public:
   iObjectRegistry* object_reg;
   csWeakRef<iCelPlLayer> pl;
   csWeakRef<iVirtualClock> vc;
+  csWeakRef<iEngine> engine;
   csRef<iCelExpressionParser> expparser;
 
 private:
