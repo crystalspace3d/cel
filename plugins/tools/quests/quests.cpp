@@ -24,6 +24,7 @@
 #include "csutil/util.h"
 #include "csutil/xmltiny.h"
 #include "csutil/scanstr.h"
+#include "cstool/objectcomment.h"
 
 #include "iutil/evdefs.h"
 #include "iutil/event.h"
@@ -32,6 +33,7 @@
 #include "ivaria/reporter.h"
 #include "imap/ldrctxt.h"
 #include "iengine/collection.h"
+#include "iengine/engine.h"
 
 #include "physicallayer/persist.h"
 #include "tools/parameters.h"
@@ -561,6 +563,19 @@ bool celQuestFactory::LoadState (iQuestStateFactory* statefact,
 
 bool celQuestFactory::Save (iDocumentNode* node)
 {
+  if (!questmgr->engine)
+    questmgr->engine = csQueryRegistry<iEngine> (questmgr->object_reg);
+  bool saveable = questmgr->engine->GetSaveableFlag ();
+  if (saveable)
+  {
+    csRef<iObjectComment> comment = CS::GetChildObject<iObjectComment> (QueryObject ());
+    if (comment)
+    {
+      csRef<iDocumentNode> commentNode = node->CreateNodeBefore (CS_NODE_COMMENT, 0);
+      commentNode->SetValue (comment->GetComment ()->GetData ());
+    }
+  }
+
   if (defaults)
   {
     for (size_t i = 0 ; i < defaults->GetParameterCount () ; i++)
@@ -609,10 +624,27 @@ bool celQuestFactory::Save (iDocumentNode* node)
 
 bool celQuestFactory::Load (iDocumentNode* node)
 {
+  if (!questmgr->engine)
+    questmgr->engine = csQueryRegistry<iEngine> (questmgr->object_reg);
+  bool saveable = questmgr->engine->GetSaveableFlag ();
+
   csRef<iDocumentNodeIterator> it = node->GetNodes ();
   while (it->HasNext ())
   {
     csRef<iDocumentNode> child = it->Next ();
+
+    if (saveable && child->GetType () == CS_NODE_COMMENT)
+    {
+      csRef<iObjectComment> comment = CS::GetChildObject<iObjectComment> (
+		      QueryObject ());
+      if (!comment)
+      {
+	comment.AttachNew (new csObjectComment ());
+	comment->GetComment ()->Append (child->GetValue ());
+	QueryObject ()->ObjAdd (comment->QueryObject ());
+      }
+    }
+
     if (child->GetType () != CS_NODE_ELEMENT) continue;
     const char* value = child->GetValue ();
     csStringID id = xmltokens.Request (value);
@@ -1286,8 +1318,8 @@ bool celQuestManager::Load (iDocumentNode* node, iLoaderContext* context)
       // already existed.
       if (questfact)
       {
-	if (context && context->GetCollection ())
-          context->GetCollection ()->Add (questfact->QueryObject ());
+	if (context)
+          context->AddToCollection (questfact->QueryObject ());
         if (!questfact->Load (questnode))
           return false;
       }

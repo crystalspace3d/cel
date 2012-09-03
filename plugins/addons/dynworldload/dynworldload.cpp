@@ -171,8 +171,8 @@ bool celAddOnDynamicWorldLoader::ParseFactory (iDocumentNode* node, iLoaderConte
 	"Could not add factory '%s'!", name.GetData ());
     return false;
   }
-  if (context && context->GetCollection ())
-    context->GetCollection ()->Add (fact->QueryObject ());
+  if (context)
+    context->AddToCollection (fact->QueryObject ());
 
   if (node->GetAttribute ("template"))
   {
