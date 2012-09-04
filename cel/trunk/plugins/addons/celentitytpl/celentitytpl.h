@@ -47,7 +47,6 @@ private:
   iObjectRegistry* object_reg;
   csWeakRef<iSyntaxService> synldr;
   csWeakRef<iCelPlLayer> pl;
-  csWeakRef<iEngine> engine;
   csRef<iParameterManager> pm;
   csStringHash xmltokens;
 

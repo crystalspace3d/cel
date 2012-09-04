@@ -20,6 +20,7 @@
 #include "cssysdef.h"
 #include "csutil/scanstr.h"
 #include "csutil/xmltiny.h"
+#include "cstool/objectcomment.h"
 #include "iutil/objreg.h"
 #include "iutil/document.h"
 #include "iutil/object.h"
@@ -28,11 +29,9 @@
 #include "ivaria/reporter.h"
 #include "imap/services.h"
 #include "imap/ldrctxt.h"
-#include "imap/objectcomment.h"
 #include "iengine/collection.h"
 #include "iengine/mesh.h"
 #include "iengine/engine.h"
-#include "cstool/objectcomment.h"
 
 #include "physicallayer/pl.h"
 #include "physicallayer/propclas.h"
@@ -378,19 +377,7 @@ bool celAddOnCelEntityTemplate::WriteDown (iBase* obj, iDocumentNode* parent,
     return false;
   }
 
-  if (!engine)
-    engine = csQueryRegistry<iEngine> (object_reg);
-  bool saveable = engine->GetSaveableFlag ();
-  if (saveable)
-  {
-    csRef<iObjectComment> comment = CS::GetChildObject<iObjectComment> (
-		      ent->QueryObject ());
-    if (comment)
-    {
-      csRef<iDocumentNode> commentNode = parent->CreateNodeBefore (CS_NODE_COMMENT, 0);
-      commentNode->SetValue (comment->GetComment ()->GetData ());
-    }
-  }
+  CS::Persistence::SaveComment (object_reg, ent->QueryObject (), parent);
 
   // @@@ We don't save behaviour information as that is deprecated.
   parent->SetAttribute ("entityname", ent->GetName ());
@@ -561,10 +548,6 @@ iCelEntityTemplate* celAddOnCelEntityTemplate::Load (iDocumentNode* node,
     return 0;
   }
 
-  if (!engine)
-    engine = csQueryRegistry<iEngine> (object_reg);
-  bool saveable = engine->GetSaveableFlag ();
-
   csRef<iCelEntityTemplate> ent;
   // First we see if the template already exists. Because if it does we will
   // simply add additional stuff to it.
@@ -581,17 +564,9 @@ iCelEntityTemplate* celAddOnCelEntityTemplate::Load (iDocumentNode* node,
   {
     csRef<iDocumentNode> child = it->Next ();
 
-    if (saveable && child->GetType () == CS_NODE_COMMENT)
-    {
-      csRef<iObjectComment> comment = CS::GetChildObject<iObjectComment> (
-		      ent->QueryObject ());
-      if (!comment)
-      {
-	comment.AttachNew (new csObjectComment ());
-	comment->GetComment ()->Append (child->GetValue ());
-	ent->QueryObject ()->ObjAdd (comment->QueryObject ());
-      }
-    }
+    if (context && child->GetType () == CS_NODE_COMMENT)
+      context->LoadComment (ent->QueryObject (), child);
+
     if (child->GetType () != CS_NODE_ELEMENT) continue;
     const char* value = child->GetValue ();
     csStringID id = xmltokens.Request (value);
