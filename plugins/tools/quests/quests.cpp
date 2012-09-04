@@ -563,18 +563,7 @@ bool celQuestFactory::LoadState (iQuestStateFactory* statefact,
 
 bool celQuestFactory::Save (iDocumentNode* node)
 {
-  if (!questmgr->engine)
-    questmgr->engine = csQueryRegistry<iEngine> (questmgr->object_reg);
-  bool saveable = questmgr->engine->GetSaveableFlag ();
-  if (saveable)
-  {
-    csRef<iObjectComment> comment = CS::GetChildObject<iObjectComment> (QueryObject ());
-    if (comment)
-    {
-      csRef<iDocumentNode> commentNode = node->CreateNodeBefore (CS_NODE_COMMENT, 0);
-      commentNode->SetValue (comment->GetComment ()->GetData ());
-    }
-  }
+  CS::Persistence::SaveComment (questmgr->object_reg, QueryObject (), node);
 
   if (defaults)
   {
@@ -624,26 +613,13 @@ bool celQuestFactory::Save (iDocumentNode* node)
 
 bool celQuestFactory::Load (iDocumentNode* node)
 {
-  if (!questmgr->engine)
-    questmgr->engine = csQueryRegistry<iEngine> (questmgr->object_reg);
-  bool saveable = questmgr->engine->GetSaveableFlag ();
-
   csRef<iDocumentNodeIterator> it = node->GetNodes ();
   while (it->HasNext ())
   {
     csRef<iDocumentNode> child = it->Next ();
 
-    if (saveable && child->GetType () == CS_NODE_COMMENT)
-    {
-      csRef<iObjectComment> comment = CS::GetChildObject<iObjectComment> (
-		      QueryObject ());
-      if (!comment)
-      {
-	comment.AttachNew (new csObjectComment ());
-	comment->GetComment ()->Append (child->GetValue ());
-	QueryObject ()->ObjAdd (comment->QueryObject ());
-      }
-    }
+    if (child->GetType () == CS_NODE_COMMENT)
+      CS::Persistence::LoadComment (questmgr->object_reg, QueryObject (), child);
 
     if (child->GetType () != CS_NODE_ELEMENT) continue;
     const char* value = child->GetValue ();
