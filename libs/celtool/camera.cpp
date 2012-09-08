@@ -41,6 +41,7 @@
 #include "cstool/csview.h"
 #include "ivaria/view.h"
 #include "ivideo/graph3d.h"
+#include "ivideo/graph2d.h"
 
 celPcCameraCommon::celPcCameraCommon (iObjectRegistry* object_reg)
 	: celPcCommon (object_reg)
@@ -48,6 +49,12 @@ celPcCameraCommon::celPcCameraCommon (iObjectRegistry* object_reg)
   engine = csQueryRegistry<iEngine> (object_reg);
   g3d = csQueryRegistry<iGraphics3D> (object_reg);
   view = csPtr<iView> (new csView (engine, g3d));
+
+  int w = g3d->GetDriver2D ()->GetWidth ();
+  int h = g3d->GetDriver2D ()->GetHeight ();
+  view->GetCamera ()->SetViewportSize (w, h);
+  view->SetRectangle (0, 0, w, h);
+  view->GetCamera ()->SetFOV (h, w);
 
   rect_set = false;
   center_set = false;
