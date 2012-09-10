@@ -213,7 +213,7 @@ void celPropertyClassTemplate::RemovePropertyByIndex (size_t idx)
 
 //---------------------------------------------------------------------------
 
-celEntityTemplate::celEntityTemplate () : scfImplementationType (this)
+celEntityTemplate::celEntityTemplate (celPlLayer* pl) : scfImplementationType (this), pl (pl)
 {
 }
 
@@ -232,6 +232,13 @@ iCelPropertyClassTemplate* celEntityTemplate::CreatePropertyClassTemplate ()
 void celEntityTemplate::RemovePropertyClassTemplate (size_t idx)
 {
   propclasses.DeleteIndex (idx);
+}
+
+void celEntityTemplate::SetName (const char* n)
+{
+  csString oldName = Name;
+  csObject::SetName (n);
+  pl->RenameEntityTemplate (oldName, n);
 }
 
 void celEntityTemplate::RemovePropertyClassTemplate (iCelPropertyClassTemplate* tpl)

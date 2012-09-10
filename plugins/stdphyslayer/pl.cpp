@@ -303,10 +303,18 @@ iCelEntity* celPlLayer::FindEntity (const char* name)
   return entities_hash.Get (name,0);
 }
 
+void celPlLayer::RenameEntityTemplate (const char* oldname, const char* newname)
+{
+  csRef<celEntityTemplate> f = entity_templates.Get (oldname, 0);
+  if (!f) return;
+  entity_templates.Delete (oldname, f);
+  entity_templates.Put (newname, f);
+}
+
 iCelEntityTemplate* celPlLayer::CreateEntityTemplate (const char* factname)
 {
   csRef<celEntityTemplate> fact;
-  fact.AttachNew (new celEntityTemplate ());
+  fact.AttachNew (new celEntityTemplate (this));
   fact->SetName (factname);
   entity_templates.Put (factname, fact);
   return static_cast<iCelEntityTemplate*> (fact);

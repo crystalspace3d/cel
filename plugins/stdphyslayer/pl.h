@@ -159,6 +159,7 @@ public:
   { return entities[idx]; }
   virtual iCelBehaviour* GetBehaviour (uint id);
 
+  void RenameEntityTemplate (const char* oldname, const char* newname);
   virtual iCelEntityTemplate* CreateEntityTemplate (const char* factname);
   virtual void RemoveEntityTemplate (iCelEntityTemplate* entfact);
   virtual void RemoveEntityTemplates ();

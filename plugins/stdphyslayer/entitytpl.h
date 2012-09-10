@@ -105,6 +105,7 @@ class celEntityTemplate : public scfImplementationExt2<
 	celEntityTemplate, csObject, iCelEntityTemplate, iTemplateCharacteristics>
 {
 private:
+  celPlLayer* pl;
   csRefArray<celPropertyClassTemplate> propclasses;
   csString layer, behaviour;
   csArray<ccfMessage> messages;
@@ -115,8 +116,10 @@ private:
   celPropertyClassTemplate* FindPCTemplate (const char* name, const char* tag);
 
 public:
-  celEntityTemplate ();
+  celEntityTemplate (celPlLayer* pl);
   virtual ~celEntityTemplate ();
+
+  virtual void SetName (const char* n);
 
   virtual void AddClass (csStringID cls);
   virtual void RemoveClass (csStringID cls);
@@ -163,7 +166,6 @@ public:
 
   virtual iObject* QueryObject () { return this; }
   virtual const char* GetName () const { return csObject::GetName (); }
-  virtual void SetName (const char* n) { csObject::SetName (n); }
 
   virtual void Merge (iCelEntityTemplate* tpl);
   virtual void AddParent (iCelEntityTemplate* tpl);

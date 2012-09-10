@@ -164,6 +164,7 @@ public:
 
   virtual celQuestManager* GetQuestManager () const { return questmgr; }
 
+  virtual void SetName (const char* n);
   virtual const char* GetName () const { return Name; }
   virtual csPtr<iQuest> CreateQuest (iCelParameterBlock* params);
   virtual bool Load (iDocumentNode* node);
@@ -334,6 +335,8 @@ public:
   celQuestManager (iBase* parent);
   virtual ~celQuestManager ();
   virtual bool Initialize (iObjectRegistry* object_reg);
+
+  void RenameQuestFactory (const char* oldname, const char* newname);
 
   virtual bool RegisterTriggerType (iTriggerType* trigger);
   virtual iTriggerType* GetTriggerType (const char* name);
