@@ -192,6 +192,13 @@ celQuestFactory::celQuestFactory (celQuestManager* questmgr, const char* name) :
   InitTokenTable (xmltokens);
 }
 
+void celQuestFactory::SetName (const char* n)
+{
+  csString oldname = Name;
+  csObject::SetName (n);
+  questmgr->RenameQuestFactory (oldname, n);
+}
+
 void celQuestFactory::SetDefaultParameter (const char* name, const char* value)
 {
   if (!defaults)
@@ -1176,6 +1183,15 @@ void celQuestManager::RemoveQuestFactory (const char* name)
     quest_factories.Delete(name,fact);
 }
 
+
+void celQuestManager::RenameQuestFactory (const char* oldname, const char* newname)
+{
+  iQuestFactory* ifact = GetQuestFactory (oldname);
+  if (!ifact) return;
+  celQuestFactory* fact = static_cast<celQuestFactory*> (ifact);
+  quest_factories.Put (newname, fact);
+  quest_factories.Delete (oldname, fact);
+}
 
 iQuestFactory* celQuestManager::CreateQuestFactory (const char* name)
 {
