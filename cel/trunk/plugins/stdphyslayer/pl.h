@@ -95,6 +95,9 @@ private:
   // Allow the creation of entities in entity addons.
   bool allow_entity_addon;
 
+  // For calllater.
+  csRefArray<iCallable> delayedCalls;
+
   // For timed callbacks:
   csWeakRefArray<iCelTimerListener> weak_listeners;
   // Where is listener in weak_listeners.
@@ -246,6 +249,7 @@ public:
   	int where);
   virtual void RemoveCallbackOnce (iCelTimerListener* listener, int where);
   virtual csTicks GetTicksLeft (iCelTimerListener* listener, int where);
+  virtual void CallLater (iCallable* callable) { delayedCalls.Push (callable); }
 
   virtual size_t AddScope (csString impl, int size);
   virtual void ResetScope (size_t scope_idx);

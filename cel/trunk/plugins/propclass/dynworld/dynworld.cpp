@@ -1736,6 +1736,9 @@ void DynamicObject::Save (iDocumentNode* node, iSyntaxService* syn)
   if (is_static)
     node->SetAttribute ("static", "true");
 
+  if (!entityName.IsEmpty ())
+    node->SetAttribute ("name", entityName);
+
   csString matrix;
   const csMatrix3& m = tr.GetO2T ();
   matrix.Format ("%g %g %g %g %g %g %g %g %g",
@@ -1797,6 +1800,10 @@ bool DynamicObject::Load (iDocumentNode* node, iSyntaxService* syn,
   else
     id = cell->AllocID ();
 
+  csString ename;
+  if (node->GetAttribute ("name"))
+    ename = node->GetAttributeValue ("name");
+
   csMatrix3 m;
   csVector3 v (0);
   csString matrix = node->GetAttributeValue ("m");
@@ -1823,11 +1830,11 @@ bool DynamicObject::Load (iDocumentNode* node, iSyntaxService* syn,
 
   csString tmpName = node->GetAttributeValue ("ent");
   if (tmpName)
-    SetEntity (0, tmpName, params);
+    SetEntity (ename, tmpName, params);
   else if (factory->GetDefaultEntityTemplate ())
-    SetEntity (0, factory->GetDefaultEntityTemplate (), params);
+    SetEntity (ename, factory->GetDefaultEntityTemplate (), params);
   else
-    SetEntity (0, factory->GetName (), params);
+    SetEntity (ename, factory->GetName (), params);
 
   return true;
 }

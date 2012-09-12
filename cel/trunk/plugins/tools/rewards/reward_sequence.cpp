@@ -185,9 +185,13 @@ void celSequenceReward::Reward (iCelParameterBlock* params)
       quest = celQueryPropertyClassTagEntity<iPcQuest> (ent, t);
       if (!quest)
       {
+	csString p = entity->Get (params);
+	if (!p) p = entity->GetOriginalExpression ();
+	csString s = sequence_name->Get (params);
+	if (!s) s = sequence_name->GetOriginalExpression ();
         Report (type->object_reg,
-      	  "Can't find quest in entity '%s' and tag '%s'!",
-	      entity->Get (params), t);
+      	  "Can't find quest in entity '%s' and tag '%s' (for sequence '%s')!",
+	      p.GetData (), t, s.GetData ());
 	return;
       }
     }
@@ -198,9 +202,11 @@ void celSequenceReward::Reward (iCelParameterBlock* params)
     const char* s = sequence_name->Get (params);
     if (!s)
     {
+      csString p = entity->Get (params);
+      if (!p) p = entity->GetOriginalExpression ();
       Report (type->object_reg,
       	  "Can't find sequence name in entity '%s' and tag '%s'!",
-	      entity->Get (params), t);
+	      p.GetData (), t);
       return;
     }
     seq = q->FindSequence (s);

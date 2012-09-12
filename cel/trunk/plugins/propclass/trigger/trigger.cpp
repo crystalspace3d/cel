@@ -544,13 +544,18 @@ void celPcTrigger::UpdateListener ()
   if (follow && !above_mesh)
   {
     csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
-    if (pcmesh)
+    if (pcmesh && pcmesh->GetMesh ())
     {
       movlistener.AttachNew (new celTriggerMovableListener (
       	this));
       movable_for_listener = pcmesh->GetMesh ()->GetMovable ();
       movable_for_listener->AddListener (movlistener);
       movlistener->MovableChanged (movable_for_listener);
+    }
+    else
+    {
+      // We want to try again to get the listener.
+      PropertyClassesHaveChanged ();
     }
   }
 }
@@ -844,15 +849,19 @@ bool celPcTrigger::PerformActionIndexed (int idx,
     case action_setuptriggersphere:
       {
 	csString sector;
-	if (!Fetch (sector, params, id_sector)) return false;
+	Fetch (sector, params, id_sector, true);
 
 	float radius;
 	if (!Fetch (radius, params, id_radius)) return false;
-        iSector* sec = engine->FindSector (sector);
-        if (!sec)
-          return Error (
-          	"Can't find sector '%s' for action SetupTriggerSphere!",
-          	sector.GetData ());
+        iSector* sec = 0;
+        if (!sector.IsEmpty ())
+	{
+	  sec = engine->FindSector (sector);
+          if (!sec)
+            return Error (
+          	  "Can't find sector '%s' for action SetupTriggerSphere!",
+          	  sector.GetData ());
+	}
         const celData* p_position = params->GetParameter (id_position);
         if (!p_position)
           return Error (
@@ -878,30 +887,38 @@ bool celPcTrigger::PerformActionIndexed (int idx,
     case action_setuptriggerbox:
       {
 	csString sector;
-	if (!Fetch (sector, params, id_sector)) return false;
+	Fetch (sector, params, id_sector, true);
 	csVector3 minbox, maxbox;
 	if (!Fetch (minbox, params, id_minbox)) return false;
 	if (!Fetch (maxbox, params, id_maxbox)) return false;
-        iSector* sec = engine->FindSector (sector);
-        if (!sec)
-          return Error (
-          	"Can't find sector '%s' for action SetupTriggerBox!",
-          	sector.GetData ());
+        iSector* sec = 0;
+        if (!sector.IsEmpty ())
+	{
+          sec = engine->FindSector (sector);
+          if (!sec)
+            return Error (
+          	  "Can't find sector '%s' for action SetupTriggerBox!",
+          	  sector.GetData ());
+	}
         SetupTriggerBox (sec, csBox3 (minbox, maxbox));
         return true;
       }
     case action_setuptriggerbeam:
       {
 	csString sector;
-	if (!Fetch (sector, params, id_sector)) return false;
+	Fetch (sector, params, id_sector, true);
 	csVector3 start, end;
 	if (!Fetch (start, params, id_start)) return false;
 	if (!Fetch (end, params, id_end)) return false;
-        iSector* sec = engine->FindSector (sector);
-        if (!sec)
-          return Error (
-          	"Can't find sector '%s' for action SetupTriggerBeam!",
-          	sector.GetData ());
+        iSector* sec = 0;
+        if (!sector.IsEmpty ())
+	{
+          sec = engine->FindSector (sector);
+          if (!sec)
+            return Error (
+          	  "Can't find sector '%s' for action SetupTriggerBeam!",
+          	  sector.GetData ());
+	}
         SetupTriggerBeam (sec, start, end);
         return true;
       }

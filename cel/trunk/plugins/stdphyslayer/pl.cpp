@@ -102,6 +102,12 @@ bool celPlLayer::HandleEvent (iEvent& ev, int where)
   if (ev.Name != csevFrame (object_reg))
     return false;
 
+  // Handle delayed calls first.
+  for (size_t i = 0 ; i < delayedCalls.GetSize () ; i++)
+    delayedCalls[i]->Call ();
+  delayedCalls.Empty ();
+
+
   CallbackInfo* cbinfo = GetCBInfo (where);
   if (!cbinfo) return false;
 

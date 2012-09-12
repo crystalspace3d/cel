@@ -104,6 +104,19 @@ struct iCelTimerListener : public virtual iBase
 };
 
 /**
+ * Generic callable. Use this if you want to delay a call
+ * to something exactly one frame. This is useful if you have code that
+ * you want to do but only after the init of an entity (or something else)
+ * is fully done. So you delay it one frame.
+ */
+struct iCallable : public virtual iBase
+{
+  SCF_INTERFACE (iCallable, 0, 0, 1);
+
+  virtual void Call () = 0;
+};
+
+/**
  * This is the Physical Layer itself.
  */
 struct iCelPlLayer : public virtual iBase
@@ -548,6 +561,12 @@ struct iCelPlLayer : public virtual iBase
    * Returns csArrayItemNotFound in case there is no such listener.
    */
   virtual csTicks GetTicksLeft (iCelTimerListener* listener, int where) = 0;
+
+  /**
+   * Call some code later (next frame). Code is guaranteed to be called in the
+   * order that this function is called.
+   */
+  virtual void CallLater (iCallable* callable) = 0;
 
   /**
    * Add an ID scope to the physical layer.

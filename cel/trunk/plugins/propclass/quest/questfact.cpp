@@ -76,11 +76,36 @@ celPcQuest::~celPcQuest ()
   //delete params;
 }
 
+class DelayedSwitchState : public scfImplementation1<DelayedSwitchState, iCallable>
+{
+private:
+  iQuest* quest;
+  csString state;
+
+public:
+  DelayedSwitchState (iQuest* quest, const char* state) :
+    scfImplementationType (this), quest (quest), state (state) { }
+  virtual ~DelayedSwitchState () { }
+  virtual void Call ()
+  {
+    quest->SwitchState (state);
+  }
+};
+
 bool celPcQuest::SetPropertyIndexed (int idx, const char* b)
 {
   if (idx == propid_state)
   {
-    if (quest) quest->SwitchState (b);
+    if (quest)
+    {
+      // We work with a delayed call here because it is possible that
+      // the entity hasn't been created fully and we don't want states
+      // that depend on things that haven't been made yet to fail.
+      csRef<DelayedSwitchState> dss;
+      dss.AttachNew (new DelayedSwitchState (quest, b));
+      pl->CallLater (dss);
+
+    }
     return true;
   }
   return false;

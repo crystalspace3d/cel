@@ -78,11 +78,14 @@ struct iPcTriggerListener : public virtual iBase
  * if you want to access this action through a message):
  * - SetupTriggerSphere: parameters 'sector' (string),
  *     'position' (vector3 or string (name of mapnode in that case)),
- *     and 'radius' (float).
+ *     and 'radius' (float). 'sector' is optional in case you have follow
+ *     set to true.
  * - SetupTriggerBox: parameters 'sector' (string), 'minbox' (vector3),
- *     and 'maxbox' (vector3).
+ *     and 'maxbox' (vector3). 'sector' is optional in case you have follow
+ *     set to true.
  * - SetupTriggerBeam: parameters 'sector' (string), 'start' (vector3),
- *     and 'end' (vector3).
+ *     and 'end' (vector3). 'sector' is optional in case you have follow
+ *     set to true.
  * - SetupTriggerAboveMesh: parameters 'entity' (string) and
  *     'maxdistance' (float),
  *
