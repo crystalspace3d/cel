@@ -453,6 +453,16 @@ class iCelTimerListener(cspace.iBase):
 iCelTimerListener_swigregister = _blcelc.iCelTimerListener_swigregister
 iCelTimerListener_swigregister(iCelTimerListener)
 
+class iCallable(cspace.iBase):
+    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
+    def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
+    __repr__ = _swig_repr
+    def Call(*args): return _blcelc.iCallable_Call(*args)
+    __swig_destroy__ = _blcelc.delete_iCallable
+    __del__ = lambda self : None;
+iCallable_swigregister = _blcelc.iCallable_swigregister
+iCallable_swigregister(iCallable)
+
 class iCelPlLayer(cspace.iBase):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     def __init__(self, *args, **kwargs): raise AttributeError, "No constructor defined"
@@ -513,6 +523,7 @@ class iCelPlLayer(cspace.iBase):
     def RemoveCallbackEveryFrame(*args): return _blcelc.iCelPlLayer_RemoveCallbackEveryFrame(*args)
     def RemoveCallbackOnce(*args): return _blcelc.iCelPlLayer_RemoveCallbackOnce(*args)
     def GetTicksLeft(*args): return _blcelc.iCelPlLayer_GetTicksLeft(*args)
+    def CallLater(*args): return _blcelc.iCelPlLayer_CallLater(*args)
     def AddScope(*args): return _blcelc.iCelPlLayer_AddScope(*args)
     def ResetScope(*args): return _blcelc.iCelPlLayer_ResetScope(*args)
     def GetClassEntitiesList(*args): return _blcelc.iCelPlLayer_GetClassEntitiesList(*args)
