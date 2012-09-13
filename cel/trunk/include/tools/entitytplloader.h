@@ -50,6 +50,28 @@ struct iEntityTemplateLoader : virtual public iBase
    * \param path optional VFS path. Can be 0.
    */
   virtual iCelEntityTemplate* Load (const char* path, const char* file) = 0;
+
+  /**
+   * Save an entity template to a document node.
+   * Returns false on failure. In case of failure the error has been
+   * reported to the reporter.
+   */
+  virtual bool Save (iCelEntityTemplate* tpl, iDocumentNode* node) = 0;
+
+  /**
+   * Load a property class template from a document node.
+   * Returns 0 on failure. In case of failure the
+   * error has been reported to the reporter.
+   */
+  virtual iCelPropertyClassTemplate* Load (iCelEntityTemplate* tpl, iDocumentNode* node,
+      iLoaderContext* context) = 0;
+
+  /**
+   * Save an property class template to the given node.
+   * Returns false on failure. In case of failure the error has been
+   * reported to the reporter.
+   */
+  virtual bool Save (iCelPropertyClassTemplate* pctpl, iDocumentNode* node) = 0;
 };
 
 #endif // __CEL_ENTITYTPLLOADER__

@@ -84,6 +84,11 @@ public:
 
   virtual bool WriteDown (iBase* obj, iDocumentNode* parent,
   	iStreamSource* ssource);
+  virtual bool Save (iCelEntityTemplate* tpl, iDocumentNode* node);
+
+  virtual bool Save (iCelPropertyClassTemplate* pctpl, iDocumentNode* parent);
+  virtual iCelPropertyClassTemplate* Load (iCelEntityTemplate* tpl, iDocumentNode* node,
+      iLoaderContext* context);
 };
 
 #endif // __CEL_ADDON_CELENTITYTPL__

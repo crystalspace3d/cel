@@ -343,13 +343,12 @@ void celPcTrigger::ResetCallbackOnce()
 
 void celPcTrigger::SetCallbackOnce()
 {
-   csTicks delay = celPcTrigger::delay;
+  csTicks delay = celPcTrigger::delay;
 
-   if (jitter)
-     delay+=(rand () % (jitter+jitter))-jitter;
+  if (jitter)
+    delay+=(rand () % (jitter+jitter))-jitter;
 
-   pl->CallbackOnce ((iCelTimerListener*)this,
-    	delay, CEL_EVENT_PRE);
+  pl->CallbackOnce ((iCelTimerListener*)this, delay, CEL_EVENT_PRE);
 }
 
 
