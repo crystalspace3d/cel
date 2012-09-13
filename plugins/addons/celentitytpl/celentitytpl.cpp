@@ -365,6 +365,53 @@ static void WriteData (celData& data, iDocumentNode* node)
   }
 }
 
+bool celAddOnCelEntityTemplate::Save (iCelEntityTemplate* tpl, iDocumentNode* parent)
+{
+  return WriteDown (tpl, parent, 0);
+}
+
+bool celAddOnCelEntityTemplate::Save (iCelPropertyClassTemplate* pc, iDocumentNode* pcNode)
+{
+  pcNode->SetAttribute ("name", pc->GetName ());
+  if (pc->GetTag ())
+    pcNode->SetAttribute ("tag", pc->GetTag ());
+  for (size_t j = 0 ; j < pc->GetPropertyCount () ; j++)
+  {
+    csStringID id;
+    celData data;
+    csRef<iCelParameterIterator> parIt = pc->GetProperty (j, id, data);
+    if (data.type == CEL_DATA_NONE)
+    {
+      // An action.
+      csRef<iDocumentNode> actNode = pcNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+      actNode->SetValue ("action");
+      actNode->SetAttribute ("name", pl->FetchString (id));
+      if (parIt->HasNext ())
+      {
+	while (parIt->HasNext ())
+	{
+	  csStringID parID;
+	  iParameter* par = parIt->Next (parID);
+	  csRef<iDocumentNode> parNode = actNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+	  parNode->SetValue ("par");
+	  parNode->SetAttribute ("name", pl->FetchString (parID));
+	  parNode->SetAttribute (GetTypeString (par->GetPossibleType ()),
+	      par->GetOriginalExpression ());
+	}
+      }
+    }
+    else
+    {
+      // A property.
+      csRef<iDocumentNode> propNode = pcNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+      propNode->SetValue ("property");
+      propNode->SetAttribute ("name", pl->FetchString (id));
+      WriteData (data, propNode);
+    }
+  }
+  return true;
+}
+
 bool celAddOnCelEntityTemplate::WriteDown (iBase* obj, iDocumentNode* parent,
     iStreamSource* ssource)
 {
@@ -396,43 +443,8 @@ bool celAddOnCelEntityTemplate::WriteDown (iBase* obj, iDocumentNode* parent,
     iCelPropertyClassTemplate* pc = ent->GetPropertyClassTemplate (i);
     csRef<iDocumentNode> pcNode = parent->CreateNodeBefore (CS_NODE_ELEMENT, 0);
     pcNode->SetValue ("propclass");
-    pcNode->SetAttribute ("name", pc->GetName ());
-    if (pc->GetTag ())
-      pcNode->SetAttribute ("tag", pc->GetTag ());
-    for (size_t j = 0 ; j < pc->GetPropertyCount () ; j++)
-    {
-      csStringID id;
-      celData data;
-      csRef<iCelParameterIterator> parIt = pc->GetProperty (j, id, data);
-      if (data.type == CEL_DATA_NONE)
-      {
-	// An action.
-        csRef<iDocumentNode> actNode = pcNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
-        actNode->SetValue ("action");
-        actNode->SetAttribute ("name", pl->FetchString (id));
-        if (parIt->HasNext ())
-	{
-	  while (parIt->HasNext ())
-	  {
-	    csStringID parID;
-	    iParameter* par = parIt->Next (parID);
-	    csRef<iDocumentNode> parNode = actNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
-	    parNode->SetValue ("par");
-	    parNode->SetAttribute ("name", pl->FetchString (parID));
-	    parNode->SetAttribute (GetTypeString (par->GetPossibleType ()),
-		par->GetOriginalExpression ());
-	  }
-	}
-      }
-      else
-      {
-	// A property.
-        csRef<iDocumentNode> propNode = pcNode->CreateNodeBefore (CS_NODE_ELEMENT, 0);
-        propNode->SetValue ("property");
-        propNode->SetAttribute ("name", pl->FetchString (id));
-	WriteData (data, propNode);
-      }
-    }
+    if (!Save (pc, pcNode))
+      return false;
   }
 
   iTemplateCharacteristics* chars = ent->GetCharacteristics ();
@@ -536,6 +548,32 @@ iCelEntityTemplate* celAddOnCelEntityTemplate::Load (const char* path,
   return tpl;
 }
 
+iCelPropertyClassTemplate* celAddOnCelEntityTemplate::Load (iCelEntityTemplate* tpl,
+    iDocumentNode* child, iLoaderContext* context)
+{
+  iCelPropertyClassTemplate* pc;
+  const char* name = child->GetAttributeValue ("name");
+  if (!name)
+  {
+    synldr->ReportError (
+	"cel.addons.celentitytpl",
+	child, "Name of the property class is missing!");
+    return 0;
+  }
+  const char* tag = child->GetAttributeValue ("tag");
+
+  pc = tpl->FindPropertyClassTemplate (name, tag);
+  if (!pc)
+  {
+    pc = tpl->CreatePropertyClassTemplate ();
+    pc->SetName (name);
+    pc->SetTag (tag);
+  }
+  if (!ParseProperties (pc, child))
+    return 0;
+  return pc;
+}
+
 iCelEntityTemplate* celAddOnCelEntityTemplate::Load (iDocumentNode* node,
 		iLoaderContext* context)
 {
@@ -564,8 +602,8 @@ iCelEntityTemplate* celAddOnCelEntityTemplate::Load (iDocumentNode* node,
   {
     csRef<iDocumentNode> child = it->Next ();
 
-    if (context && child->GetType () == CS_NODE_COMMENT)
-      context->LoadComment (ent->QueryObject (), child);
+    if (child->GetType () == CS_NODE_COMMENT)
+      CS::Persistence::LoadComment (object_reg, ent->QueryObject (), child);
 
     if (child->GetType () != CS_NODE_ELEMENT) continue;
     const char* value = child->GetValue ();
@@ -623,25 +661,7 @@ iCelEntityTemplate* celAddOnCelEntityTemplate::Load (iDocumentNode* node,
         break;
       case XMLTOKEN_PROPCLASS:
         {
-	  iCelPropertyClassTemplate* pc;
-	  const char* name = child->GetAttributeValue ("name");
-	  if (!name)
-	  {
-	    synldr->ReportError (
-	        "cel.addons.celentitytpl",
-	        child, "Name of the property class is missing!");
-	    return 0;
-	  }
-	  const char* tag = child->GetAttributeValue ("tag");
-
-          pc = ent->FindPropertyClassTemplate (name, tag);
-          if (!pc)
-          {
-	    pc = ent->CreatePropertyClassTemplate ();
-	    pc->SetName (name);
-	    pc->SetTag (tag);
-          }
-	  if (!ParseProperties (pc, child))
+	  if (!Load (ent, child, context))
 	    return 0;
 	}
 	break;
