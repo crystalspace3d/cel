@@ -347,7 +347,7 @@ public:
   virtual void SetDefaultEntityTemplate (const char* tmpName) { tplName = tmpName; }
   virtual const char* GetDefaultEntityTemplate () const { return tplName; }
 
-  virtual const csBox3& GetPhysicsBBox () const { return physBbox; }
+  virtual const csBox3& GetPhysicsBBox () const;
 
   virtual void SetGeometryGenerator (iGeometryGenerator* ggen)
   {

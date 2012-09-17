@@ -292,7 +292,8 @@ struct iDynamicFactory : public virtual iBase
 
   /**
    * Get the bounding box as calculated from the physical objects that
-   * have been attached to this factory.
+   * have been attached to this factory. If the dynamic world is not in
+   * physics mode then this will return the normal bounding box.
    */
   virtual const csBox3& GetPhysicsBBox () const = 0;
 

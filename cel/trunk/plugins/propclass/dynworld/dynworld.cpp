@@ -983,6 +983,14 @@ void DynamicFactory::SetImposterRadius (float r)
   }
 }
 
+const csBox3& DynamicFactory::GetPhysicsBBox () const
+{
+  if (world->IsPhysicsEnabled ())
+    return physBbox;
+  else
+    return bbox;
+}
+
 void DynamicFactory::SetAttribute (csStringID nameID, const char* value)
 {
   attributes.PutUnique (nameID, value);
