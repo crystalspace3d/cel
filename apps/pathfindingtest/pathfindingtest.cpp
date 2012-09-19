@@ -331,6 +331,28 @@ bool MainApp::OnKeyboard(iEvent& ev)
       behaviourLayer->SetNavStruct(navStruct);
       navStructMeshes = navStruct->GetDebugMeshes();
     }
+    else if (code == 'd')
+    {
+      // print out the parameters used for the generation
+      const iCelNavMeshParams * celparams = navStructBuilder->GetNavMeshParams();
+      printf (" GetAgentHeight: %f \n", celparams->GetAgentHeight());
+      printf (" GetAgentMaxClimb: %f \n", celparams->GetAgentMaxClimb());
+      printf (" GetAgentMaxSlopeAngle: %f \n", celparams->GetAgentMaxSlopeAngle());
+      printf (" GetAgentRadius: %f \n", celparams->GetAgentRadius());
+      printf (" GetBorderSize: %d \n", celparams->GetBorderSize());
+      printf (" GetCellHeight: %f \n", celparams->GetCellHeight());
+      printf (" GetCellSize: %f \n", celparams->GetCellSize());
+      printf (" GetDetailSampleDist: %f \n", celparams->GetDetailSampleDist());
+      printf (" GetDetailSampleMaxError: %f \n", celparams->GetDetailSampleMaxError());
+      printf (" GetMaxEdgeLength: %d \n", celparams->GetMaxEdgeLength());
+      printf (" GetMaxSimplificationError: %f \n", celparams->GetMaxSimplificationError());
+      printf (" GetMaxVertsPerPoly: %d \n", celparams->GetMaxVertsPerPoly());
+      printf (" GetMergeRegionArea: %d \n", celparams->GetMergeRegionArea());
+      printf (" GetMinRegionArea: %d \n", celparams->GetMinRegionArea());
+      printf (" GetPolygonSearchBox vector: %f %f %f \n", celparams->GetPolygonSearchBox().x, celparams->GetPolygonSearchBox().y, celparams->GetPolygonSearchBox().z);
+      printf (" GetTileSize: %d \n", celparams->GetTileSize());
+
+    }
     else if (code == 's') // Save navstruct
     {
       if (navStruct)
