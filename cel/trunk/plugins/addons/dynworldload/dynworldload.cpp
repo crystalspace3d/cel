@@ -144,14 +144,14 @@ bool celAddOnDynamicWorldLoader::ParseFactory (iDocumentNode* node, iLoaderConte
       return false;
     }
     csRef<iDocumentNode> minNode = boxNode->GetNode ("min");
-    if (!synldr->ParseVector (minNode, min))
+    if (!minNode || !synldr->ParseVector (minNode, min))
     {
       synldr->ReportError ("dynworld.loader", node,
 	  "Error parsing 'min' for logic box for factory '%s'!", name.GetData ());
       return false;
     }
     csRef<iDocumentNode> maxNode = boxNode->GetNode ("max");
-    if (!synldr->ParseVector (maxNode, max))
+    if (!maxNode || !synldr->ParseVector (maxNode, max))
     {
       synldr->ReportError ("dynworld.loader", node,
 	  "Error parsing 'max' for logic box for factory '%s'!", name.GetData ());
