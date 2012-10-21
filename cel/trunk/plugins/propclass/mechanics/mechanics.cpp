@@ -1336,9 +1336,18 @@ void celPcMechanicsObject::AttachColliderBox (const csVector3& size,
 
 void celPcMechanicsObject::AttachColliderBoundingBox (const csVector3& sizeadjustment)
 {
-  if (!GetBody ()) return;
+  if (!GetBody ())
+  {
+    Error ("No body to apply a collider on!");
+    return;
+  }
   FindMeshLightCamera ();
-  if(!pcmesh) return;
+  if (!pcmesh)
+  {
+    Error ("Can't attach collider: mesh is missing!");
+    return;
+  }
+
   csRef<iObjectModel> meshobjmodel;
   meshobjmodel=pcmesh->GetMesh ()->GetMeshObject ()->GetObjectModel ();
   csBox3 boundingbox = meshobjmodel->GetObjectBoundingBox();
