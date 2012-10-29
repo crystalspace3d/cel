@@ -32,6 +32,7 @@
 #include "iutil/eventh.h"
 #include "iutil/eventq.h"
 #include "iutil/virtclk.h"
+#include "iutil/selfdestruct.h"
 #include "tools/questmanager.h"
 #include "tools/rewards.h"
 #include "tools/sequences.h"
@@ -124,8 +125,8 @@ typedef csHash<csRef<iCelSequenceFactory>,csStringBase>  celFactorySequences;
 /**
  * A quest factory.
  */
-class celQuestFactory : public scfImplementationExt1<celQuestFactory,
-	csObject, iQuestFactory>
+class celQuestFactory : public scfImplementationExt2<celQuestFactory,
+	csObject, iQuestFactory, iSelfDestruct>
 {
 private:
   celQuestManager* questmgr;
@@ -180,6 +181,10 @@ public:
   virtual void SetDefaultParameter (const char* name, const char* value);
   virtual void ClearDefaultParameters ();
   virtual iCelParameterBlock* GetDefaultParameters () const { return defaults; }
+
+  //--------------------- iSelfDestruct implementation -------------------//
+
+  virtual void SelfDestruct ();
 };
 
 /**

@@ -965,6 +965,11 @@ DynamicFactory::DynamicFactory (celPcDynamicWorld* world, const char* name,
   //}
 }
 
+void DynamicFactory::SelfDestruct ()
+{
+  world->RemoveFactory (this);
+}
+
 void DynamicFactory::SetImposterRadius (float r)
 {
   imposterradius = 0;	// @@@ TODO: reenable when imposters appear to be working properly.

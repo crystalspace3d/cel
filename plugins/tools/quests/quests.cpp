@@ -192,6 +192,11 @@ celQuestFactory::celQuestFactory (celQuestManager* questmgr, const char* name) :
   InitTokenTable (xmltokens);
 }
 
+void celQuestFactory::SelfDestruct ()
+{
+  questmgr->RemoveQuestFactory (Name);
+}
+
 void celQuestFactory::SetName (const char* n)
 {
   csString oldname = Name;
@@ -1180,7 +1185,7 @@ void celQuestManager::RemoveQuestFactory (const char* name)
 {
   celQuestFactory* fact = quest_factories.Get (name, 0);
   if (fact)
-    quest_factories.Delete(name,fact);
+    quest_factories.Delete (name, fact);
 }
 
 

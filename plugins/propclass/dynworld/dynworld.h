@@ -29,6 +29,7 @@
 #include "csutil/parray.h"
 #include "iutil/comp.h"
 #include "iutil/virtclk.h"
+#include "iutil/selfdestruct.h"
 
 #include "csgeom/kdtreex.h"
 #include "csgeom/math3d.h"
@@ -301,8 +302,8 @@ public:
   }
 };
 
-class DynamicFactory : public scfImplementationExt1<DynamicFactory,
-	csObject, iDynamicFactory>
+class DynamicFactory : public scfImplementationExt2<DynamicFactory,
+	csObject, iDynamicFactory, iSelfDestruct>
 {
 private:
   csString tplName;
@@ -414,6 +415,10 @@ public:
   celPcDynamicWorld* GetWorld () const { return world; }
   iImposterFactory* GetImposterFactory () const { return imposterFactory; }
   void ChangeFactory (iMeshFactoryWrapper* fact) { factory = fact; }
+
+  //--------------------- iSelfDestruct implementation -------------------//
+
+  virtual void SelfDestruct ();
 };
 
 class DynamicObject : public scfImplementation2<DynamicObject,
