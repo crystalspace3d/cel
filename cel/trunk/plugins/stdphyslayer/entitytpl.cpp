@@ -427,5 +427,10 @@ void celEntityTemplate::ClearAll ()
   characteristics.DeleteAll ();
 }
 
+void celEntityTemplate::SelfDestruct ()
+{
+  pl->RemoveEntityTemplate (this);
+}
+
 //---------------------------------------------------------------------------
 

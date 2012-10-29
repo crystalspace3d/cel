@@ -22,6 +22,8 @@
 
 #include "csutil/csobject.h"
 #include "csutil/refarr.h"
+#include "iutil/selfdestruct.h"
+
 #include "physicallayer/entitytpl.h"
 #include "physicallayer/datatype.h"
 #include "plugins/stdphyslayer/pl.h"
@@ -101,8 +103,9 @@ public:
 /**
  * Implementation of iCelEntityTemplate.
  */
-class celEntityTemplate : public scfImplementationExt2<
-	celEntityTemplate, csObject, iCelEntityTemplate, iTemplateCharacteristics>
+class celEntityTemplate : public scfImplementationExt3<
+	celEntityTemplate, csObject, iCelEntityTemplate, iTemplateCharacteristics,
+	iSelfDestruct>
 {
 private:
   celPlLayer* pl;
@@ -186,6 +189,10 @@ public:
   virtual bool HasCharacteristic (const char* name) const;
   virtual csPtr<iCharacteristicsIterator> GetAllCharacteristics () const;
   virtual void ClearAll ();
+
+  //--------------------- iSelfDestruct implementation -------------------//
+
+  virtual void SelfDestruct ();
 };
 
 #endif // __CEL_PLIMP_ENTITYFACT__
