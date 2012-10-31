@@ -1735,6 +1735,11 @@ void DynamicObject::SetTransform (const csReversibleTransform& trans)
     mesh->GetMovable ()->SetTransform (trans);
     mesh->GetMovable ()->UpdateMove ();
   }
+  if (light)
+  {
+    light->GetMovable ()->SetTransform (trans);
+    light->GetMovable ()->UpdateMove ();
+  }
   DynamicObject::trans = trans;
 }
 
