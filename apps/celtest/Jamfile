@@ -42,7 +42,6 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     pfzone
     rulebase
     stdphyslayer
-    xmlpersist
   : blpython
   ;
   LinkStaticPlugins celtst_static : 
