@@ -1544,9 +1544,22 @@ void DynamicObject::PrepareCsObject (celPcDynamicWorld* world)
   factory->GetWorld ()->GetIdToDynObj ().Put (id, this);
 
   ForceEntity ();
-  if (!entity)
+
+  bool at = false;
+  if (entity)
   {
-    // There is no entity so we need another way to find the dynobj from
+    // If there is a pcmesh we don't need to worry about finding our entity again.
+    // CEL takes care of that already.
+    csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+    if (!pcmesh)
+      at = true;
+  }
+  else
+    at = true;
+
+  if (at)
+  {
+    // There is no entity or the entity has no pcmesh so we need another way to find the dynobj from
     // a mesh or light.
     if (mesh)
       dynobjFinder::AttachDynObj (mesh, this);
