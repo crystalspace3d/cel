@@ -23,15 +23,23 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     blxml
     celconsole
     mgr_quests
+    mgr_billboard
     pfactormove
+    pfanalogmotion
+    pfwasdmove
     pfbillboard
     pfdefcam
+    pfdelegcam
+    pftrackingcam
     pfengine
     pfinput
     pfinv
     pflight
     pfmesh
+    pfjump
+    pfgrab
     pfmove
+    pfwire
     pfportal
     pfquest
     pfrules
@@ -42,22 +50,34 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     pfzone
     rulebase
     stdphyslayer
+    sequences
+    triggers
+    rewards
+    parameters
   : blpython
   ;
   LinkStaticPlugins celtst_static : 
+    animesh
+    animeshldr
+    decal
+    dsplex
     bruteblock
     terrainldr
     bugplug
     csconin
     csconout
     csddsimg
+    cstgaimg
     csfont
+    freefnt2
     csgifimg
     csjpgimg
     csopcode
     csparser
     cspngimg
     cssynldr
+    bindoc
+    docpreproc
     dynavis
     emit
     emitldr
@@ -66,11 +86,16 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     fontplex
     frustvis
     genmesh
+    gmeshanim
+    gmeshanimpdl
+    gmeshldr
+    gmeshskelanim2
     gl3d 
     glshader_arb 
     glshader_cg
     glshader_fixed
     glshader_ps1
+    glshader_glsl
     gmeshanim
     gmeshldr
     haze
@@ -79,13 +104,21 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     nullmesh
     particles
     particlesldr
+    ptpdlight
     protomesh
     protomeshldr
     rendloop_loader
     rendstep_std
+    rm_deferred
+    rm_rlcompat
+    rm_shadow_pssm
+    rm_unshadowed
     reporter
     sequence
     shadermgr
+    shaderweaver
+    slcombiner
+    vproc_std
     simpleformer
     simpleformerldr
     spr2d
