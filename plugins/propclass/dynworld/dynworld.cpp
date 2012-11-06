@@ -1659,14 +1659,19 @@ iDynamicObject* DynamicObject::GetConnectedObject (size_t jointIdx)
 void DynamicObject::CreateCollider ()
 {
   if (!mesh) return;
+  csColliderWrapper* wrap = csColliderWrapper::GetColliderWrapper (mesh->QueryObject ());
   if (factory->IsColliderEnabled ())
   {
-    csColliderWrapper* wrap = csColliderWrapper::GetColliderWrapper (mesh->QueryObject ());
     if (wrap) return;
     celPcDynamicWorld* world = factory->GetWorld ();
     iCollideSystem* cdsys = world->GetCollideSystem ();
     if (!cdsys) return;
     csColliderHelper::InitializeCollisionWrapper (cdsys, mesh);
+  }
+  else
+  {
+    if (!wrap) return;
+    mesh->QueryObject ()->ObjRemove (wrap);
   }
 }
 
