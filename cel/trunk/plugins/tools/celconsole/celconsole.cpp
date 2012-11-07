@@ -400,18 +400,18 @@ public:
 
 //--------------------------------------------------------------------------
 
-class celNewEntityCallback : public scfImplementation1<celNewEntityCallback,
+class celConsoleNewEntityCallback : public scfImplementation1<celConsoleNewEntityCallback,
   iCelNewEntityCallback>
 {
 private:
   csWeakRef<celConsole> console;
 
 public:
-  celNewEntityCallback (celConsole* console) : scfImplementationType (this),
+  celConsoleNewEntityCallback (celConsole* console) : scfImplementationType (this),
   	console (console)
   {
   }
-  virtual ~celNewEntityCallback () { }
+  virtual ~celConsoleNewEntityCallback () { }
   virtual void NewEntity (iCelEntity* entity)
   {
     if (console)
@@ -420,18 +420,18 @@ public:
 };
 
 
-class celEntityRemoveCallback : public scfImplementation1<celEntityRemoveCallback,
+class celConsoleEntityRemoveCallback : public scfImplementation1<celConsoleEntityRemoveCallback,
   iCelEntityRemoveCallback>
 {
 private:
   csWeakRef<celConsole> console;
 
 public:
-  celEntityRemoveCallback (celConsole* console) : scfImplementationType (this),
+  celConsoleEntityRemoveCallback (celConsole* console) : scfImplementationType (this),
   	console (console)
   {
   }
-  virtual ~celEntityRemoveCallback () { }
+  virtual ~celConsoleEntityRemoveCallback () { }
   virtual void RemoveEntity (iCelEntity* entity)
   {
     if (console)
@@ -664,10 +664,10 @@ iCelPlLayer* celConsole::GetPL ()
     if (!pl) return 0;
     if (do_monitor)
     {
-      csRef<celNewEntityCallback> new_cb;
-      new_cb.AttachNew (new celNewEntityCallback (this));
-      csRef<celEntityRemoveCallback> rem_cb;
-      rem_cb.AttachNew (new celEntityRemoveCallback (this));
+      csRef<celConsoleNewEntityCallback> new_cb;
+      new_cb.AttachNew (new celConsoleNewEntityCallback (this));
+      csRef<celConsoleEntityRemoveCallback> rem_cb;
+      rem_cb.AttachNew (new celConsoleEntityRemoveCallback (this));
       pl->AddNewEntityCallback (new_cb);
       pl->AddEntityRemoveCallback (rem_cb);
     }

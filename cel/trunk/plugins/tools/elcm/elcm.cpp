@@ -98,18 +98,18 @@ public:
 
 //--------------------------------------------------------------------------
 
-class celNewEntityCallback : public scfImplementation1<celNewEntityCallback,
+class celElcmNewEntityCallback : public scfImplementation1<celElcmNewEntityCallback,
   iCelNewEntityCallback>
 {
 private:
   csWeakRef<celELCM> elcm;
 
 public:
-  celNewEntityCallback (celELCM* elcm) : scfImplementationType (this),
+  celElcmNewEntityCallback (celELCM* elcm) : scfImplementationType (this),
   	elcm (elcm)
   {
   }
-  virtual ~celNewEntityCallback () { }
+  virtual ~celElcmNewEntityCallback () { }
   virtual void NewEntity (iCelEntity* entity)
   {
     if (elcm)
@@ -118,18 +118,18 @@ public:
 };
 
 
-class celEntityRemoveCallback : public scfImplementation1<celEntityRemoveCallback,
+class celElcmEntityRemoveCallback : public scfImplementation1<celElcmEntityRemoveCallback,
   iCelEntityRemoveCallback>
 {
 private:
   csWeakRef<celELCM> elcm;
 
 public:
-  celEntityRemoveCallback (celELCM* elcm) : scfImplementationType (this),
+  celElcmEntityRemoveCallback (celELCM* elcm) : scfImplementationType (this),
   	elcm (elcm)
   {
   }
-  virtual ~celEntityRemoveCallback () { }
+  virtual ~celElcmEntityRemoveCallback () { }
   virtual void RemoveEntity (iCelEntity* entity)
   {
     if (elcm)
@@ -201,10 +201,10 @@ iCelPlLayer* celELCM::GetPL ()
   {
     pl = csQueryRegistry<iCelPlLayer> (object_reg);
     if (!pl) return 0;
-    csRef<celNewEntityCallback> new_cb;
-    new_cb.AttachNew (new celNewEntityCallback (this));
-    csRef<celEntityRemoveCallback> rem_cb;
-    rem_cb.AttachNew (new celEntityRemoveCallback (this));
+    csRef<celElcmNewEntityCallback> new_cb;
+    new_cb.AttachNew (new celElcmNewEntityCallback (this));
+    csRef<celElcmEntityRemoveCallback> rem_cb;
+    rem_cb.AttachNew (new celElcmEntityRemoveCallback (this));
     pl->AddNewEntityCallback (new_cb);
     pl->AddEntityRemoveCallback (rem_cb);
 
