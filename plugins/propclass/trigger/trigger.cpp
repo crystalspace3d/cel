@@ -400,6 +400,7 @@ size_t celPcTrigger::EntityInTrigger (iCelEntity* entity)
 void celPcTrigger::UpdateRelevantSectors ()
 {
   if (!relevant_sectors.IsEmpty ()) return;
+  if (!sector) return;
   csRef<iSectorIterator> sector_it;
   switch(trigger_type)
   {
