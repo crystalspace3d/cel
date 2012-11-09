@@ -591,11 +591,10 @@ iCelEntityTemplate* celAddOnCelEntityTemplate::Load (iDocumentNode* node,
   // simply add additional stuff to it.
   ent = pl->FindEntityTemplate (entityname);
   if (!ent)
-  {
     ent = pl->CreateEntityTemplate (entityname);
-    if (context)
-      context->AddToCollection (ent->QueryObject ());
-  }
+
+  if (context)
+    context->AddToCollection (ent->QueryObject ());
 
   csRef<iDocumentNodeIterator> it = node->GetNodes ();
   while (it->HasNext ())
@@ -630,10 +629,11 @@ iCelEntityTemplate* celAddOnCelEntityTemplate::Load (iDocumentNode* node,
           iCelEntityTemplate* tpl = pl->FindEntityTemplate (tplname);
           if (!tpl)
           {
-	    synldr->ReportError (
+	    tpl = pl->CreateEntityTemplate (tplname);
+	    synldr->Report (
 	        "cel.addons.celentitytpl",
-	        child, "Can't find entity template '%s'!", tplname);
-	    return 0;
+		CS_REPORTER_SEVERITY_WARNING,
+	        child, "Can't find entity template '%s'. Created it.", tplname);
           }
           ent->AddParent (tpl);
         }
