@@ -811,6 +811,7 @@ public:
   virtual void SetRadius (float radius);
   virtual float GetRadius () const { return radius; }
   virtual void PrepareView (iCamera* camera, float elapsed_time);
+  virtual void ForceView (iCamera* camera);
   virtual iDynamicObject* FindObject (iCelEntity* entity) const;
   virtual iDynamicObject* FindObject (iRigidBody* body) const;
   virtual iDynamicObject* FindObject (iMeshWrapper* mesh) const;

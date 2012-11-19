@@ -918,6 +918,13 @@ struct iPcDynamicWorld : public virtual iBase
   virtual void PrepareView (iCamera* camera, float elapsed_time) = 0;
 
   /**
+   * Similar to PrepareView but doesn't do fading. The new visible objects
+   * will be visible at once and the invisible objects will be invisible
+   * at once. This is useful for teleport and quick cell traversal.
+   */
+  virtual void ForceView (iCamera* camera) = 0;
+
+  /**
    * Find a dynamic object from the entity.
    */
   virtual iDynamicObject* FindObject (iCelEntity* entity) const = 0;

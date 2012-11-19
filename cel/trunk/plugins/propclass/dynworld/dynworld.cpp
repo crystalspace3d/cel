@@ -2528,6 +2528,13 @@ void celPcDynamicWorld::PrepareView (iCamera* camera, float elapsed_time)
   }
 }
 
+void celPcDynamicWorld::ForceView (iCamera* camera)
+{
+  PrepareView (camera, 0.1f);
+  ProcessFadingIn (10.0f);
+  ProcessFadingOut (10.0f);
+}
+
 void celPcDynamicWorld::SetRadius (float radius)
 {
   celPcDynamicWorld::radius = radius;
