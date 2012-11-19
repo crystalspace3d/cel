@@ -193,12 +193,21 @@ void celTransformSeqOp::FindMesh (iCelParameterBlock* params)
   if (!ent) return;
   tag = tag_param->Get (params);
 
-  csRef<iPcMesh> pcmesh = celQueryPropertyClassTagEntity<iPcMesh> (ent, tag);
+  pcmesh = celQueryPropertyClassTagEntity<iPcMesh> (ent, tag);
+  FindMesh ();
+}
+
+void celTransformSeqOp::FindMesh ()
+{
+  if (mesh) return;
   if (pcmesh)
   {
     mesh = pcmesh->GetMesh ();
-    start = mesh->GetMovable ()->GetTransform ().GetOrigin ();
-    start_matrix = mesh->GetMovable ()->GetTransform ().GetO2T ();
+    if (mesh)
+    {
+      start = mesh->GetMovable ()->GetTransform ().GetOrigin ();
+      start_matrix = mesh->GetMovable ()->GetTransform ().GetO2T ();
+    }
   }
 }
 
@@ -210,6 +219,7 @@ void celTransformSeqOp::Init (iCelParameterBlock* params)
 
 void celTransformSeqOp::Do (float time, iCelParameterBlock* params)
 {
+  FindMesh ();
   if (mesh)
   {
     vector.x = vectorx_param->GetFloat (params);
