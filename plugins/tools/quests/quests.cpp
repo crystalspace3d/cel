@@ -954,16 +954,16 @@ iCelSequence* celQuest::FindCelSequence (const char* name)
 
 void celQuest::Activate ()
 {
-  if (current_state == csArrayItemNotFound) return;
-  states[current_state]->Activate ();
+  if (current_state != csArrayItemNotFound)
+    states[current_state]->Activate ();
   for (size_t i = 0 ; i < sequences.GetSize () ; i++)
     sequences[i]->Activate ();
 }
 
 void celQuest::Deactivate ()
 {
-  if (current_state == csArrayItemNotFound) return;
-  states[current_state]->Deactivate ();
+  if (current_state != csArrayItemNotFound)
+    states[current_state]->Deactivate ();
   for (size_t i = 0 ; i < sequences.GetSize () ; i++)
     sequences[i]->Deactivate ();
 }
