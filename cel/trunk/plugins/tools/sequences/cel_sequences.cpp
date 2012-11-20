@@ -162,6 +162,8 @@ void celSequence::Activate ()
 void celSequence::Deactivate ()
 {
   if (deactivationTime != 0) return;
+  if (!IsRunning ())
+    return;
   deactivationTime = vc->GetCurrentTicks ();
   if (!deactivationTime) deactivationTime++;	// Correction in rare case this would be 0.
   pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
