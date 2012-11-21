@@ -219,27 +219,27 @@ celMovePathSeqOp::~celMovePathSeqOp ()
 
 void celMovePathSeqOp::FindMesh (iCelParameterBlock* params)
 {
-  if (mesh) return;
+  if (pcmesh) return;
 
   iCelEntity* ent = pm->ResolveEntityParameter (type->pl, params, entity_param, 0);
   if (!ent) return;
   tag = tag_param->Get (params);
 
-  csRef<iPcMesh> pcmesh = celQueryPropertyClassTagEntity<iPcMesh> (ent, tag);
-  if (pcmesh)
-    mesh = pcmesh->GetMesh ();
+  pcmesh = celQueryPropertyClassTagEntity<iPcMesh> (ent, tag);
 }
 
 void celMovePathSeqOp::Init (iCelParameterBlock* params)
 {
-  mesh = 0;
+  pcmesh = 0;
   if (path) FindMesh (params);
 }
 
 void celMovePathSeqOp::Do (float time, iCelParameterBlock* params)
 {
-  if (mesh)
+  if (pcmesh)
   {
+    iMeshWrapper* mesh = pcmesh->GetMesh ();
+    if (!mesh) return;
     path->CalculateAtTime (time * maxtime);
     csVector3 pos, up, forward;
     path->GetInterpolatedPosition (pos);

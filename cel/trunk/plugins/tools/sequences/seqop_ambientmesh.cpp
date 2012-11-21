@@ -210,13 +210,13 @@ csColor celAmbientMeshSeqOp::GetAmbientColor ()
 
 void celAmbientMeshSeqOp::FindMesh (iCelParameterBlock* params)
 {
-  if (mesh) return;
+  if (pcmesh && mesh) return;
 
   iCelEntity* ent = pm->ResolveEntityParameter (type->pl, params, entity_param, 0);
   if (!ent) return;
   tag = tag_param->Get (params);
 
-  csRef<iPcMesh> pcmesh = celQueryPropertyClassTagEntity<iPcMesh> (ent, tag);
+  pcmesh = celQueryPropertyClassTagEntity<iPcMesh> (ent, tag);
   if (pcmesh)
   {
     mesh = pcmesh->GetMesh ();
@@ -227,6 +227,7 @@ void celAmbientMeshSeqOp::FindMesh (iCelParameterBlock* params)
 
 void celAmbientMeshSeqOp::Init (iCelParameterBlock* params)
 {
+  pcmesh = 0;
   mesh = 0;
   svc = 0;
   FindMesh (params);
@@ -234,6 +235,16 @@ void celAmbientMeshSeqOp::Init (iCelParameterBlock* params)
 
 void celAmbientMeshSeqOp::Do (float time, iCelParameterBlock* params)
 {
+  if (!pcmesh) return;
+  if (mesh != pcmesh->GetMesh ())
+  {
+    mesh = pcmesh->GetMesh ();
+    if (mesh)
+      svc = scfQueryInterfaceSafe<iShaderVariableContext> (mesh);
+    else
+      svc = 0;
+  }
+
   if (mesh)
   {
     csColor col;

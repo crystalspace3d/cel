@@ -102,7 +102,7 @@ private:
   csRef<iParameter> tag_param;
   csRef<iParameterManager> pm;
 
-  csWeakRef<iMeshWrapper> mesh;
+  csWeakRef<iPcMesh> pcmesh;
 
   void FindMesh (iCelParameterBlock* params);
 
