@@ -167,9 +167,9 @@ void celMeshEnterSectorTrigger::MovableDestroyed (iMovable*)
 void celMeshEnterSectorTrigger::FindSectorAndMesh ()
 {
   // @@@ This routine should return bool for error?
-  if (mesh && sector) return;
+  if (pcmesh && sector) return;
   sect = 0;
-  mesh = 0;
+  pcmesh = 0;
   csRef<iEngine> engine = csQueryRegistry<iEngine> (type->object_reg);
   if (!engine)
   {
@@ -197,7 +197,7 @@ void celMeshEnterSectorTrigger::FindSectorAndMesh ()
     	(const char*)entity);
     return;
   }
-  csRef<iPcMesh> pcmesh = celQueryPropertyClassTagEntity<iPcMesh> (ent, tag);
+  pcmesh = celQueryPropertyClassTagEntity<iPcMesh> (ent, tag);
   if (!pcmesh)
   {
     Report (type->object_reg,
@@ -205,22 +205,23 @@ void celMeshEnterSectorTrigger::FindSectorAndMesh ()
     	(const char*)entity);
     return;
   }
-  mesh = pcmesh->GetMesh ();
 }
 
 void celMeshEnterSectorTrigger::ActivateTrigger ()
 {
   FindSectorAndMesh ();
-  if (!mesh) return;
+  if (!pcmesh) return;
   // First remove to make sure we don't register ourselves multiple
   // times.
+  iMeshWrapper* mesh = pcmesh->GetMesh ();
   mesh->GetMovable ()->RemoveListener ((iMovableListener*)this);
   mesh->GetMovable ()->AddListener ((iMovableListener*)this);
 }
 
 bool celMeshEnterSectorTrigger::Check ()
 {
-  if (!mesh) return false;
+  if (!pcmesh) return false;
+  iMeshWrapper* mesh = pcmesh->GetMesh ();
   iMovable* movable = mesh->GetMovable ();
   iSectorList* sl = movable->GetSectors ();
   if (sl->GetCount () < 1) return false;
@@ -235,7 +236,8 @@ bool celMeshEnterSectorTrigger::Check ()
 
 void celMeshEnterSectorTrigger::DeactivateTrigger ()
 {
-  if (!mesh) return;
+  if (!pcmesh) return;
+  iMeshWrapper* mesh = pcmesh->GetMesh ();
   mesh->GetMovable ()->RemoveListener ((iMovableListener*)this);
 }
 

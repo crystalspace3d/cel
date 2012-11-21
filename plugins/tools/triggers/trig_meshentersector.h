@@ -86,7 +86,7 @@ private:
   csRef<celMeshEnterSectorTriggerType> type;
   csRef<iTriggerCallback> callback;
   csWeakRef<iSector> sect;
-  csWeakRef<iMeshWrapper> mesh;
+  csWeakRef<iPcMesh> pcmesh;
   csString entity;
   uint entityID;
   csString tag;

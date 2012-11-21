@@ -112,6 +112,7 @@ private:
   csRef<iParameter> abs_blue_param;
 
   csColor start;
+  csWeakRef<iPcMesh> pcmesh;
   csWeakRef<iMeshWrapper> mesh;
   csWeakRef<iShaderVariableContext> svc;
   csRef<iParameterManager> pm;

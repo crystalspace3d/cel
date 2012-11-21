@@ -111,11 +111,9 @@ private:
 
   csVector3 start;
   csMatrix3 start_matrix;
-  csWeakRef<iMeshWrapper> mesh;
   csWeakRef<iPcMesh> pcmesh;
 
   void FindMesh (iCelParameterBlock* params);
-  void FindMesh ();
 
 public:
   celTransformSeqOp (celTransformSeqOpType* type,
