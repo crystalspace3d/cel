@@ -199,15 +199,29 @@ void celTransformSeqOp::FindMesh (iCelParameterBlock* params)
 void celTransformSeqOp::Init (iCelParameterBlock* params)
 {
   pcmesh = 0;
+  mesh = 0;
   FindMesh (params);
+}
+
+void celTransformSeqOp::FindMesh ()
+{
+  mesh = pcmesh->GetMesh ();
+  if (mesh)
+  {
+    start = mesh->GetMovable ()->GetTransform ().GetOrigin (); 
+    start_matrix = mesh->GetMovable ()->GetTransform ().GetO2T ();
+  }
 }
 
 void celTransformSeqOp::Do (float time, iCelParameterBlock* params)
 {
   if (pcmesh)
   {
-    iMeshWrapper* mesh = pcmesh->GetMesh ();
-    if (!mesh) return;
+    if (!mesh)
+    {
+      FindMesh ();
+      if (!mesh) return;
+    }
     vector.x = vectorx_param->GetFloat (params);
     vector.y = vectory_param->GetFloat (params);
     vector.z = vectorz_param->GetFloat (params);

@@ -131,12 +131,14 @@ private:
   csString str;	// This string is used to hold temporary conversion to string.
   celData converted;
   celDataType desiredType;
+  char prefix;
 
 public:
   celDynamicParameter (iObjectRegistry* object_reg, csStringID dynamic_id,
-      const char* parname, celDataType desiredType) :
+      const char* parname, celDataType desiredType, char prefix) :
     scfImplementationType (this), object_reg (object_reg),
-    dynamic_id (dynamic_id), parname (parname), desiredType (desiredType) { }
+    dynamic_id (dynamic_id), parname (parname), desiredType (desiredType),
+    prefix (prefix) { }
   virtual ~celDynamicParameter () { }
 
   // From iParamater
@@ -148,7 +150,8 @@ public:
   virtual bool GetBool (iCelParameterBlock*);
   virtual const char* GetOriginalExpression ()
   {
-    str = "@";
+    str.Empty ();
+    str += prefix;
     str += parname;
     return str;
   }
