@@ -123,7 +123,7 @@ csPtr<iParameter> celParameterManager::GetParameter (
     else if (*val == '@' && *(val+1) != '@')
     {
       csStringID dynamic_id = pl->FetchStringID (val+1);
-      return new celDynamicParameter (object_reg, dynamic_id, val+1, type);
+      return new celDynamicParameter (object_reg, dynamic_id, val+1, type, *val);
     }
     else if (*val == '=' && *(val+1) != '=')
     {
@@ -178,7 +178,7 @@ csPtr<iParameter> celParameterManager::GetParameter (const char* val,
   if ((*val == '@' && *(val+1) != '@') || (*val == '$' && *(val+1) != '$'))
   {
     csStringID dynamic_id = pl->FetchStringID (val+1);
-    return new celDynamicParameter (object_reg, dynamic_id, val+1, type);
+    return new celDynamicParameter (object_reg, dynamic_id, val+1, type, *val);
   }
   else if (*val == '=' && *(val+1) != '=')
   {
