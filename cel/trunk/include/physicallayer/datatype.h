@@ -37,6 +37,8 @@ struct iCelEntity;
  */
 enum celDataType
 {
+  /// Unknown type
+  CEL_DATA_UNKNOWN = -1,
   /// Undefined type
   CEL_DATA_NONE = 0,
   /// Boolean type
