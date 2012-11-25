@@ -165,6 +165,7 @@ class celDataArrayChangeAll(celDataArrayChangeElements):
 celDataArrayChangeAll_swigregister = _blcelc.celDataArrayChangeAll_swigregister
 celDataArrayChangeAll_swigregister(celDataArrayChangeAll)
 
+CEL_DATA_UNKNOWN = _blcelc.CEL_DATA_UNKNOWN
 CEL_DATA_NONE = _blcelc.CEL_DATA_NONE
 CEL_DATA_BOOL = _blcelc.CEL_DATA_BOOL
 CEL_DATA_BYTE = _blcelc.CEL_DATA_BYTE
