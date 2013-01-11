@@ -48,6 +48,7 @@
 #include "imesh/objmodel.h"
 #include "ivideo/graph3d.h"
 #include "ivideo/txtmgr.h"
+#include "ivaria/decal.h"
 
 #include "physicallayer/entitytpl.h"
 #include "propclass/mesh.h"
@@ -2302,6 +2303,31 @@ void celPcDynamicWorld::UpdateObjects (iDynamicFactory* factory)
     iMeshFactoryWrapper* mf = CreateDummyFactory (name, primitive, r, g, b, 50);
     (static_cast<DynamicFactory*> (factory))->ChangeFactory (mf);
   }
+}
+
+void celPcDynamicWorld::RegisterDecalTemplate (const char* name, iDecalTemplate* tpl)
+{
+  decalTemplates.Push (tpl);
+  template_hash.Put (name, tpl);
+}
+
+iDecalTemplate* celPcDynamicWorld::FindDecalTemplate (const char* name)
+{
+  return template_hash.Get (name, 0);
+}
+
+void celPcDynamicWorld::RemoveDecalTemplate (const char* name)
+{
+  iDecalTemplate* tpl = template_hash.Get (name, 0);
+  if (!tpl) return;
+  decalTemplates.Delete (tpl);
+  template_hash.DeleteAll (name);
+}
+
+void celPcDynamicWorld::RemoveDecalTemplates ()
+{
+  template_hash.DeleteAll ();
+  decalTemplates.DeleteAll ();
 }
 
 iDynamicFactory* celPcDynamicWorld::FindFactory (const char* factory) const

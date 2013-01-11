@@ -663,8 +663,13 @@ public:
   csWeakRef<iCelPlLayer> pl;
   csRef<iVirtualClock> vc;
   csRef<iCollideSystem> cdsys;
+
   csRefArray<DynamicFactory> factories;
   csHash<DynamicFactory*,csString> factory_hash;
+
+  csRefArray<iDecalTemplate> decalTemplates;
+  csHash<iDecalTemplate*,csString> template_hash;
+
   MeshCache meshCache;
   float radius;
   csRef<iELCM> elcm;
@@ -793,6 +798,11 @@ public:
   virtual void UpdateObject (iDynamicObject* dynobj);
   virtual void UpdateObjects (iDynamicCell* cell);
   virtual void UpdateObjects (iDynamicFactory* factory);
+
+  virtual void RegisterDecalTemplate (const char* name, iDecalTemplate* tpl);
+  virtual iDecalTemplate* FindDecalTemplate (const char* name);
+  virtual void RemoveDecalTemplate (const char* name);
+  virtual void RemoveDecalTemplates ();
 
   virtual iDynamicFactory* AddFactory (const char* factory, float maxradius,
       float imposterradius);
