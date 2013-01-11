@@ -40,6 +40,7 @@ struct iCelEntity;
 struct iCelEntityTemplate;
 struct iDataBuffer;
 struct iDynamicCell;
+struct iDecalTemplate;
 
 /**
  * Geometry generator. This is typically attached to factories
@@ -807,6 +808,30 @@ struct iPcDynamicWorld : public virtual iBase
    * needs to create a cell.
    */
   virtual void SetDynamicCellCreator (iDynamicCellCreator* creator) = 0;
+
+  //------------------------------------------------------------------------------
+
+  /**
+   * Register a new decal template. The dynamic world plugin will then keep
+   * track (and hold a reference) to this template so that dynamic objects can
+   * later use it.
+   */
+  virtual void RegisterDecalTemplate (const char* name, iDecalTemplate* tpl) = 0;
+
+  /**
+   * Find a decal template by name.
+   */
+  virtual iDecalTemplate* FindDecalTemplate (const char* name) = 0;
+
+  /**
+   * Remove a decal template.
+   */
+  virtual void RemoveDecalTemplate (const char* name) = 0;
+
+  /**
+   * Remove all decal templates.
+   */
+  virtual void RemoveDecalTemplates () = 0;
 
   //------------------------------------------------------------------------------
 
