@@ -31,6 +31,7 @@
 #include "physicallayer/pl.h"
 #include "propclass/dynworld.h"
 #include "tools/dynworldload.h"
+#include "ivaria/decal.h"
 
 struct iDynamicFactory;
 
@@ -43,6 +44,7 @@ private:
   csRef<iPcDynamicWorld> dynworld;
   csRef<iSyntaxService> synldr;
   csRef<iEngine> engine;
+  csRef<iDecalManager> decalMgr;
   csStringHash xmltokens;
   csRefArray<iDynamicWorldLoaderExtension> extensions;
 
