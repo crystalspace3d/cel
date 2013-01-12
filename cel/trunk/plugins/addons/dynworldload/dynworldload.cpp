@@ -41,6 +41,7 @@ SCF_IMPLEMENT_FACTORY (celAddOnDynamicWorldLoader)
 enum
 {
   XMLTOKEN_DYNWORLD,
+  XMLTOKEN_DECAL,
   XMLTOKEN_FACTORY,
   XMLTOKEN_ATTR,
   XMLTOKEN_BOX,
@@ -83,9 +84,16 @@ bool celAddOnDynamicWorldLoader::Initialize (iObjectRegistry *object_reg)
     printf ("No syntax service!\n");
     return false;
   }
+  decalMgr = csQueryRegistry<iDecalManager> (object_reg);
+  if (!decalMgr)
+  {
+    printf ("No decal manager!\n");
+    return false;
+  }
 
   xmltokens.Register ("dynworld", XMLTOKEN_DYNWORLD);
   xmltokens.Register ("factory", XMLTOKEN_FACTORY);
+  xmltokens.Register ("decal", XMLTOKEN_DECAL);
   xmltokens.Register ("attr", XMLTOKEN_ATTR);
   xmltokens.Register ("box", XMLTOKEN_BOX);
   xmltokens.Register ("cylinder", XMLTOKEN_CYLINDER);
@@ -497,6 +505,39 @@ csPtr<iBase> celAddOnDynamicWorldLoader::Parse (iDocumentNode* node,
 		name.GetData ());
 	    return 0;
 	  }
+	}
+	break;
+      case XMLTOKEN_DECAL:
+	{
+	  csString name = child->GetAttributeValue ("name");
+	  if (dynworld->FindDecalTemplate (name))
+	  {
+	    synldr->ReportError ("dynworld.loader", child,
+		"Decal template '%s' is already defined!",
+		name.GetData ());
+	    return 0;
+	  }
+	  csString material = child->GetAttributeValue ("material");
+	  iMaterialWrapper* mat = engine->GetMaterialList ()->FindByName (material);
+	  if (!mat)
+	  {
+	    synldr->ReportError ("dynworld.loader", child,
+		"Cannot find material '%s'!",
+		material.GetData ());
+	    return 0;
+	  }
+	  csString uvminString = child->GetAttributeValue ("uvmin", "0,0");
+	  csVector2 uvmin;
+	  csScanStr (uvminString.GetData (), "%f,%f", &uvmin.x, &uvmin.y);
+	  csString uvmaxString = child->GetAttributeValue ("uvmax", "1,1");
+	  csVector2 uvmax;
+	  csScanStr (uvmaxString.GetData (), "%f,%f", &uvmax.x, &uvmax.y);
+
+	  csRef<iDecalTemplate> decalTpl = decalMgr->CreateDecalTemplate (mat);
+	  decalTpl->SetTopClipping (false);
+	  decalTpl->SetBottomClipping (false, 0.0f);
+	  decalTpl->SetTexCoords (uvmin, uvmax);
+	  dynworld->RegisterDecalTemplate (name, decalTpl);
 	}
 	break;
       case XMLTOKEN_FACTORY:
