@@ -819,6 +819,16 @@ struct iPcDynamicWorld : public virtual iBase
   virtual void RegisterDecalTemplate (const char* name, iDecalTemplate* tpl) = 0;
 
   /**
+   * Get the number of decal templates.
+   */
+  virtual size_t GetDecalTemplateCount () const = 0;
+
+  /**
+   * Get a decal template.
+   */
+  virtual iDecalTemplate* GetDecalTemplate (size_t index) const = 0;
+
+  /**
    * Find a decal template by name.
    */
   virtual iDecalTemplate* FindDecalTemplate (const char* name) = 0;
