@@ -2311,6 +2311,16 @@ void celPcDynamicWorld::RegisterDecalTemplate (const char* name, iDecalTemplate*
   template_hash.Put (name, tpl);
 }
 
+size_t celPcDynamicWorld::GetDecalTemplateCount () const
+{
+  return decalTemplates.GetSize ();
+}
+
+iDecalTemplate* celPcDynamicWorld::GetDecalTemplate (size_t index) const
+{
+  return decalTemplates[index];
+}
+
 iDecalTemplate* celPcDynamicWorld::FindDecalTemplate (const char* name)
 {
   return template_hash.Get (name, 0);

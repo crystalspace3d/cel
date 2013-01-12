@@ -800,6 +800,8 @@ public:
   virtual void UpdateObjects (iDynamicFactory* factory);
 
   virtual void RegisterDecalTemplate (const char* name, iDecalTemplate* tpl);
+  virtual size_t GetDecalTemplateCount () const;
+  virtual iDecalTemplate* GetDecalTemplate (size_t index) const;
   virtual iDecalTemplate* FindDecalTemplate (const char* name);
   virtual void RemoveDecalTemplate (const char* name);
   virtual void RemoveDecalTemplates ();
