@@ -538,6 +538,8 @@ csPtr<iBase> celAddOnDynamicWorldLoader::Parse (iDocumentNode* node,
 	  decalTpl->SetBottomClipping (false, 0.0f);
 	  decalTpl->SetTexCoords (uvmin, uvmax);
 	  dynworld->RegisterDecalTemplate (name, decalTpl);
+	  if (ldr_context)
+	    ldr_context->AddToCollection (decalTpl->QueryObject ());
 	}
 	break;
       case XMLTOKEN_FACTORY:
@@ -724,6 +726,12 @@ bool celAddOnDynamicWorldLoader::WriteFactories (iPcDynamicWorld* dynworld, iDoc
   dynworldNode->SetValue ("dynworld");
   iCelEntity* entity = pcdynworld->GetEntity ();
   dynworldNode->SetAttribute ("name", entity->GetName ());
+
+  for (size_t i = 0 ; i < dynworld->GetDecalTemplateCount () ; i++)
+  {
+    iDecalTemplate* tpl = dynworld->GetDecalTemplate (i);
+    // @@@ iDecalTemplate needs to be an iObject.
+  }
 
   for (size_t i = 0 ; i < dynworld->GetFactoryCount () ; i++)
   {
