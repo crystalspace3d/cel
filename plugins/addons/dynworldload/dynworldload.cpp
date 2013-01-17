@@ -730,7 +730,20 @@ bool celAddOnDynamicWorldLoader::WriteFactories (iPcDynamicWorld* dynworld, iDoc
   for (size_t i = 0 ; i < dynworld->GetDecalTemplateCount () ; i++)
   {
     iDecalTemplate* tpl = dynworld->GetDecalTemplate (i);
-    // @@@ iDecalTemplate needs to be an iObject.
+    if (!collection || collection->IsParentOf (tpl->QueryObject ()))
+    {
+      csRef<iDocumentNode> tplNode = parent->CreateNodeBefore (CS_NODE_ELEMENT, 0);
+      CS::Persistence::SaveComment (object_reg, tpl->QueryObject (), tplNode);
+      tplNode->SetAttribute ("name", tpl->QueryObject ()->GetName ());
+      tplNode->SetAttribute ("material",
+	  tpl->GetMaterialWrapper ()->QueryObject ()->GetName ());
+      const csVector2& uvmin = tpl->GetMinTexCoord ();
+      const csVector2& uvmax = tpl->GetMaxTexCoord ();
+      csString uvminString;
+      uvminString.Format ("%g,%g", uvmin.x, uvmin.y);
+      csString uvmaxString;
+      uvmaxString.Format ("%g,%g", uvmax.x, uvmax.y);
+    }
   }
 
   for (size_t i = 0 ; i < dynworld->GetFactoryCount () ; i++)

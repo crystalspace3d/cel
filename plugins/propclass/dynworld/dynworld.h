@@ -63,6 +63,7 @@ struct iLightFactory;
 
 class celPcDynamicWorld;
 class DynamicCell;
+struct iDecalManager;
 
 class MeshCacheFactory
 {
@@ -421,6 +422,16 @@ public:
   virtual void SelfDestruct ();
 };
 
+class DODecal
+{
+public:
+  iDecalTemplate* tpl;
+  size_t decalId;
+  csVector3 pos, up, normal;
+  float width, height;
+  iDecal* decal;
+};
+
 class DynamicObject : public scfImplementation2<DynamicObject,
   iDynamicObject, iMovableListener>
 {
@@ -441,6 +452,9 @@ private:
   float fade;
   CS::Geometry::KDTreeChild* child;
   uint id;
+
+  size_t decalId;
+  csArray<DODecal> decals;
 
   // Pivot joints.
   csRefArray<CS::Physics::Bullet::iPivotJoint> pivotJoints;
@@ -550,6 +564,11 @@ public:
   void RemoveBody ();
   void Save (iDocumentNode* node, iSyntaxService* syn);
   bool Load (iDocumentNode* node, iSyntaxService* syn, celPcDynamicWorld* world);
+
+  void CreateMissingDecals ();
+  virtual size_t AddDecal (const char* decalTplName, const csVector3& position,
+      const csVector3& up, const csVector3& normal, float width, float height);
+  virtual void RemoveDecal (size_t id);
 
   void SetFade (float f);
   float GetFade () const { return fade; }
@@ -663,6 +682,7 @@ public:
   csWeakRef<iCelPlLayer> pl;
   csRef<iVirtualClock> vc;
   csRef<iCollideSystem> cdsys;
+  csRef<iDecalManager> decalMgr;
 
   csRefArray<DynamicFactory> factories;
   csHash<DynamicFactory*,csString> factory_hash;
@@ -766,6 +786,7 @@ public:
   DynamicCell* FindCellForID (uint id);
 
   iObjectRegistry* GetObjectRegistry () { return object_reg; }
+  iDecalManager* GetDecalManager () const { return decalMgr; }
 
   iCelEntity* CreateSpawnedEntity (iCelEntityTemplate* tpl,
       const char* entityName, iCelParameterBlock* params,
