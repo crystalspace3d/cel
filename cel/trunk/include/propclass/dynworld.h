@@ -650,6 +650,19 @@ struct iDynamicObject : public virtual iBase
    * Return a one-line string briefly describing this dynamic object.
    */
   virtual csPtr<iString> GetDescription () const = 0;
+
+  /**
+   * Add a decal to this dynamic object. Coordinates are given in local object
+   * space. Returns an id that can be used to later delete the decal.
+   * Returns csArrayItemNotFound in case the template is invalid (doesn't exist).
+   */
+  virtual size_t AddDecal (const char* decalTplName, const csVector3& position,
+      const csVector3& up, const csVector3& normal, float width, float height) = 0;
+
+  /**
+   * Remove the specific decal.
+   */
+  virtual void RemoveDecal (size_t id) = 0;
 };
 
 /**

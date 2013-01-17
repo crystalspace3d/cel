@@ -1279,6 +1279,8 @@ void DynamicObject::Init (DynamicCell* cell)
   hasMovedSufficiently = false;
   lastUpdateNr = 0;
   id = 0;
+
+  decalId = 0;
 }
 
 void DynamicObject::SetupPivotJoints ()
@@ -1470,6 +1472,17 @@ void DynamicObject::RemoveLight (celPcDynamicWorld* world)
 
 void DynamicObject::RemoveMesh (celPcDynamicWorld* world)
 {
+  for (size_t i = 0 ; i < decals.GetSize () ; i++)
+  {
+    DODecal& c = decals.Get (i);
+    iDecalManager* decalMgr = world->GetDecalManager ();
+    if (c.decal)
+    {
+      decalMgr->DeleteDecal (c.decal);
+      c.decal = 0;
+    }
+  }
+
   InstallHilight (false);
   CS_ASSERT (hilight_installed == false);
   trans = mesh->GetMovable ()->GetTransform ();
@@ -1505,6 +1518,21 @@ void DynamicObject::PrepareLight (celPcDynamicWorld* world)
   light->GetMovable ()->UpdateMove ();
 }
 
+void DynamicObject::CreateMissingDecals ()
+{
+  iDecalManager* decalMgr = factory->GetWorld ()->GetDecalManager ();
+  for (size_t i = 0 ; i < decals.GetSize () ; i++)
+  {
+    DODecal& c = decals.Get (i);
+    if (!c.decal)
+      c.decal = decalMgr->CreateDecal (c.tpl, cell->sector,
+	  trans.Other2This (c.pos),
+	  trans.Other2ThisRelative (c.up),
+	  trans.Other2ThisRelative (c.normal),
+	  c.width, c.height, c.decal);
+  }
+}
+
 void DynamicObject::PrepareMesh (celPcDynamicWorld* world)
 {
   mesh = world->meshCache.AddMesh (world->engine, factory->GetMeshFactory (),
@@ -1532,6 +1560,8 @@ void DynamicObject::PrepareMesh (celPcDynamicWorld* world)
   InstallHilight (is_hilight);
   CS_ASSERT (hilight_installed == is_hilight);
   SetFade (fade);
+
+  CreateMissingDecals ();
 }
 
 void DynamicObject::PrepareCsObject (celPcDynamicWorld* world)
@@ -2079,6 +2109,50 @@ csPtr<iString> DynamicObject::GetDescription () const
   return statusLine;
 }
 
+size_t DynamicObject::AddDecal (const char* decalTplName, const csVector3& position,
+      const csVector3& up, const csVector3& normal, float width, float height)
+{
+  iDecalTemplate* tpl = factory->GetWorld ()->FindDecalTemplate (decalTplName);
+  if (!tpl)
+  {
+    printf ("Error finding decal template '%s'!\n", decalTplName);
+    return csArrayItemNotFound;
+  }
+  DODecal dc;
+  dc.decalId = decalId++;
+  dc.tpl = tpl;
+  dc.pos = position;
+  dc.up = up;
+  dc.normal = normal;
+  dc.width = width;
+  dc.height = height;
+  dc.decal = 0;
+  decals.Push (dc);
+
+  if (mesh)
+    CreateMissingDecals ();
+
+  return dc.decalId;
+}
+
+void DynamicObject::RemoveDecal (size_t id)
+{
+  for (size_t i = 0 ; i < decals.GetSize () ; i++)
+  {
+    DODecal& d = decals.Get (i);
+    if (d.decalId == id)
+    {
+      if (mesh && d.decal)
+      {
+	iDecalManager* decalMgr = factory->GetWorld ()->GetDecalManager ();
+        decalMgr->DeleteDecal (d.decal);
+      }
+      decals.DeleteIndex (i);
+      return;
+    }
+  }
+}
+
 //---------------------------------------------------------------------------------------
 
 // Listen to the ELCM and see when it says an entity can be safely removed.
@@ -2110,6 +2184,7 @@ celPcDynamicWorld::celPcDynamicWorld (iObjectRegistry* object_reg)
   g3d = csQueryRegistry<iGraphics3D> (object_reg);
   vc = csQueryRegistry<iVirtualClock> (object_reg);
   pl = csQueryRegistry<iCelPlLayer> (object_reg);
+  decalMgr = csQueryRegistry<iDecalManager> (object_reg);
 
   scopeIdx = pl->AddScope ("cel.numreg.hash", 1000000000);
   lastIDBlock = 1000000000;
@@ -2307,6 +2382,7 @@ void celPcDynamicWorld::UpdateObjects (iDynamicFactory* factory)
 
 void celPcDynamicWorld::RegisterDecalTemplate (const char* name, iDecalTemplate* tpl)
 {
+  tpl->QueryObject ()->SetName (name);
   decalTemplates.Push (tpl);
   template_hash.Put (name, tpl);
 }
