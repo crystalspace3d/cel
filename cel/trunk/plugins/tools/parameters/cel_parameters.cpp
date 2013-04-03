@@ -316,6 +316,31 @@ iCelEntity* celParameterManager::ResolveEntityParameter (
   return ent;
 }
 
+csRef<iCelEntityList> celParameterManager::ResolveEntityListParameter (
+      iCelPlLayer* pl,
+      iCelParameterBlock* params, iParameter* param)
+{
+  csRef<iCelEntityList> list = pl->CreateEmptyEntityList ();
+  const celData* data = param->GetData (params);
+  if (data->type == CEL_DATA_ENTITY)
+  {
+    list->Add (data->value.ent);
+  }
+  else
+  {
+    bool changed;
+    const char* e = param->Get (params, changed);
+    csStringArray array (e, ",");
+    for (size_t i = 0 ; i < array.GetSize () ; i++)
+    {
+      iCelEntity* ent = pl->FindEntity (array.Get (i));
+      if (ent)
+        list->Add (ent);
+    }
+  }
+  return list;
+}
+
 //---------------------------------------------------------------------------
 
 celConstantParameter::celConstantParameter (const celData& in, celDataType type) :

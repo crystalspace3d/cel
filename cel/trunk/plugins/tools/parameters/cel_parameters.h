@@ -73,6 +73,9 @@ public:
       iCelPlLayer* pl,
       iCelParameterBlock* params, iParameter* param,
       iCelEntity* ent = 0);
+  virtual csRef<iCelEntityList> ResolveEntityListParameter (
+      iCelPlLayer* pl,
+      iCelParameterBlock* params, iParameter* param);
 
   virtual void SetRememberExpression (bool remember) { rememberExpression = remember; }
   virtual bool IsRememberingExpressions () const { return rememberExpression; }

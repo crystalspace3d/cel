@@ -32,6 +32,7 @@
 
 struct iCelParameterBlock;
 struct iCelEntity;
+struct iCelEntityList;
 struct iCelPlLayer;
 
 //---------------------------------------------------------------------------
@@ -181,6 +182,13 @@ struct iParameterManager : public virtual iBase
       iCelPlLayer* pl,
       iCelParameterBlock* params, iParameter* param,
       iCelEntity* ent = 0) = 0;
+
+  /**
+   * Conveniance function to get a list of entities out of an iParameter.
+   */
+  virtual csRef<iCelEntityList> ResolveEntityListParameter (
+      iCelPlLayer* pl,
+      iCelParameterBlock* params, iParameter* param) = 0;
 
   /**
    * Enable remembering of the original expression used to create

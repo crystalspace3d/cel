@@ -73,10 +73,15 @@ csPtr<iReward> celMessageRewardFactory::CreateReward (
     iQuest* q, iCelParameterBlock* params)
 {
   iReward* reward;
-  if (!entity_par.IsEmpty())
+  if (!entity_par.IsEmpty ())
   {
     reward = new celMessageReward (type,
   	params, entity_par, id_par, parameters);
+  }
+  else if (!entities_par.IsEmpty ())
+  {
+    reward = new celListMessageReward (type,
+  	params, entities_par, id_par, parameters);
   }
   else
   {
@@ -89,6 +94,7 @@ csPtr<iReward> celMessageRewardFactory::CreateReward (
 bool celMessageRewardFactory::Save (iDocumentNode* node)
 {
   if (!entity_par.IsEmpty ()) node->SetAttribute ("entity", entity_par);
+  if (!entities_par.IsEmpty ()) node->SetAttribute ("entities", entities_par);
   if (!class_par.IsEmpty ()) node->SetAttribute ("class", class_par);
   if (!id_par.IsEmpty ()) node->SetAttribute ("id", id_par);
   if (!celParameterTools::WriteParSpecBlock (type->object_reg, node, parameters))
@@ -100,12 +106,13 @@ bool celMessageRewardFactory::Load (iDocumentNode* node)
 {
   parameters.DeleteAll();
   entity_par = node->GetAttributeValue ("entity");
+  entities_par = node->GetAttributeValue ("entities");
   class_par = node->GetAttributeValue ("class");
   id_par = node->GetAttributeValue ("id");
 
-  if (entity_par.IsEmpty() && class_par.IsEmpty())
+  if (entity_par.IsEmpty () && class_par.IsEmpty () && entities_par.IsEmpty ())
     return Report (type->object_reg,
-      "'entity' or 'class' attribute required for the message reward!");
+      "'entity', 'entities', or 'class' attribute required for the message reward!");
   if (id_par.IsEmpty())
     Report (type->object_reg,
       "'id' attribute is missing for the message reward!");
@@ -113,6 +120,12 @@ bool celMessageRewardFactory::Load (iDocumentNode* node)
   if (!celParameterTools::ParseParSpecBlock (type->object_reg, node, parameters))
     return false;
   return true;
+}
+
+void celMessageRewardFactory::SetEntitiesParameter (
+	const char* entities)
+{
+  entities_par = entities;
 }
 
 void celMessageRewardFactory::SetEntityParameter (
@@ -209,6 +222,57 @@ void celMessageReward::Reward (iCelParameterBlock* params)
     dispatcher = ent->QueryMessageChannel ()->CreateMessageDispatcher (
 	this, type->pl->FetchStringID (msg));
   dispatcher->SendMessage (msg_params);
+}
+
+//---------------------------------------------------------------------------
+
+celListMessageReward::celListMessageReward (
+	celMessageRewardType* type,
+  	iCelParameterBlock* params,
+	const char* entities_par,
+	const char* id_par,
+	const csArray<celParSpec>& parameters) 
+	: scfImplementationType (this), parameters (parameters)
+{
+  celListMessageReward::type = type;
+
+  pm = csQueryRegistryOrLoad<iParameterManager> 
+    (type->object_reg, "cel.parameters.manager");
+
+  msg_id = pm->GetParameter (params, id_par);
+  entities = pm->GetParameter (params, entities_par);
+
+  msg_params = celParameterTools::GetParameterBlock (pm, params, parameters, quest_parameters);
+}
+
+void celListMessageReward::Reward (iCelParameterBlock* params)
+{
+  const char* msg = msg_id->Get (params);
+  if (!msg) return;
+
+  csRef<iCelEntityList> list = pm->ResolveEntityListParameter (type->pl, params, entities);
+
+  if (!celParameterTools::FillParameterBlock (type->pl, params, msg_params,
+	parameters, quest_parameters))
+  {
+    Report (type->object_reg,
+	    "Could not fill parameters for message '%s'", msg);
+    return;
+  }
+
+  csStringID msgID = type->pl->FetchStringID (msg);
+
+  for (size_t i = 0 ; i < list->GetCount () ; i++)
+  {
+    iCelEntity* ent = list->Get (i);
+    iCelBehaviour* behave = ent->GetBehaviour ();
+    if (behave)
+    {
+      celData ret;
+      behave->SendMessage (msg, 0, ret, msg_params);
+    }
+    ent->QueryMessageChannel ()->SendMessage (msgID, this, msg_params);
+  }
 }
 
 //---------------------------------------------------------------------------
