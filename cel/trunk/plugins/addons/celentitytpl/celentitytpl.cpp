@@ -361,6 +361,12 @@ static void WriteData (celData& data, iDocumentNode* node)
 	node->SetAttribute ("color4", v);
 	break;
       }
+    case CEL_DATA_PARAMETER:
+      {
+	csString v; v.Format ("$%s", data.value.par.parname->GetData ());
+	node->SetAttribute (celParameterTools::GetTypeName (data.value.par.partype), v);
+	break;
+      }
     default: CS_ASSERT (false);
   }
 }
