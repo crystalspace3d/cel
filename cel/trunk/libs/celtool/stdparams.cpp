@@ -532,6 +532,10 @@ bool celParameterTools::ToString (const celData& in, csString& out)
     case CEL_DATA_ENTITY: if (in.value.ent) out = in.value.ent->GetName (); else out = "null"; return true;
     case CEL_DATA_COLOR: out.Format ("%g,%g,%g", in.value.col.red, in.value.col.green, in.value.col.blue); return true;
     case CEL_DATA_COLOR4: out.Format ("%g,%g,%g,%g", in.value.col.red, in.value.col.green, in.value.col.blue, in.value.col.alpha); return true;
+    case CEL_DATA_PARAMETER:
+      out.Format ("$%s", in.value.par.parname->GetData ());
+      return true;
+
     default: out.Empty(); return false;
   }
 }
