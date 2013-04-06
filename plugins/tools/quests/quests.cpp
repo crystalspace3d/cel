@@ -1123,6 +1123,13 @@ bool celQuestManager::Initialize (iObjectRegistry* object_reg)
       "cel.rewards.destroyentity");        
     if (type.IsValid()) RegisterRewardType (type);
   }
+
+  {
+    csRef<iRewardType> type = csLoadPlugin<iRewardType> (plugin_mgr,
+      "cel.rewards.changeclass");        
+    if (type.IsValid()) RegisterRewardType (type);
+  }
+
   //--- Sequence Operations ------------------------------------------
   {
     csRef<iSeqOpType> type = csLoadPlugin<iSeqOpType> (plugin_mgr,
