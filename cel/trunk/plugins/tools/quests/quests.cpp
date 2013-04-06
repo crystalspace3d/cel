@@ -1472,6 +1472,23 @@ iRewardFactory* celQuestManager::AddDestroyEntityReward (
   return rewfact;
 }
 
+iRewardFactory* celQuestManager::AddChangeClassReward (
+  	iQuestTriggerResponseFactory* response,
+	const char* entity_par,
+	const char* class_par,
+	bool remove)
+{
+  iRewardType* type = GetRewardType ("cel.rewards.changeclass");
+  csRef<iRewardFactory> rewfact = type->CreateRewardFactory ();
+  csRef<iChangeClassRewardFactory> newstate = 
+  	scfQueryInterface<iChangeClassRewardFactory> (rewfact);
+  newstate->SetEntityParameter (entity_par);
+  newstate->SetClassParameter (class_par);
+  newstate->SetRemove (remove);
+  response->AddRewardFactory (rewfact);
+  return rewfact;
+}
+
 iRewardFactory* celQuestManager::AddMessageReward (
   	iQuestTriggerResponseFactory* response,
 	const char* entity_par,
