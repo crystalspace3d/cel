@@ -390,6 +390,11 @@ public:
   virtual iRewardFactory* AddDestroyEntityReward (
   	iQuestTriggerResponseFactory* response,
 	const char* entity_par); 
+  virtual iRewardFactory* AddChangeClassReward (
+  	iQuestTriggerResponseFactory* response,
+	const char* entity_par,
+	const char* class_par,
+	bool remove);
   virtual iRewardFactory* AddMessageReward (
   	iQuestTriggerResponseFactory* response,
 	const char* entity_par,

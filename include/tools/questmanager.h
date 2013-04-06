@@ -541,14 +541,24 @@ struct iQuestManager : public virtual iBase
 	const char* name_par,
         iCelParameterBlock* tpl_params) = 0;
 
-    /**
+  /**
    * Convenience method to add a 'destroyentity' reward factory
    * to a response factory. You need to specify exactly which entity
    * to destroy
    */
-  virtual iRewardFactory* AddDestroyEntityReward(
+  virtual iRewardFactory* AddDestroyEntityReward (
   	iQuestTriggerResponseFactory* response,
 	const char* entity_par) = 0;
+
+  /**
+   * Convenience method to add a 'changeclass' reward factory
+   * to a response factory.
+   */
+  virtual iRewardFactory* AddChangeClassReward (
+  	iQuestTriggerResponseFactory* response,
+	const char* entity_par,
+	const char* class_par,
+	bool remove) = 0;
 
   /**
    * Convenience method to add an 'action' reward factory

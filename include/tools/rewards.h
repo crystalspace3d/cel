@@ -301,6 +301,51 @@ struct iChangePropertyRewardFactory : public virtual iBase
 };
 
 /**
+ * This interface is implemented by the changeclass reward, which can add or
+ * remove a class from an entity.
+ *
+ * You can query this interface from the reward factory if you want
+ * to manually control this factory as opposed to loading its definition
+ * from an XML document.
+ *
+ * The predefined name of this reward type is 'cel.rewards.changeclass'.
+ *
+ * In XML, factories recognize the following attribute on the 'op' node:
+ * - <em>entity</em>: the name of the entity to send the message too.
+ * - <em>class</em>: the name of an entity class. If this is used instead
+ *   of the entity parameter, the reward will apply to all entities in the given
+ *   entity class.
+ * - <em>remove</em>: if this boolean parameter is present and equal to true
+ *   the class will be removed instead of added.
+ */
+struct iChangeClassRewardFactory : public virtual iBase
+{
+  SCF_INTERFACE (iChangeClassRewardFactory, 0, 0, 1);
+
+  /**
+   * Set the name of the entity.
+   * \param entity is the name of the entity or a parameter (starts
+   * with '$').
+   */
+  virtual void SetEntityParameter (const char* entity) = 0;
+  virtual const char* GetEntity () const = 0;
+
+  /**
+   * Set the name of the entity class on which this reward will work.
+   * \param ent_class is the name of the class or a parameter (starts
+   * with '$').
+   */
+  virtual void SetClassParameter (const char* ent_class) = 0;
+  virtual const char* GetClass () const = 0;
+
+  /**
+   * Set the 'remove' flag.
+   */
+  virtual void SetRemove (bool r) = 0;
+  virtual bool IsRemove () const = 0;
+};
+
+/**
  * This interface is implemented by the createentity reward, which can create
  * entities from entity templates.
  *
