@@ -656,6 +656,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClCompile Include="..\..\plugins\tools\quests\quests.cpp" />
     <ClCompile Include="..\..\plugins\tools\quests\reward_newstate.cpp" />
     <ClCompile Include="..\..\plugins\tools\rewards\reward_action.cpp" />
+    <ClCompile Include="..\..\plugins\tools\rewards\reward_changeclass.cpp" />
     <ClCompile Include="..\..\plugins\tools\rewards\reward_changeproperty.cpp" />
     <ClCompile Include="..\..\plugins\tools\rewards\reward_createentity.cpp" />
     <ClCompile Include="..\..\plugins\tools\rewards\reward_cssequence.cpp" />
@@ -853,6 +854,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClInclude Include="..\..\plugins\tools\quests\quests.h" />
     <ClInclude Include="..\..\plugins\tools\quests\reward_newstate.h" />
     <ClInclude Include="..\..\plugins\tools\rewards\reward_action.h" />
+    <ClInclude Include="..\..\plugins\tools\rewards\reward_changeclass.h" />
     <ClInclude Include="..\..\plugins\tools\rewards\reward_changeproperty.h" />
     <ClInclude Include="..\..\plugins\tools\rewards\reward_createentity.h" />
     <ClInclude Include="..\..\plugins\tools\rewards\reward_cssequence.h" />

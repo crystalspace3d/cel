@@ -635,6 +635,9 @@
 				RelativePath="..\..\plugins\tools\rewards\reward_action.cpp">
 			</File>
 			<File
+				RelativePath="..\..\plugins\tools\rewards\reward_changeclass.cpp">
+			</File>
+			<File
 				RelativePath="..\..\plugins\tools\rewards\reward_changeproperty.cpp">
 			</File>
 			<File
@@ -667,6 +670,9 @@
 			Filter="">
 			<File
 				RelativePath="..\..\plugins\tools\rewards\reward_action.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\rewards\reward_changeclass.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\rewards\reward_changeproperty.h">

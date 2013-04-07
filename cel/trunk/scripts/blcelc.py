@@ -5269,6 +5269,7 @@ class iQuestManager(cspace.iBase):
     def AddChangePropertyReward(*args): return _blcelc.iQuestManager_AddChangePropertyReward(*args)
     def AddCreateEntityReward(*args): return _blcelc.iQuestManager_AddCreateEntityReward(*args)
     def AddDestroyEntityReward(*args): return _blcelc.iQuestManager_AddDestroyEntityReward(*args)
+    def AddChangeClassReward(*args): return _blcelc.iQuestManager_AddChangeClassReward(*args)
     def AddActionReward(*args): return _blcelc.iQuestManager_AddActionReward(*args)
     def AddMessageReward(*args): return _blcelc.iQuestManager_AddMessageReward(*args)
     def SetTimeoutTrigger(*args): return _blcelc.iQuestManager_SetTimeoutTrigger(*args)
