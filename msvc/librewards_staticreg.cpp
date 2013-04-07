@@ -34,6 +34,12 @@ static char const metainfo_rewards[] =
 "      </class>"
 ""
 "      <class>"
+"        <name>cel.rewards.changeclass</name>"
+"        <implementation>celChangeClassRewardType</implementation>"
+"        <description>CEL Reward: Changes the class of a entity</description>"
+"      </class>"
+""
+"      <class>"
 "        <name>cel.rewards.createentity</name>"
 "        <implementation>celCreateEntityRewardType</implementation>"
 "        <description>CEL Reward: Creates an entity from a template</description>"
@@ -92,6 +98,10 @@ static char const metainfo_rewards[] =
   #define celChangePropertyRewardType_FACTORY_REGISTER_DEFINED 
     SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celChangePropertyRewardType) 
   #endif
+  #ifndef celChangeClassRewardType_FACTORY_REGISTER_DEFINED 
+  #define celChangeClassRewardType_FACTORY_REGISTER_DEFINED 
+    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celChangeClassRewardType) 
+  #endif
   #ifndef celCreateEntityRewardType_FACTORY_REGISTER_DEFINED 
   #define celCreateEntityRewardType_FACTORY_REGISTER_DEFINED 
     SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celCreateEntityRewardType) 
@@ -135,6 +145,10 @@ SCF_REGISTER_STATIC_LIBRARY(rewards,metainfo_rewards)
   #ifndef celChangePropertyRewardType_FACTORY_REGISTERED 
   #define celChangePropertyRewardType_FACTORY_REGISTERED 
     celChangePropertyRewardType_StaticInit celChangePropertyRewardType_static_init__; 
+  #endif
+  #ifndef celChangeClassRewardType_FACTORY_REGISTERED 
+  #define celChangeClassRewardType_FACTORY_REGISTERED 
+    celChangeClassRewardType_StaticInit celChangeClassRewardType_static_init__; 
   #endif
   #ifndef celCreateEntityRewardType_FACTORY_REGISTERED 
   #define celCreateEntityRewardType_FACTORY_REGISTERED 
