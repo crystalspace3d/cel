@@ -1,7 +1,6 @@
 /*
     Crystal Space Entity Layer
-    Copyright (C) 2009 by Jorrit Tyberghein
-	Copyright (C) 2009 by Sam Devlin
+    Copyright (C) 2013 by Jorrit Tyberghein
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -77,6 +76,7 @@ csPtr<iReward> celChangeClassRewardFactory::CreateReward (
 bool celChangeClassRewardFactory::Save (iDocumentNode* node)
 {
   if (!entity_par.IsEmpty ()) node->SetAttribute ("entity", entity_par);
+  if (!entities_par.IsEmpty ()) node->SetAttribute ("entities", entities_par);
   if (!class_par.IsEmpty ()) node->SetAttribute ("class", class_par);
   if (remove) node->SetAttribute ("remove", "true");
   return true;
@@ -85,12 +85,22 @@ bool celChangeClassRewardFactory::Save (iDocumentNode* node)
 bool celChangeClassRewardFactory::Load (iDocumentNode* node)
 {
   entity_par = node->GetAttributeValue ("entity");
+  entities_par = node->GetAttributeValue ("entities");
   class_par = node->GetAttributeValue ("class");
-  if ((!entity_par) || (!class_par))
+  if ((!entity_par) && (!entities_par))
     return Report (type->object_reg,
-      "Both 'entity' and 'class' attributes must be used for the changeclass reward!");
+      "Either 'entity' or 'entities' attributes must be used for the changeclass reward!");
+  if (!class_par)
+    return Report (type->object_reg,
+      "'class' attributes must be used for the changeclass reward!");
   remove = node->GetAttributeValueAsBool ("remove", false);
   return true;
+}
+
+void celChangeClassRewardFactory::SetEntitiesParameter (
+	const char* entities)
+{
+  entities_par = entities;
 }
 
 void celChangeClassRewardFactory::SetEntityParameter (
@@ -145,6 +155,47 @@ void celChangeClassReward::Reward (iCelParameterBlock* params)
     ent->RemoveClass (id);
   else
     ent->AddClass (id);
+}
+
+//---------------------------------------------------------------------------
+
+celListChangeClassReward::celListChangeClassReward (
+	celChangeClassRewardType* type,
+  	iCelParameterBlock* params,
+	const char* entities_par,
+	const char* class_par,
+	bool remove) : scfImplementationType (this)
+{
+  celListChangeClassReward::type = type;
+
+  pm = csQueryRegistryOrLoad<iParameterManager> 
+    (type->object_reg, "cel.parameters.manager");
+
+  entities = pm->GetParameter (params, entities_par);
+  clazz = pm->GetParameter (params, class_par);
+  celListChangeClassReward::remove = remove;
+}
+
+celListChangeClassReward::~celListChangeClassReward ()
+{
+}
+
+void celListChangeClassReward::Reward (iCelParameterBlock* params)
+{
+  iCelPlLayer* pl = type->pl;
+
+  csRef<iCelEntityList> list = pm->ResolveEntityListParameter (type->pl, params, entities);
+
+  const char* cl = clazz->Get (params);
+  csStringID id = type->pl->FetchStringID (cl);
+  for (size_t i = 0 ; i < list->GetCount () ; i++)
+  {
+    iCelEntity* ent = list->Get (i);
+    if (remove)
+      ent->RemoveClass (id);
+    else
+      ent->AddClass (id);
+  }
 }
 
 //---------------------------------------------------------------------------

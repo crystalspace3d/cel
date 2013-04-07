@@ -331,6 +331,14 @@ struct iChangeClassRewardFactory : public virtual iBase
   virtual const char* GetEntity () const = 0;
 
   /**
+   * Set the list of entities.
+   * \param entities is the list of entities or a parameter (starts
+   * with '$').
+   */
+  virtual void SetEntitiesParameter (const char* entities) = 0;
+  virtual const char* GetEntities () const = 0;
+
+  /**
    * Set the name of the entity class on which this reward will work.
    * \param ent_class is the name of the class or a parameter (starts
    * with '$').
