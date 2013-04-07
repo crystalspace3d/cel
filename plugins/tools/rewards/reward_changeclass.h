@@ -46,6 +46,7 @@ class celChangeClassRewardFactory : public scfImplementation2<
 private:
   csRef<celChangeClassRewardType> type;
   csString entity_par;
+  csString entities_par;
   csString class_par;
   bool remove;
 
@@ -61,6 +62,8 @@ public:
   //----------------- iChangeClassRewardFactory -----------------------
   virtual void SetEntityParameter (const char* entity);
   virtual const char* GetEntity () const { return entity_par; }
+  virtual void SetEntitiesParameter (const char* entities);
+  virtual const char* GetEntities () const { return entities_par; }
   virtual void SetClassParameter (const char* ent_class);
   virtual const char* GetClass () const { return class_par; }
   virtual void SetRemove (bool r) { remove = r; }
@@ -85,6 +88,28 @@ public:
   	iCelParameterBlock* params,
 	const char* entity_par, const char* class_par, bool remove);
   virtual ~celChangeClassReward ();
+
+  virtual void Reward (iCelParameterBlock* params);
+};
+
+/**
+ * The 'changeclass' reward for a list of entities.
+ */
+class celListChangeClassReward : public scfImplementation1<
+	celListChangeClassReward, iReward>
+{
+private:
+  csRef<celChangeClassRewardType> type;
+  csRef<iParameterManager> pm;
+  csRef<iParameter> entities;
+  csRef<iParameter> clazz;
+  bool remove;
+
+public:
+  celListChangeClassReward (celChangeClassRewardType* type,
+  	iCelParameterBlock* params,
+	const char* entities_par, const char* class_par, bool remove);
+  virtual ~celListChangeClassReward ();
 
   virtual void Reward (iCelParameterBlock* params);
 };
