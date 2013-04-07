@@ -69,7 +69,10 @@ csPtr<iReward> celChangeClassRewardFactory::CreateReward (
     iQuest* q, iCelParameterBlock* params)
 {
   iReward* newquest;
-  newquest = new celChangeClassReward (type, params, entity_par, class_par, remove);
+  if (!entity_par.IsEmpty ())
+    newquest = new celChangeClassReward (type, params, entity_par, class_par, remove);
+  else
+    newquest = new celListChangeClassReward (type, params, entities_par, class_par, remove);
   return newquest;
 }
 
