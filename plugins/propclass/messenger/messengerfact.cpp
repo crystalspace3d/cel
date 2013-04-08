@@ -892,6 +892,11 @@ void celPcMessenger::Message (const char* type, const char* id,
   else cycleType = mt->GetCycleFirst ();
 
   const char* msg = 0;
+  if (msgs.GetSize () == 0)
+  {
+    printf ("Warning! No messages!\n");
+    return;
+  }
   switch (cycleType)
   {
     case CYCLE_RANDOM: msg = msgs[rng.Get (msgs.GetSize ())]; break;
