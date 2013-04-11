@@ -94,6 +94,12 @@ public:
 
   virtual void Activate ();
   virtual void Deactivate ();
+
+  virtual void MarkBaseline ();
+  virtual bool IsModifiedSinceBaseline () const;
+  virtual void SaveModifications (iCelCompactDataBufferWriter* buf, iStringSet* strings);
+  virtual void RestoreModifications (iCelCompactDataBufferReader* buf,
+      const csHash<csString,csStringID>& strings);
 };
 
 #endif // __CEL_PF_QUESTFACT__

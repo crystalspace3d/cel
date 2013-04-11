@@ -141,6 +141,10 @@ public:
       font (font), color (color) { }
 
   float GetFadeTime () const { return fadetime; }
+  float GetTimeLeft () const { return timeleft; }
+
+  /// Get the time left before it starts fading.
+  float GetTimeLeftForFading ();
 
   /// Calculate the layout of this message given a certain maximum width.
   void Layout (int maxwidth);

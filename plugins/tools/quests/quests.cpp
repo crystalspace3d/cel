@@ -840,6 +840,7 @@ celQuest::celQuest (iCelPlLayer* pl) : scfImplementationType (this)
 {
   celQuest::pl = pl;
   current_state = csArrayItemNotFound;
+  atBaseline = false;
 }
 
 celQuest::~celQuest ()
@@ -865,6 +866,7 @@ void celQuest::DeactivateState (size_t stateidx, bool exec_onexit)
 
 bool celQuest::SwitchState (const char* state)
 {
+  atBaseline = false;
   // @@@ This code could be slow with really complex
   // quests that have lots of states. In practice most quests
   // will probably only have few states and will not switch
@@ -966,6 +968,31 @@ void celQuest::Deactivate ()
     states[current_state]->Deactivate ();
   for (size_t i = 0 ; i < sequences.GetSize () ; i++)
     sequences[i]->Deactivate ();
+}
+
+void celQuest::SaveModifications (iCelCompactDataBufferWriter* buf,
+    iStringSet* strings)
+{
+  buf->AddID (strings->Request (GetCurrentState ()));
+  // @@@ TODO: There is no support yet for saving state of sequences here but
+  // that's also important!
+}
+
+void celQuest::RestoreModifications (iCelCompactDataBufferReader* buf,
+    const csHash<csString,csStringID>& strings)
+{
+  csStringID id = buf->GetID ();
+  csString stateName = strings.Get (id, (const char*)0);
+  for (size_t i = 0 ; i < states.GetSize () ; i++)
+  {
+    if (strcmp (stateName, states[i]->GetName ()) == 0)
+    {
+      current_state = i;
+      return;
+    }
+  }
+  csPrintf ("Internal error! Cannot find state '%s' when restoring quest\n", stateName.GetData ());
+  atBaseline = false;
 }
 
 //---------------------------------------------------------------------------
