@@ -76,6 +76,32 @@ celPcQuest::~celPcQuest ()
   //delete params;
 }
 
+void celPcQuest::MarkBaseline ()
+{
+  if (quest) quest->MarkBaseline ();
+}
+
+bool celPcQuest::IsModifiedSinceBaseline () const
+{
+  if (quest)
+    return quest->IsModifiedSinceBaseline ();
+  else
+    return false;
+}
+
+void celPcQuest::SaveModifications (iCelCompactDataBufferWriter* buf, iStringSet* strings)
+{
+  if (quest)
+    quest->SaveModifications (buf, strings);
+}
+
+void celPcQuest::RestoreModifications (iCelCompactDataBufferReader* buf,
+      const csHash<csString,csStringID>& strings)
+{
+  if (quest)
+    quest->RestoreModifications (buf, strings);
+}
+
 class DelayedSwitchState : public scfImplementation1<DelayedSwitchState, iCallable>
 {
 private:

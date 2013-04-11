@@ -272,6 +272,8 @@ private:
   csPDelArray<celQuestState> states;
   size_t current_state;
 
+  bool atBaseline;
+
   /**
    * Deactivate a state (deactivate all triggers).
    * If exec_onexit is true then the onexit rewards are fired.
@@ -295,6 +297,15 @@ public:
 
   virtual void Activate ();
   virtual void Deactivate ();
+
+  virtual void MarkBaseline ()
+  {
+    atBaseline = true;
+  }
+  virtual bool IsModifiedSinceBaseline () const { return !atBaseline; }
+  virtual void SaveModifications (iCelCompactDataBufferWriter* buf, iStringSet* strings);
+  virtual void RestoreModifications (iCelCompactDataBufferReader* buf,
+      const csHash<csString,csStringID>& strings);
 
   /// Add a state, returns the state index.
   size_t AddState (const char* name);

@@ -78,6 +78,38 @@ struct iQuest : public virtual iBase
    * processed.
    */
   virtual void Deactivate () = 0;
+
+  /**
+   * Mark the baseline for this quest. This means that the status of this quest as it
+   * is now doesn't have to be saved. Only changes to the quest that happen after this
+   * baseline have to be modified. A quest doesn't actually have to do this in a
+   * granular way. It can simply say that it saves itself
+   * completely as soon as it has been modified after the baseline.
+   */
+  virtual void MarkBaseline () = 0;
+
+  /**
+   * Return true if this quest was modified after the baseline.
+   */
+  virtual bool IsModifiedSinceBaseline () const = 0;
+
+  /**
+   * Return the data that represents the information that changed after the
+   * baseline. If it is too complicated to actually return the information that
+   * really changed it is allowed for this function to simply save the complete state.
+   * If this function wants to save strings effectively it is best to intern them first
+   * using the 'strings' set.
+   */
+  virtual void SaveModifications (iCelCompactDataBufferWriter* buf, iStringSet* strings) = 0;
+
+  /**
+   * Call this function if the quest is in the state as it was at the moment of
+   * the baseline. This function will put back the modifications that were made
+   * after the baseline.
+   * Interned strings can be fetched from the 'strings' set.
+   */
+  virtual void RestoreModifications (iCelCompactDataBufferReader* buf,
+      const csHash<csString,csStringID>& strings) = 0;
 };
 
 struct iRewardFactoryArray : public iArrayChangeAll<iRewardFactory*>
