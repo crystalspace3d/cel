@@ -5136,6 +5136,10 @@ class iQuest(cspace.iBase):
     def FindSequence(*args): return _blcelc.iQuest_FindSequence(*args)
     def Activate(*args): return _blcelc.iQuest_Activate(*args)
     def Deactivate(*args): return _blcelc.iQuest_Deactivate(*args)
+    def MarkBaseline(*args): return _blcelc.iQuest_MarkBaseline(*args)
+    def IsModifiedSinceBaseline(*args): return _blcelc.iQuest_IsModifiedSinceBaseline(*args)
+    def SaveModifications(*args): return _blcelc.iQuest_SaveModifications(*args)
+    def RestoreModifications(*args): return _blcelc.iQuest_RestoreModifications(*args)
     CurrentState = _swig_property(_blcelc.iQuest_CurrentState_get, None, None,
                     "iQuest.CurrentState -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const char* iQuest::GetCurrentState()")
 
