@@ -35,8 +35,6 @@
 #include "csgeom/math3d.h"
 #include "csgeom/sphere.h"
 
-#include "ivaria/dynamics.h"
-#include "ivaria/bullet.h"
 #include "imap/services.h"
 
 #include "iengine/engine.h"
@@ -50,6 +48,11 @@
 #include "celtool/stdparams.h"
 
 #include "propclass/dynworld.h"
+
+#if NEW_PHYSICS
+#else
+#include "ivaria/bullet.h"
+#endif
 
 /**
  * Factory for DynWorld.
@@ -99,6 +102,34 @@ public:
 
   float GetMass () const { return mass; }
 
+#if NEW_PHYSICS
+  virtual csRef<iRigidBody> Create (iRigidBodyFactory* factory,
+      iMeshWrapper* mesh, iLight* light,
+      const csReversibleTransform& trans, iRigidBody* sharedBody)
+  {
+    // Create a body and attach the mesh.
+    if (sharedBody)
+    {
+      return sharedBody;
+    }
+    else
+    {
+      csRef<iRigidBody> body = factory->CreateRigidBody ();
+
+      body->SetLinearDamping (0.0f);
+      body->SetAngularDamping (0.0f);
+
+      body->SetMass (mass);
+      body->SetTransform (trans);
+      if (mesh)
+        body->SetAttachedSceneNode (mesh->QuerySceneNode ());
+      // @@@ What if we have both a mesh and a light.
+      if (light)
+        body->SetAttachedSceneNode (light->QuerySceneNode ());
+      return body;
+    }
+  }
+#else
   virtual csRef<iRigidBody> Create (iDynamicSystem* dynSys,
       iMeshWrapper* mesh, iLight* light,
       const csReversibleTransform& trans, iRigidBody* sharedBody)
@@ -123,6 +154,8 @@ public:
       return body;
     }
   }
+#endif
+
   virtual celBodyInfo GetBodyInfo ()
   {
     celBodyInfo info;
@@ -141,6 +174,8 @@ public:
   DOColliderMesh (const csVector3& offset, float mass) :
     DOCollider (offset, mass) { }
   virtual ~DOColliderMesh () { }
+#if NEW_PHYSICS
+#else
   virtual csRef<iRigidBody> Create (iDynamicSystem* dynSys,
       iMeshWrapper* mesh, iLight* light,
       const csReversibleTransform& trans, iRigidBody* sharedBody)
@@ -152,6 +187,7 @@ public:
     body->AdjustTotalMass (mass);
     return body;
   }
+#endif
   virtual celBodyInfo GetBodyInfo ()
   {
     celBodyInfo info = DOCollider::GetBodyInfo ();
