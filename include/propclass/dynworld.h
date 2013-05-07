@@ -22,7 +22,16 @@
 
 #include "csutil/scf.h"
 
+#define NEW_PHYSICS 0
+
+#if NEW_PHYSICS
+#include "ivaria/physics.h"
+#else
+
 #include "ivaria/dynamics.h"
+struct iDynamicSystem;
+
+#endif
 
 class csBox3;
 class csVector3;
@@ -30,7 +39,6 @@ class csReversibleTransform;
 class csOrthoTransform;
 struct iCamera;
 struct iSector;
-struct iDynamicSystem;
 struct iRigidBody;
 struct iString;
 struct iMeshWrapper;
@@ -730,10 +738,17 @@ struct iDynamicCell : public virtual iBase
    */
   virtual iSector* GetSector () const = 0;
 
+#if NEW_PHYSICS
+  /**
+   * Get the physical sector for this cell.
+   */
+  virtual iPhysicalSector* GetDynamicSector () const = 0;
+#else
   /**
    * Get the dynamic system for this cell.
    */
   virtual iDynamicSystem* GetDynamicSystem () const = 0;
+#endif
 };
 
 /**
@@ -783,6 +798,15 @@ struct iPcDynamicWorld : public virtual iBase
 
   //------------------------------------------------------------------------------
 
+#if NEW_PHYSICS
+  /**
+   * Add a new cell to the world.
+   * If dynSys is 0 then this function will create its own physical sector and
+   * it will also destroy it in case the cell is removed.
+   */
+  virtual iDynamicCell* AddCell (const char* name, iSector* sector,
+      iPhysicalSector* dynSector = 0) = 0;
+#else
   /**
    * Add a new cell to the world.
    * If dynSys is 0 then this function will create its own dynamic system and
@@ -790,6 +814,7 @@ struct iPcDynamicWorld : public virtual iBase
    */
   virtual iDynamicCell* AddCell (const char* name, iSector* sector,
       iDynamicSystem* dynSys = 0) = 0;
+#endif
 
   /**
    * Find a cell by name.
