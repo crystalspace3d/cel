@@ -230,7 +230,11 @@ bool ElcmTest::CreateSky (iSector* sector)
   return true;
 }
 
+#if NEW_PHYSICS
+void ElcmTest::MakeFloor (iSector* sect, CS::Physics::iPhysicalSystem* dynSys)
+#else
 void ElcmTest::MakeFloor (iSector* sect, iDynamicSystem* dynSys)
+#endif
 {
   using namespace CS::Geometry;
 
@@ -257,6 +261,17 @@ void ElcmTest::MakeFloor (iSector* sect, iDynamicSystem* dynSys)
     floor->GetMeshObject ()->SetMaterialWrapper (tm);
   }
 
+#if NEW_PHYSICS
+  csRef<CS::Collisions::iColliderBox> collider = dynSys->CreateColliderBox (csVector3 (10000, 10, 10000),
+      csOrthoTransform (csMatrix3 (), csVector3 (0, -6, 0)));
+  csRef<CS::Physics::iRigidBodyFactory> factory = dynSys->CreateRigidBodyFactory (collider);
+  csRef<CS::Physics::iRigidBody> body = factory->CreateRigidBody ();
+  body->SetLinearDamping (0.0f);
+  body->SetAngularDamping (0.0f);
+  body->SetMass (1000.0f);
+  body->SetState (CS::Physics::STATE_STATIC);
+  body->SetAttachedSceneNode (floor->QuerySceneNode ());
+#else
   csRef<iRigidBody> body = dynSys->CreateBody ();
   csRef<CS::Physics::Bullet::iRigidBody> csBody = scfQueryInterface<CS::Physics::Bullet::iRigidBody> (body);
   csBody->SetLinearDampener (0.0f);
@@ -268,6 +283,7 @@ void ElcmTest::MakeFloor (iSector* sect, iDynamicSystem* dynSys)
   body->AttachColliderBox (csVector3 (10000, 10, 10000),
       csOrthoTransform (csMatrix3 (), csVector3 (0, -6, 0)), 10, 1, 0);
   body->MakeStatic ();
+#endif
 }
 
 void ElcmTest::AddLight (iSector* sect, const char* name,

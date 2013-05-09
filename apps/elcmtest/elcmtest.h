@@ -91,7 +91,11 @@ private:
       csVector3& isect);
 
   void PickUpDynObj (iDynamicObject* dynobj);
+#if NEW_PHYSICS
+  void MakeFloor (iSector* sect, CS::Physics::iPhysicalSystem* dynSys);
+#else
   void MakeFloor (iSector* sect, iDynamicSystem* dynSys);
+#endif
   void AddLight (iSector* sect, const char* name,
       const csVector3& pos, float radius, const csColor& color);
 
