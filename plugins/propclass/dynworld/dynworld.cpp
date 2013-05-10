@@ -67,46 +67,46 @@ CEL_IMPLEMENT_FACTORY (DynamicWorld, "pcworld.dynamic")
 
 #if NEW_PHYSICS
 csRef<CS::Collisions::iCollider> DOColliderMesh::Create (celPcDynamicWorld* dynworld,
-      iMeshWrapper* mesh)
+      iMeshFactoryWrapper* factory)
 {
-  iTriangleMesh* triangleMesh = dynworld->GetCollisionHelper ().FindCollisionMesh (mesh);
+  iTriangleMesh* triangleMesh = dynworld->GetCollisionHelper ().FindCollisionMesh (factory);
   csRef<CS::Collisions::iColliderConcaveMesh> collider = dynworld->GetCollisionSystem ()
     ->CreateColliderConcaveMesh (triangleMesh);
   return collider;
 }
 
 csRef<CS::Collisions::iCollider> DOColliderConvexMesh::Create (celPcDynamicWorld* dynworld,
-      iMeshWrapper* mesh)
+      iMeshFactoryWrapper* factory)
 {
-  iTriangleMesh* triangleMesh = dynworld->GetCollisionHelper ().FindCollisionMesh (mesh);
+  iTriangleMesh* triangleMesh = dynworld->GetCollisionHelper ().FindCollisionMesh (factory);
   csRef<CS::Collisions::iColliderConvexMesh> collider = dynworld->GetCollisionSystem ()
     ->CreateColliderConvexMesh (triangleMesh);
   return collider;
 }
 
 csRef<CS::Collisions::iCollider> DOColliderBox::Create (celPcDynamicWorld* dynworld,
-      iMeshWrapper* mesh)
+      iMeshFactoryWrapper* factory)
 {
   csRef<CS::Collisions::iColliderBox> collider = dynworld->GetCollisionSystem ()->CreateColliderBox (size);
   return collider;
 }
 
 csRef<CS::Collisions::iCollider> DOColliderCylinder::Create (celPcDynamicWorld* dynworld,
-      iMeshWrapper* mesh)
+      iMeshFactoryWrapper* factory)
 {
   csRef<CS::Collisions::iColliderCylinder> collider = dynworld->GetCollisionSystem ()->CreateColliderCylinder (length, radius);
   return collider;
 }
 
 csRef<CS::Collisions::iCollider> DOColliderCapsule::Create (celPcDynamicWorld* dynworld,
-      iMeshWrapper* mesh)
+      iMeshFactoryWrapper* factory)
 {
   csRef<CS::Collisions::iColliderCapsule> collider = dynworld->GetCollisionSystem ()->CreateColliderCapsule (length, radius);
   return collider;
 }
 
 csRef<CS::Collisions::iCollider> DOColliderSphere::Create (celPcDynamicWorld* dynworld,
-      iMeshWrapper* mesh)
+      iMeshFactoryWrapper* factory)
 {
   csRef<CS::Collisions::iColliderSphere> collider = dynworld->GetCollisionSystem ()->CreateColliderSphere (radius);
   return collider;
@@ -1047,6 +1047,30 @@ DynamicFactory::DynamicFactory (celPcDynamicWorld* world, const char* name,
   //}
 }
 
+#if NEW_PHYSICS
+CS::Physics::iRigidBodyFactory* DynamicFactory::GetRigidBodyFactory ()
+{
+  if (!rigidBodyFactory)
+  {
+    collider = 0;
+    for (size_t i = 0 ; i < colliders.GetSize () ; i++)
+    {
+      csRef<CS::Collisions::iCollider> col = colliders[i]->Create (world, factory);
+      if (!collider)
+	collider = col;
+      else
+        collider->AddChild (col);
+    }
+    if (collider)
+    {
+      rigidBodyFactory = world->GetPhysicalSystem ()->CreateRigidBodyFactory (collider);
+      rigidBodyFactory->SetMass (colliders.Get (0)->GetMass ());
+    }
+  }
+  return rigidBodyFactory;
+}
+#endif
+
 void DynamicFactory::SelfDestruct ()
 {
   world->RemoveFactory (this);
@@ -1843,18 +1867,25 @@ void DynamicObject::CreateBody ()
     trans = mesh->GetMovable ()->GetTransform ();
   if (light)
     trans = light->GetMovable ()->GetTransform ();
-  const csPDelArray<DOCollider>& colliders = factory->GetColliders ();
 #if NEW_PHYSICS
-  csRef<CS::Collisions::iCollider> mainCollider;
-  for (size_t i = 0 ; i < colliders.GetSize () ; i++)
+  CS::Physics::iRigidBodyFactory* rigidBodyFactory = factory->GetRigidBodyFactory ();
+  if (rigidBodyFactory)
   {
-    csRef<CS::Collisions::iCollider> collider = colliders[i]->Create (factory->GetWorld (), mesh);
-    if (i == 0)
-      mainCollider = collider;
-    else
-      mainCollider->AddChild (collider);
+    body = rigidBodyFactory->CreateRigidBody ();
+    body->SetLinearDamping (0.0f);
+    body->SetAngularDamping (0.0f);
+
+    body->SetTransform (trans);
+    if (mesh)
+      body->SetAttachedSceneNode (mesh->QuerySceneNode ());
+    // @@@ What if we have both a mesh and a light.
+    if (light)
+      body->SetAttachedSceneNode (light->QuerySceneNode ());
+
+    cell->GetDynamicSector ()->AddCollisionObject (body);
   }
 #else
+  const csPDelArray<DOCollider>& colliders = factory->GetColliders ();
   for (size_t i = 0 ; i < colliders.GetSize () ; i++)
   {
     body = colliders[i]->Create (cell->dynSys, mesh, light, trans, body);
@@ -2339,6 +2370,10 @@ celPcDynamicWorld::celPcDynamicWorld (iObjectRegistry* object_reg)
   vc = csQueryRegistry<iVirtualClock> (object_reg);
   pl = csQueryRegistry<iCelPlLayer> (object_reg);
   decalMgr = csQueryRegistry<iDecalManager> (object_reg);
+#if NEW_PHYSICS
+  physicalSystem = csQueryRegistry<CS::Physics::iPhysicalSystem> (object_reg);
+  CS_ASSERT (physicalSystem != 0);
+#endif
 
   scopeIdx = pl->AddScope ("cel.numreg.hash", 1000000000);
   lastIDBlock = 1000000000;
@@ -2359,7 +2394,7 @@ celPcDynamicWorld::celPcDynamicWorld (iObjectRegistry* object_reg)
 	CEL_DATA_BOOL, false, "Enable physics.", 0);
 
 #if NEW_PHYSICS
-  collisionHelper.Initialize (object_reg);
+  collisionHelper.Initialize (object_reg, physicalSystem);
 #endif
 }
 
@@ -2894,6 +2929,7 @@ iDynamicObject* celPcDynamicWorld::FindObject (CS::Physics::iRigidBody* body) co
       if (mesh) break;
     }
   }
+printf ("FindObject: body=%p mesh=%p\n", body, mesh); fflush (stdout);
   if (mesh)
     return FindObject (mesh);
   else

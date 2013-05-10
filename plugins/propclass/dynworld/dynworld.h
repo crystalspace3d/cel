@@ -106,7 +106,7 @@ public:
 
 #if NEW_PHYSICS
   virtual csRef<CS::Collisions::iCollider> Create (celPcDynamicWorld* dynworld,
-      iMeshWrapper* mesh)
+      iMeshFactoryWrapper* factory)
   {
     return 0;
 #if 0
@@ -180,7 +180,7 @@ public:
   virtual ~DOColliderMesh () { }
 #if NEW_PHYSICS
   virtual csRef<CS::Collisions::iCollider> Create (celPcDynamicWorld* dynworld,
-      iMeshWrapper* mesh);
+      iMeshFactoryWrapper* factory);
 #else
   virtual csRef<iRigidBody> Create (iDynamicSystem* dynSys,
       iMeshWrapper* mesh, iLight* light,
@@ -210,7 +210,7 @@ public:
   virtual ~DOColliderConvexMesh () { }
 #if NEW_PHYSICS
   virtual csRef<CS::Collisions::iCollider> Create (celPcDynamicWorld* dynworld,
-      iMeshWrapper* mesh);
+      iMeshFactoryWrapper* factory);
 #else
   virtual csRef<iRigidBody> Create (iDynamicSystem* dynSys,
       iMeshWrapper* mesh, iLight* light,
@@ -243,7 +243,7 @@ public:
   virtual ~DOColliderBox () { }
 #if NEW_PHYSICS
   virtual csRef<CS::Collisions::iCollider> Create (celPcDynamicWorld* dynworld,
-      iMeshWrapper* mesh);
+      iMeshFactoryWrapper* factory);
 #else
   virtual csRef<iRigidBody> Create (iDynamicSystem* dynSys,
       iMeshWrapper* mesh, iLight* light,
@@ -277,7 +277,7 @@ public:
   virtual ~DOColliderCylinder () { }
 #if NEW_PHYSICS
   virtual csRef<CS::Collisions::iCollider> Create (celPcDynamicWorld* dynworld,
-      iMeshWrapper* mesh);
+      iMeshFactoryWrapper* factory);
 #else
   virtual csRef<iRigidBody> Create (iDynamicSystem* dynSys,
       iMeshWrapper* mesh, iLight* light,
@@ -313,7 +313,7 @@ public:
   virtual ~DOColliderCapsule () { }
 #if NEW_PHYSICS
   virtual csRef<CS::Collisions::iCollider> Create (celPcDynamicWorld* dynworld,
-      iMeshWrapper* mesh);
+      iMeshFactoryWrapper* factory);
 #else
   virtual csRef<iRigidBody> Create (iDynamicSystem* dynSys,
       iMeshWrapper* mesh, iLight* light,
@@ -349,7 +349,7 @@ public:
   virtual ~DOColliderSphere () { }
 #if NEW_PHYSICS
   virtual csRef<CS::Collisions::iCollider> Create (celPcDynamicWorld* dynworld,
-      iMeshWrapper* mesh);
+      iMeshFactoryWrapper* factory);
 #else
   virtual csRef<iRigidBody> Create (iDynamicSystem* dynSys,
       iMeshWrapper* mesh, iLight* light,
@@ -391,6 +391,11 @@ private:
   csArray<csVector3> pivotJoints;
   csArray<DynFactJointDefinition> joints;
 
+#if NEW_PHYSICS
+  csRef<CS::Physics::iRigidBodyFactory> rigidBodyFactory;
+  csRef<CS::Collisions::iCollider> collider;
+#endif
+
   csRef<iGeometryGenerator> geometryGenerator;
   csRef<iImposterFactory> imposterFactory;
   float imposterradius;
@@ -402,6 +407,11 @@ public:
   DynamicFactory (celPcDynamicWorld* world, const char* name, bool usefact,
       float maxradiusRelative, float imposterradius, bool isLogic = false);
   virtual ~DynamicFactory () { }
+
+#if NEW_PHYSICS
+  CS::Physics::iRigidBodyFactory* GetRigidBodyFactory ();
+#endif
+
   virtual iObject* QueryObject () { return this; }
   virtual float GetMaximumRadiusRelative () const { return maxradiusRelative; }
   virtual void SetMaximumRadiusRelative (float r) { maxradiusRelative = r; }
@@ -782,6 +792,7 @@ public:
   csRef<iVirtualClock> vc;
 #if NEW_PHYSICS
   CS::Collisions::CollisionHelper collisionHelper;
+  csRef<CS::Physics::iPhysicalSystem> physicalSystem;
 #endif
   csRef<iCollideSystem> cdsys;
   csRef<iDecalManager> decalMgr;
@@ -869,7 +880,8 @@ public:
 
 #if NEW_PHYSICS
   CS::Collisions::CollisionHelper& GetCollisionHelper () { return collisionHelper; }
-  CS::Collisions::iCollisionSystem* GetCollisionSystem ();
+  CS::Collisions::iCollisionSystem* GetCollisionSystem () const { return physicalSystem; }
+  CS::Physics::iPhysicalSystem* GetPhysicalSystem () const { return physicalSystem; }
 #endif
   iCollideSystem* GetCollideSystem ();
 
