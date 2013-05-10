@@ -64,7 +64,11 @@ private:
   int colorRed;
 
   /// Physics.
+#if NEW_PHYSICS
+  csRef<CS::Physics::iPhysicalSystem> dyn;
+#else
   csRef<iDynamics> dyn;
+#endif
   bool debugPhysics;
 
   bool OnKeyboard (iEvent&);
@@ -87,12 +91,17 @@ private:
 
   iCelEntity* FindHitEntity (int x, int y);
   iDynamicObject* FindHitDynObj (int x, int y);
+#if NEW_PHYSICS
+  CS::Physics::iRigidBody* FindHitBody (int x, int y, csVector3& start, csVector3& end,
+      csVector3& isect);
+#else
   iRigidBody* FindHitBody (int x, int y, csVector3& start, csVector3& end,
       csVector3& isect);
+#endif
 
   void PickUpDynObj (iDynamicObject* dynobj);
 #if NEW_PHYSICS
-  void MakeFloor (iSector* sect, CS::Physics::iPhysicalSystem* dynSys);
+  void MakeFloor (iSector* sect, CS::Physics::iPhysicalSector* dynSys);
 #else
   void MakeFloor (iSector* sect, iDynamicSystem* dynSys);
 #endif
