@@ -267,14 +267,14 @@ void ElcmTest::MakeFloor (iSector* sect, iDynamicSystem* dynSys)
 
 #if NEW_PHYSICS
   csRef<CS::Collisions::iColliderBox> collider = dyn->CreateColliderBox (csVector3 (10000, 10, 10000));
-      //csOrthoTransform (csMatrix3 (), csVector3 (0, -6, 0)));
+  //csRef<CS::Collisions::iColliderPlane> collider = dyn->CreateColliderPlane (csPlane3 (0.0f, 1.0f, 0.0f, -1.2f));
   csRef<CS::Physics::iRigidBodyFactory> factory = dyn->CreateRigidBodyFactory (collider);
   csRef<CS::Physics::iRigidBody> body = factory->CreateRigidBody ();
   body->SetLinearDamping (0.0f);
   body->SetAngularDamping (0.0f);
-  body->SetMass (1000.0f);
   body->SetState (CS::Physics::STATE_STATIC);
-  body->SetAttachedSceneNode (floor->QuerySceneNode ());
+  //body->SetAttachedSceneNode (floor->QuerySceneNode ());
+  body->SetTransform (csOrthoTransform (csMatrix3 (), csVector3 (0, -6, 0)));
   dynSys->AddCollisionObject (body);
 #else
   csRef<iRigidBody> body = dynSys->CreateBody ();
@@ -282,7 +282,6 @@ void ElcmTest::MakeFloor (iSector* sect, iDynamicSystem* dynSys)
   csBody->SetLinearDampener (0.0f);
   csBody->SetRollingDampener (0.0f);
 
-  body->AdjustTotalMass (1000.0f);
   //body->SetTransform (trans);
   body->AttachMesh (floor);
   body->AttachColliderBox (csVector3 (10000, 10, 10000),
