@@ -103,6 +103,7 @@ public:
   virtual ~DOCollider () { }
 
   float GetMass () const { return mass; }
+  const csVector3& GetOffset () const { return offset; }
 
 #if NEW_PHYSICS
   virtual csRef<CS::Collisions::iCollider> Create (celPcDynamicWorld* dynworld,
