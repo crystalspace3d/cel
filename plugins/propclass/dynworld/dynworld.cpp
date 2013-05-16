@@ -1053,16 +1053,22 @@ CS::Physics::iRigidBodyFactory* DynamicFactory::GetRigidBodyFactory ()
   if (!rigidBodyFactory)
   {
     collider = 0;
-    for (size_t i = 0 ; i < colliders.GetSize () ; i++)
+    if (colliders.GetSize () == 1)
     {
-      csRef<CS::Collisions::iCollider> col = colliders[i]->Create (world, factory);
-      if (!collider)
-	collider = col;
-      else
-        collider->AddChild (col);
+      collider = colliders[0]->Create (world, factory);
+      rigidBodyFactory = world->GetPhysicalSystem ()->CreateRigidBodyFactory (collider);
+      rigidBodyFactory->SetMass (colliders.Get (0)->GetMass ());
+      rigidBodyFactory->SetColliderTransform (csOrthoTransform (csMatrix3 (),
+	    colliders.Get (0)->GetOffset ()));
     }
-    if (collider)
+    else if (colliders.GetSize () > 1)
     {
+      collider = world->GetCollisionSystem ()->CreateCollider ();
+      for (size_t i = 0 ; i < colliders.GetSize () ; i++)
+      {
+        csRef<CS::Collisions::iCollider> col = colliders[i]->Create (world, factory);
+        collider->AddChild (col, csOrthoTransform (csMatrix3 (), colliders[i]->GetOffset ()));
+      }
       rigidBodyFactory = world->GetPhysicalSystem ()->CreateRigidBodyFactory (collider);
       rigidBodyFactory->SetMass (colliders.Get (0)->GetMass ());
     }
