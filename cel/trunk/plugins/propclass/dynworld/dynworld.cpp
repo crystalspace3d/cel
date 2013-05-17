@@ -559,7 +559,7 @@ void DynamicCell::Setup (iSector* sector, iDynamicSystem* ds)
   if (!dynSys)
   {
 #if NEW_PHYSICS
-    csRef<CS::Collisions::iCollisionSector> dynSector = dyn->CreateCollisionSector ();	// @@@ Provide sector?
+    csRef<CS::Collisions::iCollisionSector> dynSector = dyn->CreateCollisionSector (sector);
     dynSys = dynSector->QueryPhysicalSector ();
 #else
     dynSys = dyn->CreateSystem ();
@@ -1884,7 +1884,7 @@ void DynamicObject::CreateBody ()
     body->SetTransform (trans);
     if (mesh)
       body->SetAttachedSceneNode (mesh->QuerySceneNode ());
-    // @@@ What if we have both a mesh and a light.
+    // @@@ if we have both a mesh and a light, then need to use an empty scene node as root
     if (light)
       body->SetAttachedSceneNode (light->QuerySceneNode ());
 
@@ -1922,8 +1922,9 @@ void DynamicObject::RemoveBody ()
 {
   if (!body) return;
 #if NEW_PHYSICS
-  body->SetCollider (0);	// @@@ Is this the right way?
+  cell->GetDynamicSector ()->RemoveCollisionObject (body);
 #else
+  // @@@ iDynamicSystem::RemoveBody instead?
   body->DestroyColliders ();
 #endif
   body = 0;
