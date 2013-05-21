@@ -453,7 +453,7 @@ DynamicCell::~DynamicCell ()
   {
 #if NEW_PHYSICS
     csRef<CS::Physics::iPhysicalSystem> dyn = csQueryRegistry<CS::Physics::iPhysicalSystem> (world->GetObjectRegistry ());
-    if (dyn) dyn->RemoveCollisionSector (dynSys);
+    if (dyn) dyn->DeleteCollisionSector (dynSys);
 #else
     csRef<iDynamics> dyn = csQueryRegistry<iDynamics> (world->GetObjectRegistry ());
     if (dyn) dyn->RemoveSystem (dynSys);
@@ -546,7 +546,7 @@ void DynamicCell::Setup (iSector* sector, iDynamicSystem* ds)
   if (createdDynSys && dynSys)
   {
 #if NEW_PHYSICS
-    if (dyn) dyn->RemoveCollisionSector (dynSys);
+    if (dyn) dyn->DeleteCollisionSector (dynSys);
 #else
     if (dyn) dyn->RemoveSystem (dynSys);
 #endif
