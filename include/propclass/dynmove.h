@@ -23,6 +23,12 @@
 #include "cstypes.h"
 #include "csutil/scf.h"
 
+#define NEW_PHYSICS 1
+
+#if NEW_PHYSICS
+#include <ivaria/physics.h>
+#endif
+
 /**
  * This is a property class for dynamic movement.
  *
@@ -44,6 +50,15 @@ struct iPcDynamicMove : public virtual iBase
    */
   virtual void EnableMouselook (bool enable) = 0;
   virtual bool IsMouselookEnabled () const = 0;
+
+  /**
+   * Move this actor somewhere.
+   */
+#if NEW_PHYSICS
+  virtual void Move (CS::Physics::iPhysicalSector* sector, const csReversibleTransform& trans) = 0;
+#else
+  virtual void Move (const csReversibleTransform& trans) = 0;
+#endif
 };
 
 #endif // __CEL_PF_DYNMOVE__

@@ -22,7 +22,7 @@
 
 #include "csutil/scf.h"
 
-#define NEW_PHYSICS 0
+#define NEW_PHYSICS 1
 
 #if NEW_PHYSICS
 #include "ivaria/physics.h"

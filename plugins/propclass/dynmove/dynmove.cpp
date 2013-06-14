@@ -124,6 +124,9 @@ void celPcDynamicMove::EnableMouselook (bool enable)
 
 void celPcDynamicMove::TickEveryFrame ()
 {
+#if NEW_PHYSICS
+  GetPCS ();
+#else
   if (correctup && bulletBody)
   {
     iPcMesh* pcmesh = pcmechobj->GetMesh ();
@@ -139,6 +142,7 @@ void celPcDynamicMove::TickEveryFrame ()
     mesh->GetMovable ()->UpdateMove ();
     body->MakeDynamic ();
   }
+#endif
 }
 
 bool celPcDynamicMove::SetPropertyIndexed (int idx, bool b)
@@ -176,6 +180,41 @@ void celPcDynamicMove::SetEntity (iCelEntity* entity)
   }
 }
 
+#if NEW_PHYSICS
+void celPcDynamicMove::CreateBody ()
+{
+  if (!body)
+  {
+    csRef<CS::Physics::iPhysicalSystem> system = csQueryRegistry<CS::Physics::iPhysicalSystem> (
+	object_reg);
+    csRef<CS::Collisions::iColliderBox> collider = system->CreateColliderBox (csVector3 (.3, 1.6, .3));
+    csRef<CS::Physics::iRigidBodyFactory> factory = system->CreateRigidBodyFactory (collider);
+    factory->SetMass (1.0f);
+    body = factory->CreateRigidBody ();
+    body->SetLinearDamping (0.0f);
+    body->SetAngularDamping (0.0f);
+    if (pcmesh)
+      body->SetAttachedSceneNode (pcmesh->GetMesh ()->QuerySceneNode ());
+  }
+}
+#endif
+
+#if NEW_PHYSICS
+void celPcDynamicMove::Move (CS::Physics::iPhysicalSector* sector, const csReversibleTransform& trans)
+{
+  GetPCS ();
+  body->SetTransform (trans);
+  sector->AddCollisionObject (body);
+}
+#else
+void celPcDynamicMove::Move (const csReversibleTransform& trans)
+{
+  GetPCS ();
+  iRigidBody* body = pcmechobj->GetBody ();
+  body->SetTransform (trans);
+}
+#endif
+
 bool celPcDynamicMove::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)
@@ -185,6 +224,11 @@ bool celPcDynamicMove::PerformActionIndexed (int idx,
 
 void celPcDynamicMove::GetPCS ()
 {
+#if NEW_PHYSICS
+  if (!pcmesh)
+    pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+  CreateBody ();
+#else
   if (!pcmechobj)
   {
     pcmechobj = celQueryPropertyClassEntity<iPcMechanicsObject> (entity);
@@ -194,6 +238,7 @@ void celPcDynamicMove::GetPCS ()
       bulletBody = scfQueryInterface<CS::Physics::Bullet::iRigidBody> (body);
     }
   }
+#endif
 }
 
 void celPcDynamicMove::GetCam ()
@@ -222,7 +267,11 @@ bool celPcDynamicMove::ReceiveMessage (csStringID msgid, iMessageSender* sender,
     if (sx != 0 || sy != 0)
     {
       float yangle = float (sx) / 8.0f;
+#if NEW_PHYSICS
+	// @@@
+#else
       pcmechobj->SetAngularVelocity (csVector3 (0, yangle, 0));
+#endif
       if (pcdefcamera)
       {
         float xangle = float (sy) / 10.0f;
@@ -231,7 +280,11 @@ bool celPcDynamicMove::ReceiveMessage (csStringID msgid, iMessageSender* sender,
     }
     else
     {
+#if NEW_PHYSICS
+      // @@@
+#else
       pcmechobj->SetAngularVelocity (csVector3 (0, 0, 0));
+#endif
       if (pcdefcamera)
         pcdefcamera->SetPitchVelocity (0);
     }
@@ -253,6 +306,9 @@ bool celPcDynamicMove::ReceiveMessage (csStringID msgid, iMessageSender* sender,
     curspeed = csVector3 (-25.0f * speed, 0, 0);
   else if (msgid == id_input_straferight_up)
     curspeed = 0.0f;
+#if NEW_PHYSICS
+  // @@@
+#else
   else if (msgid == id_input_rotateleft_down)
     pcmechobj->SetAngularVelocity (csVector3 (0, -25.0f * rotspeed, 0));
   else if (msgid == id_input_rotateleft_up)
@@ -262,8 +318,8 @@ bool celPcDynamicMove::ReceiveMessage (csStringID msgid, iMessageSender* sender,
   else if (msgid == id_input_rotateright_up)
     pcmechobj->SetAngularVelocity (csVector3 (0));
   else if (msgid == id_input_jump_down)
-    pcmechobj->AddForceDuration (csVector3 (0, jumpspeed, 0), false,
-      csVector3 (0, 0, 0), .2f);
+    pcmechobj->AddForceDuration (csVector3 (0, jumpspeed, 0), false, csVector3 (0, 0, 0), .2f);
+#endif
   else if (msgid == id_input_lookup_down)
   {
     GetCam ();
@@ -296,12 +352,16 @@ bool celPcDynamicMove::ReceiveMessage (csStringID msgid, iMessageSender* sender,
   }
   else return false;
 
+#if NEW_PHYSICS
+  // @@@
+#else
   csReversibleTransform trans = pcmechobj->GetMesh ()->GetMesh ()->
     GetMovable ()->GetFullTransform ();
   csVector3 linvel = pcmechobj->GetLinearVelocity ();
   csVector3 newlinvel = trans.This2OtherRelative (curspeed);
   newlinvel.y = linvel.y;
   pcmechobj->SetLinearVelocity (newlinvel);
+#endif
 
   return true;
 }
