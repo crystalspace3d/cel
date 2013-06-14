@@ -868,11 +868,7 @@ void ElcmTest::Teleport (const char* cellName, const csVector3& pos)
 void ElcmTest::Frame ()
 {
   float elapsed_time = vc->GetElapsedSeconds ();
-#if NEW_PHYSICS
-  dyn->Step (vc->GetElapsedTicks ());
-#else
   dyn->Step (elapsed_time);
-#endif
   dynworld->PrepareView (camera, elapsed_time);
 }
 
