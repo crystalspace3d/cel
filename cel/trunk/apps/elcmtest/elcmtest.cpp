@@ -202,11 +202,7 @@ bool ElcmTest::InitWindowSystem ()
 
 bool ElcmTest::InitPhysics ()
 {
-#if NEW_PHYSICS
   dyn = csQueryRegistry<CS::Physics::iPhysicalSystem> (GetObjectRegistry ());
-#else
-  dyn = csQueryRegistry<iDynamics> (GetObjectRegistry ());
-#endif
   if (!dyn) return ReportError ("Error loading bullet plugin!");
 
   return true;
@@ -234,11 +230,7 @@ bool ElcmTest::CreateSky (iSector* sector)
   return true;
 }
 
-#if NEW_PHYSICS
 void ElcmTest::MakeFloor (iSector* sect, CS::Physics::iPhysicalSector* dynSys)
-#else
-void ElcmTest::MakeFloor (iSector* sect, iDynamicSystem* dynSys)
-#endif
 {
   using namespace CS::Geometry;
 
@@ -265,7 +257,6 @@ void ElcmTest::MakeFloor (iSector* sect, iDynamicSystem* dynSys)
     floor->GetMeshObject ()->SetMaterialWrapper (tm);
   }
 
-#if NEW_PHYSICS
   csRef<CS::Collisions::iColliderBox> collider = dyn->CreateColliderBox (csVector3 (10000, 10, 10000));
   //csRef<CS::Collisions::iColliderPlane> collider = dyn->CreateColliderPlane (csPlane3 (0.0f, 1.0f, 0.0f, -1.2f));
   csRef<CS::Physics::iRigidBodyFactory> factory = dyn->CreateRigidBodyFactory (collider);
@@ -276,18 +267,6 @@ void ElcmTest::MakeFloor (iSector* sect, iDynamicSystem* dynSys)
   //body->SetAttachedSceneNode (floor->QuerySceneNode ());
   body->SetTransform (csOrthoTransform (csMatrix3 (), csVector3 (0, -6, 0)));
   dynSys->AddCollisionObject (body);
-#else
-  csRef<iRigidBody> body = dynSys->CreateBody ();
-  csRef<CS::Physics::Bullet::iRigidBody> csBody = scfQueryInterface<CS::Physics::Bullet::iRigidBody> (body);
-  csBody->SetLinearDampener (0.0f);
-  csBody->SetRollingDampener (0.0f);
-
-  //body->SetTransform (trans);
-  body->AttachMesh (floor);
-  body->AttachColliderBox (csVector3 (10000, 10, 10000),
-      csOrthoTransform (csMatrix3 (), csVector3 (0, -6, 0)), 10, 1, 0);
-  body->MakeStatic ();
-#endif
 }
 
 void ElcmTest::AddLight (iSector* sect, const char* name,
@@ -448,11 +427,7 @@ iDynamicCell* ElcmTest::CreateCell (const char* name)
     // @@@ Remove once we know how to move the player at restore time!
     dynworld->SetCurrentCell (outsideCell);
 
-#if NEW_PHYSICS
     MakeFloor (sector, outsideCell->GetDynamicSector ());
-#else
-    MakeFloor (sector, outsideCell->GetDynamicSystem ());
-#endif
     AddLight (sector, "sun", csVector3 (0, 200, 0), 10000, csColor (1, 1, 1));
 
     if (!CreateSky (sector))
@@ -478,11 +453,7 @@ iDynamicCell* ElcmTest::CreateCell (const char* name)
 
   iDynamicCell* cell = dynworld->AddCell (name, sect, 0);
 
-#if NEW_PHYSICS
   MakeFloor (sect, cell->GetDynamicSector ());
-#else
-  MakeFloor (sect, cell->GetDynamicSystem ());
-#endif
   AddLight (sect, "sun", csVector3 (0, 200, 0), 10000, color);
   csColliderHelper::InitializeCollisionWrappers (cdsys, sect);
 
@@ -895,19 +866,13 @@ iDynamicObject* ElcmTest::FindHitDynObj (int x, int y)
   return 0;
 }
 
-#if NEW_PHYSICS
 CS::Physics::iRigidBody* ElcmTest::FindHitBody (int x, int y, csVector3& start,
     csVector3& end, csVector3& isect)
-#else
-iRigidBody* ElcmTest::FindHitBody (int x, int y, csVector3& start,
-    csVector3& end, csVector3& isect)
-#endif
 {
   csVector2 v2d (x, g3d->GetDriver2D ()->GetHeight () - y);
   csVector3 v3d = camera->InvPerspective (v2d, 100);
   start = camera->GetTransform ().GetOrigin ();
   end = camera->GetTransform ().This2Other (v3d);
-#if NEW_PHYSICS
   CS::Collisions::HitBeamResult result = dynworld->GetCurrentCell ()->GetDynamicSector ()->
     HitBeam (start, end);
 printf ("result.object=%p result.hasHit=%d\n", result.object, result.hasHit); fflush (stdout);
@@ -917,18 +882,6 @@ printf ("result.object=%p result.hasHit=%d\n", result.object, result.hasHit); ff
     isect = result.isect;
     return result.object->QueryPhysicalBody ()->QueryRigidBody ();
   }
-#else
-  csRef<CS::Physics::Bullet::iDynamicSystem> bullet_dynSys =
-    scfQueryInterface<CS::Physics::Bullet::iDynamicSystem> (
-      dynworld->GetCurrentCell ()->GetDynamicSystem ());
-  CS::Physics::Bullet::HitBeamResult result = bullet_dynSys->HitBeam (start, end);
-  if (result.body)
-  {
-    iRigidBody* hitBody = result.body->QueryRigidBody ();
-    isect = result.isect;
-    return hitBody;
-  }
-#endif
   return 0;
 }
 
@@ -936,9 +889,8 @@ void ElcmTest::FrameDebugPhysics ()
 {
   if (!debugPhysics) return;
   g3d->BeginDraw (CSDRAW_3DGRAPHICS);
-#if NEW_PHYSICS
+#if 0
   // @@@
-#else
   csRef<CS::Physics::Bullet::iDynamicSystem> bullet_dynSys =
     scfQueryInterface<CS::Physics::Bullet::iDynamicSystem> (
       dynworld->GetCurrentCell ()->GetDynamicSystem ());
@@ -1027,11 +979,7 @@ bool ElcmTest::OnMouseDown (iEvent& ev)
   else if (but == 1)
   {
     csVector3 start, end, isect;
-#if NEW_PHYSICS
     CS::Physics::iRigidBody* hitBody = FindHitBody (x, y, start, end, isect);
-#else
-    iRigidBody* hitBody = FindHitBody (x, y, start, end, isect);
-#endif
     if (!hitBody) return false;
     csVector3 force = end-start;
     force.Normalize ();
@@ -1138,11 +1086,7 @@ bool ElcmTest::OnInitialize (int argc, char* argv[])
 		iCollideSystem),
     	CS_REQUEST_PLUGIN ("cel.physicallayer", iCelPlLayer),
     	CS_REQUEST_PLUGIN ("cel.tools.elcm", iELCM),
-#if NEW_PHYSICS
 	CS_REQUEST_PLUGIN("crystalspace.physics.bullet", CS::Physics::iPhysicalSystem),
-#else
-	CS_REQUEST_PLUGIN("crystalspace.dynamics.bullet", iDynamics),
-#endif
         CS_REQUEST_END))
     return ReportError ("Can't initialize plugins!");
 

@@ -30,7 +30,6 @@
 #include "celtool/stdparams.h"
 #include "propclass/dynmove.h"
 #include "propclass/mechsys.h"
-#include "ivaria/bullet.h"
 
 struct iCelEntity;
 struct iObjectRegistry;
@@ -71,14 +70,9 @@ private:
   static csStringID id_input_rotateright_up;
   static csStringID id_input_mouselook;
 
-#if NEW_PHYSICS
   csRef<CS::Physics::iRigidBody> body;
   csWeakRef<iPcMesh> pcmesh;
   void CreateBody ();
-#else
-  csWeakRef<iPcMechanicsObject> pcmechobj;
-  csWeakRef<CS::Physics::Bullet::iRigidBody> bulletBody;
-#endif
 
   csWeakRef<iPcDefaultCamera> pcdefcamera;
   void GetPCS ();
@@ -110,11 +104,7 @@ public:
   virtual ~celPcDynamicMove ();
   virtual void SetEntity (iCelEntity* entity);
 
-#if NEW_PHYSICS
   virtual void Move (CS::Physics::iPhysicalSector* sector, const csReversibleTransform& trans);
-#else
-  virtual void Move (const csReversibleTransform& trans);
-#endif
 
   virtual bool PerformActionIndexed (int idx,
       iCelParameterBlock* params, celData& ret);

@@ -22,17 +22,8 @@
 
 #include "csutil/scf.h"
 
-#define NEW_PHYSICS 1
-
-#if NEW_PHYSICS
 #include "ivaria/physics.h"
 #include "ivaria/bodytype.h"
-#else
-
-#include "ivaria/dynamics.h"
-struct iDynamicSystem;
-
-#endif
 
 class csBox3;
 class csVector3;
@@ -528,11 +519,7 @@ struct iDynamicObject : public virtual iBase
    * Get the body for this object. Can be 0 if the
    * object is currently not visible.
    */
-#if NEW_PHYSICS
   virtual CS::Physics::iRigidBody* GetBody () const = 0;
-#else
-  virtual iRigidBody* GetBody () const = 0;
-#endif
 
   /**
    * Recreate the pivot joints from the factory. This
@@ -743,17 +730,10 @@ struct iDynamicCell : public virtual iBase
    */
   virtual iSector* GetSector () const = 0;
 
-#if NEW_PHYSICS
   /**
    * Get the physical sector for this cell.
    */
   virtual CS::Physics::iPhysicalSector* GetDynamicSector () const = 0;
-#else
-  /**
-   * Get the dynamic system for this cell.
-   */
-  virtual iDynamicSystem* GetDynamicSystem () const = 0;
-#endif
 };
 
 /**
@@ -803,7 +783,6 @@ struct iPcDynamicWorld : public virtual iBase
 
   //------------------------------------------------------------------------------
 
-#if NEW_PHYSICS
   /**
    * Add a new cell to the world.
    * If dynSys is 0 then this function will create its own physical sector and
@@ -811,15 +790,6 @@ struct iPcDynamicWorld : public virtual iBase
    */
   virtual iDynamicCell* AddCell (const char* name, iSector* sector,
       CS::Physics::iPhysicalSector* dynSector = 0) = 0;
-#else
-  /**
-   * Add a new cell to the world.
-   * If dynSys is 0 then this function will create its own dynamic system and
-   * it will also destroy it in case the cell is removed.
-   */
-  virtual iDynamicCell* AddCell (const char* name, iSector* sector,
-      iDynamicSystem* dynSys = 0) = 0;
-#endif
 
   /**
    * Find a cell by name.
@@ -1009,11 +979,7 @@ struct iPcDynamicWorld : public virtual iBase
   /**
    * Find an object given its rigid body.
    */
-#if NEW_PHYSICS
   virtual iDynamicObject* FindObject (CS::Physics::iRigidBody* body) const = 0;
-#else
-  virtual iDynamicObject* FindObject (iRigidBody* body) const = 0;
-#endif
   /**
    * Find an object given its mesh.
    */

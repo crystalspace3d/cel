@@ -45,7 +45,6 @@
 #include "iengine/imposter.h"
 #include "iengine/scenenode.h"
 #include "csgeom/math3d.h"
-#include "ivaria/bullet.h"
 #include "imesh/objmodel.h"
 #include "ivideo/graph3d.h"
 #include "ivideo/txtmgr.h"
@@ -65,7 +64,6 @@ CEL_IMPLEMENT_FACTORY (DynamicWorld, "pcworld.dynamic")
 
 //---------------------------------------------------------------------------
 
-#if NEW_PHYSICS
 csRef<CS::Collisions::iCollider> DOColliderMesh::Create (celPcDynamicWorld* dynworld,
       iMeshFactoryWrapper* factory)
 {
@@ -111,7 +109,6 @@ csRef<CS::Collisions::iCollider> DOColliderSphere::Create (celPcDynamicWorld* dy
   csRef<CS::Collisions::iColliderSphere> collider = dynworld->GetCollisionSystem ()->CreateColliderSphere (radius);
   return collider;
 }
-#endif
 
 //---------------------------------------------------------------------------
 
@@ -451,25 +448,9 @@ DynamicCell::~DynamicCell ()
   delete tree;
   if (createdDynSys && dynSys)
   {
-#if NEW_PHYSICS
     csRef<CS::Physics::iPhysicalSystem> dyn = csQueryRegistry<CS::Physics::iPhysicalSystem> (world->GetObjectRegistry ());
     if (dyn) dyn->DeleteCollisionSector (dynSys);
-#else
-    csRef<iDynamics> dyn = csQueryRegistry<iDynamics> (world->GetObjectRegistry ());
-    if (dyn) dyn->RemoveSystem (dynSys);
-#endif
   }
-}
-
-CS::Physics::Bullet::iDynamicSystem* DynamicCell::GetBulletDynamicSystem ()
-{
-#if NEW_PHYSICS
-  return 0;	// @@@
-#else
-  if (!bullet_dynSys)
-    bullet_dynSys = scfQueryInterface<CS::Physics::Bullet::iDynamicSystem> (dynSys);
-  return bullet_dynSys;
-#endif
 }
 
 
@@ -529,27 +510,15 @@ bool DynamicCell::IsAllocatedHere (uint id)
 
 }
 
-#if NEW_PHYSICS
 void DynamicCell::Setup (iSector* sector, CS::Physics::iPhysicalSector* ds)
-#else
-void DynamicCell::Setup (iSector* sector, iDynamicSystem* ds)
-#endif
 {
   DynamicCell::sector = sector;
 
-#if NEW_PHYSICS
   csRef<CS::Physics::iPhysicalSystem> dyn = csQueryRegistry<CS::Physics::iPhysicalSystem> (world->GetObjectRegistry ());
-#else
-  csRef<iDynamics> dyn = csQueryRegistry<iDynamics> (world->GetObjectRegistry ());
-#endif
 
   if (createdDynSys && dynSys)
   {
-#if NEW_PHYSICS
     if (dyn) dyn->DeleteCollisionSector (dynSys);
-#else
-    if (dyn) dyn->RemoveSystem (dynSys);
-#endif
   }
 
   dynSys = ds;
@@ -558,20 +527,16 @@ void DynamicCell::Setup (iSector* sector, iDynamicSystem* ds)
 
   if (!dynSys)
   {
-#if NEW_PHYSICS
     csRef<CS::Collisions::iCollisionSector> dynSector = dyn->CreateCollisionSector (sector);
     dynSys = dynSector->QueryPhysicalSector ();
-#else
-    dynSys = dyn->CreateSystem ();
-#endif
     if (!dynSys)
     {
       world->Error ("Could not create dynamics system/sector!\n");
       return;
     }
     createdDynSys = true;
-#if NEW_PHYSICS
-#else
+#if 0
+    //@@@
     //dynSys->SetLinearDampener(.3f);
     dynSys->SetRollingDampener(.995f);
     dynSys->SetGravity (csVector3 (0.0f, -9.81f, 0.0f));
@@ -1047,7 +1012,6 @@ DynamicFactory::DynamicFactory (celPcDynamicWorld* world, const char* name,
   //}
 }
 
-#if NEW_PHYSICS
 CS::Physics::iRigidBodyFactory* DynamicFactory::GetRigidBodyFactory ()
 {
   if (!rigidBodyFactory)
@@ -1075,7 +1039,6 @@ CS::Physics::iRigidBodyFactory* DynamicFactory::GetRigidBodyFactory ()
   }
   return rigidBodyFactory;
 }
-#endif
 
 void DynamicFactory::SelfDestruct ()
 {
@@ -1517,22 +1480,14 @@ void DynamicObject::MakeStatic ()
 {
   is_static = true;
   if (!is_kinematic && body)
-#if NEW_PHYSICS
     body->SetState (CS::Physics::STATE_STATIC);
-#else
-    body->MakeStatic ();
-#endif
 }
 
 void DynamicObject::MakeDynamic ()
 {
   is_static = false;
   if (!is_kinematic && body)
-#if NEW_PHYSICS
     body->SetState (CS::Physics::STATE_DYNAMIC);
-#else
-    body->MakeDynamic ();
-#endif
 }
 
 void DynamicObject::MakeKinematic ()
@@ -1540,12 +1495,7 @@ void DynamicObject::MakeKinematic ()
   if (is_kinematic) return;
   is_kinematic = true;
   if (!body) return;
-#if NEW_PHYSICS
   body->SetState (CS::Physics::STATE_KINEMATIC);
-#else
-  csRef<CS::Physics::Bullet::iRigidBody> bulletBody = scfQueryInterface<CS::Physics::Bullet::iRigidBody> (body);
-  bulletBody->MakeKinematic ();
-#endif
 }
 
 void DynamicObject::UndoKinematic ()
@@ -1554,17 +1504,9 @@ void DynamicObject::UndoKinematic ()
   is_kinematic = false;
   if (!body) return;
   if (is_static)
-#if NEW_PHYSICS
     body->SetState (CS::Physics::STATE_STATIC);
-#else
-    body->MakeStatic ();
-#endif
   else
-#if NEW_PHYSICS
     body->SetState (CS::Physics::STATE_DYNAMIC);
-#else
-    body->MakeDynamic ();
-#endif
 }
 
 void DynamicObject::SetFade (float f)
@@ -1579,11 +1521,7 @@ void DynamicObject::SetFade (float f)
   }
 }
 
-#if NEW_PHYSICS
 void DynamicObject::MeshBodyToEntity (iMeshWrapper* mesh, CS::Physics::iRigidBody* body)
-#else
-void DynamicObject::MeshBodyToEntity (iMeshWrapper* mesh, iRigidBody* body)
-#endif
 {
   if (!entity) return;
   csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
@@ -1592,9 +1530,8 @@ void DynamicObject::MeshBodyToEntity (iMeshWrapper* mesh, iRigidBody* body)
     pcmesh->SetFactoryName (factory->GetName ());
     pcmesh->SetMesh (mesh);
   }
-#if NEW_PHYSICS
+#if 0
   // @@@
-#else
   csRef<iPcMechanicsObject> pcmechobj = celQueryPropertyClassEntity<iPcMechanicsObject> (entity);
   if (pcmechobj)
     pcmechobj->SetBody (body);
@@ -1642,11 +1579,7 @@ void DynamicObject::RemoveCsObject (celPcDynamicWorld* world)
   if (light)
     RemoveLight (world);
 
-#if NEW_PHYSICS
   if (body) cell->dynSys->RemoveCollisionObject (body);
-#else
-  if (body) cell->dynSys->RemoveBody (body);
-#endif
   body = 0;
   factory->GetWorld ()->GetIdToDynObj ().Delete (id, this);
 }
@@ -1774,22 +1707,15 @@ void DynamicObject::UpdateJoints ()
         if (!connectedObjects[i]->GetBody ())
           continue;
       }
-#if NEW_PHYSICS
       csRef<CS::Physics::iJoint> j = joints[i];
-#else
-      csRef<iJoint> j = joints[i];
-#endif
       if (!j)
       {
-#if NEW_PHYSICS
 	// @@@ Is this correct? Share joint factories?
 	csRef<CS::Physics::iPhysicalSystem> dyn = csQueryRegistry<CS::Physics::iPhysicalSystem> (
 	    factory->GetWorld ()->GetObjectRegistry ());
 	csRef<CS::Physics::iJointFactory> jointFactory = dyn->CreateJointFactory ();
 	j = jointFactory->CreateJoint ();
-#else
-        j = cell->dynSys->CreateJoint ();
-#endif
+
         joints.Put (i, j);
         DynFactJointDefinition& def = factory->GetJoint (i);
         j->SetTransform (def.GetTransform ());
@@ -1873,7 +1799,6 @@ void DynamicObject::CreateBody ()
     trans = mesh->GetMovable ()->GetTransform ();
   if (light)
     trans = light->GetMovable ()->GetTransform ();
-#if NEW_PHYSICS
   CS::Physics::iRigidBodyFactory* rigidBodyFactory = factory->GetRigidBodyFactory ();
   if (rigidBodyFactory)
   {
@@ -1890,19 +1815,8 @@ void DynamicObject::CreateBody ()
 
     cell->GetDynamicSector ()->AddCollisionObject (body);
   }
-#else
-  const csPDelArray<DOCollider>& colliders = factory->GetColliders ();
-  for (size_t i = 0 ; i < colliders.GetSize () ; i++)
-  {
-    body = colliders[i]->Create (cell->dynSys, mesh, light, trans, body);
-  }
-#endif
   if (is_static && body)
-#if NEW_PHYSICS
     body->SetState (CS::Physics::STATE_STATIC);
-#else
-    body->MakeStatic ();
-#endif
 
   SetupPivotJoints ();
   UpdateJoints ();
@@ -1921,12 +1835,7 @@ void DynamicObject::RemoveCollider ()
 void DynamicObject::RemoveBody ()
 {
   if (!body) return;
-#if NEW_PHYSICS
   cell->GetDynamicSector ()->RemoveCollisionObject (body);
-#else
-  // @@@ iDynamicSystem::RemoveBody instead?
-  body->DestroyColliders ();
-#endif
   body = 0;
   MeshBodyToEntity (mesh, 0);
 }
@@ -1948,11 +1857,7 @@ void DynamicObject::RefreshColliders ()
   if (!remember_static) MakeDynamic ();
 }
 
-#if NEW_PHYSICS
 bool DynamicObject::HasBody (CS::Physics::iRigidBody* body)
-#else
-bool DynamicObject::HasBody (iRigidBody* body)
-#endif
 {
   return body == DynamicObject::body;
 }
@@ -2113,10 +2018,9 @@ bool DynamicObject::RecreatePivotJoints ()
 
 bool DynamicObject::CreatePivotJoint (const csVector3& worldpos)
 {
-#if NEW_PHYSICS
-  // @@@
   return true;
-#else
+#if 0
+  // @@@
   csRef<CS::Physics::Bullet::iDynamicSystem> bullet_dynSys =
     cell->GetBulletDynamicSystem ();
   if (!bullet_dynSys) return false;
@@ -2129,25 +2033,37 @@ bool DynamicObject::CreatePivotJoint (const csVector3& worldpos)
 
 csVector3 DynamicObject::GetPivotJointPosition (size_t idx)
 {
+#if 0
+  // @@@
   return pivotJoints[idx]->GetPosition ();
+#endif
+  return csVector3 (0);
 }
 
 void DynamicObject::SetPivotJointPosition (size_t idx, const csVector3& worldpos)
 {
+#if 0
+  // @@@
   pivotJoints[idx]->SetPosition (worldpos);
+#endif
 }
 
 void DynamicObject::RemovePivotJoint (size_t idx)
 {
+#if 0
+  // @@@
   csRef<CS::Physics::Bullet::iDynamicSystem> bullet_dynSys =
     cell->GetBulletDynamicSystem ();
   if (!bullet_dynSys) return;
   bullet_dynSys->RemovePivotJoint (pivotJoints[idx]);
   pivotJoints.DeleteIndex (idx);
+#endif
 }
 
 void DynamicObject::RemovePivotJoints ()
 {
+#if 0
+  // @@@
   csRef<CS::Physics::Bullet::iDynamicSystem> bullet_dynSys =
     cell->GetBulletDynamicSystem ();
   if (!bullet_dynSys) return;
@@ -2156,6 +2072,7 @@ void DynamicObject::RemovePivotJoints ()
     bullet_dynSys->RemovePivotJoint (pivotJoints[i]);
   }
   pivotJoints.DeleteAll ();
+#endif
 }
 
 const csSphere& DynamicObject::GetBSphere () const
@@ -2377,10 +2294,8 @@ celPcDynamicWorld::celPcDynamicWorld (iObjectRegistry* object_reg)
   vc = csQueryRegistry<iVirtualClock> (object_reg);
   pl = csQueryRegistry<iCelPlLayer> (object_reg);
   decalMgr = csQueryRegistry<iDecalManager> (object_reg);
-#if NEW_PHYSICS
   physicalSystem = csQueryRegistry<CS::Physics::iPhysicalSystem> (object_reg);
   CS_ASSERT (physicalSystem != 0);
-#endif
 
   scopeIdx = pl->AddScope ("cel.numreg.hash", 1000000000);
   lastIDBlock = 1000000000;
@@ -2400,9 +2315,7 @@ celPcDynamicWorld::celPcDynamicWorld (iObjectRegistry* object_reg)
   AddProperty (propid_physics, "physics",
 	CEL_DATA_BOOL, false, "Enable physics.", 0);
 
-#if NEW_PHYSICS
   collisionHelper.Initialize (object_reg, physicalSystem);
-#endif
 }
 
 celPcDynamicWorld::~celPcDynamicWorld ()
@@ -2482,11 +2395,7 @@ void celPcDynamicWorld::SetELCM (iELCM* elcm)
   listener->DecRef ();
 }
 
-#if NEW_PHYSICS
 iDynamicCell* celPcDynamicWorld::AddCell (const char* name, iSector* sector, CS::Physics::iPhysicalSector* dynSys)
-#else
-iDynamicCell* celPcDynamicWorld::AddCell (const char* name, iSector* sector, iDynamicSystem* dynSys)
-#endif
 {
   csRef<DynamicCell> cell;
   cell.AttachNew (new DynamicCell (name, this));
@@ -2921,7 +2830,6 @@ iDynamicObject* celPcDynamicWorld::FindObject (uint id) const
   return idToDynObj.Get (id, 0);
 }
 
-#if NEW_PHYSICS
 iDynamicObject* celPcDynamicWorld::FindObject (CS::Physics::iRigidBody* body) const
 {
   iSceneNode* sn = body->GetAttachedSceneNode ();
@@ -2936,18 +2844,11 @@ iDynamicObject* celPcDynamicWorld::FindObject (CS::Physics::iRigidBody* body) co
       if (mesh) break;
     }
   }
-printf ("FindObject: body=%p mesh=%p\n", body, mesh); fflush (stdout);
   if (mesh)
     return FindObject (mesh);
   else
     return 0;
 }
-#else
-iDynamicObject* celPcDynamicWorld::FindObject (iRigidBody* body) const
-{
-  return FindObject (body->GetAttachedMesh ());
-}
-#endif
 
 iDynamicObject* celPcDynamicWorld::FindObject (const char* name) const
 {
