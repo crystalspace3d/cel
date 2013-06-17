@@ -49,12 +49,8 @@
 
 #include "propclass/dynworld.h"
 
-#if NEW_PHYSICS
 #include "ivaria/convexdecompose.h"
 #include "cstool/collisionhelper.h"
-#else
-#include "ivaria/bullet.h"
-#endif
 
 /**
  * Factory for DynWorld.
@@ -105,61 +101,11 @@ public:
   float GetMass () const { return mass; }
   const csVector3& GetOffset () const { return offset; }
 
-#if NEW_PHYSICS
   virtual csRef<CS::Collisions::iCollider> Create (celPcDynamicWorld* dynworld,
       iMeshFactoryWrapper* factory)
   {
     return 0;
-#if 0
-    // Create a body and attach the mesh.
-    if (sharedCollider)
-    {
-      return sharedCollider;
-    }
-    else
-    {
-      csRef<iRigidBody> body = factory->CreateRigidBody ();
-
-      body->SetLinearDamping (0.0f);
-      body->SetAngularDamping (0.0f);
-
-      body->SetMass (mass);
-      body->SetTransform (trans);
-      if (mesh)
-        body->SetAttachedSceneNode (mesh->QuerySceneNode ());
-      // @@@ What if we have both a mesh and a light.
-      if (light)
-        body->SetAttachedSceneNode (light->QuerySceneNode ());
-      return body;
-    }
-#endif
   }
-#else
-  virtual csRef<iRigidBody> Create (iDynamicSystem* dynSys,
-      iMeshWrapper* mesh, iLight* light,
-      const csReversibleTransform& trans, iRigidBody* sharedBody)
-  {
-    // Create a body and attach the mesh.
-    if (sharedBody)
-    {
-      return sharedBody;
-    }
-    else
-    {
-      csRef<iRigidBody> body = dynSys->CreateBody ();
-
-      csRef<CS::Physics::Bullet::iRigidBody> csBody = scfQueryInterface<CS::Physics::Bullet::iRigidBody> (body);
-      csBody->SetLinearDampener (0.0f);
-      csBody->SetRollingDampener (0.0f);
-
-      body->AdjustTotalMass (mass);
-      body->SetTransform (trans);
-      body->AttachMesh (mesh);
-      body->AttachLight (light);
-      return body;
-    }
-  }
-#endif
 
   virtual celBodyInfo GetBodyInfo ()
   {
@@ -179,22 +125,8 @@ public:
   DOColliderMesh (const csVector3& offset, float mass) :
     DOCollider (offset, mass) { }
   virtual ~DOColliderMesh () { }
-#if NEW_PHYSICS
   virtual csRef<CS::Collisions::iCollider> Create (celPcDynamicWorld* dynworld,
       iMeshFactoryWrapper* factory);
-#else
-  virtual csRef<iRigidBody> Create (iDynamicSystem* dynSys,
-      iMeshWrapper* mesh, iLight* light,
-      const csReversibleTransform& trans, iRigidBody* sharedBody)
-  {
-    csRef<iRigidBody> body = DOCollider::Create (dynSys, mesh, light, trans, sharedBody);
-    const csMatrix3 tm;
-    csOrthoTransform t (tm, offset);
-    body->AttachColliderMesh (mesh, t, 10, 1, 0.8f);
-    body->AdjustTotalMass (mass);
-    return body;
-  }
-#endif
   virtual celBodyInfo GetBodyInfo ()
   {
     celBodyInfo info = DOCollider::GetBodyInfo ();
@@ -209,22 +141,8 @@ public:
   DOColliderConvexMesh (const csVector3& offset, float mass) :
     DOCollider (offset, mass) { }
   virtual ~DOColliderConvexMesh () { }
-#if NEW_PHYSICS
   virtual csRef<CS::Collisions::iCollider> Create (celPcDynamicWorld* dynworld,
       iMeshFactoryWrapper* factory);
-#else
-  virtual csRef<iRigidBody> Create (iDynamicSystem* dynSys,
-      iMeshWrapper* mesh, iLight* light,
-      const csReversibleTransform& trans, iRigidBody* sharedBody)
-  {
-    csRef<iRigidBody> body = DOCollider::Create (dynSys, mesh, light, trans, sharedBody);
-    const csMatrix3 tm;
-    csOrthoTransform t (tm, offset);
-    body->AttachColliderConvexMesh (mesh, t, 10, 1, 0.8f);
-    body->AdjustTotalMass (mass);
-    return body;
-  }
-#endif
   virtual celBodyInfo GetBodyInfo ()
   {
     celBodyInfo info = DOCollider::GetBodyInfo ();
@@ -242,22 +160,8 @@ public:
   DOColliderBox (const csVector3& size, const csVector3& offset, float mass) :
     DOCollider (offset, mass), size (size) { }
   virtual ~DOColliderBox () { }
-#if NEW_PHYSICS
   virtual csRef<CS::Collisions::iCollider> Create (celPcDynamicWorld* dynworld,
       iMeshFactoryWrapper* factory);
-#else
-  virtual csRef<iRigidBody> Create (iDynamicSystem* dynSys,
-      iMeshWrapper* mesh, iLight* light,
-      const csReversibleTransform& trans, iRigidBody* sharedBody)
-  {
-    csRef<iRigidBody> body = DOCollider::Create (dynSys, mesh, light, trans, sharedBody);
-    const csMatrix3 tm;
-    csOrthoTransform t (tm, offset);
-    body->AttachColliderBox (size, t, 10, 1, 0);
-    body->AdjustTotalMass (mass);
-    return body;
-  }
-#endif
   virtual celBodyInfo GetBodyInfo ()
   {
     celBodyInfo info = DOCollider::GetBodyInfo ();
@@ -276,23 +180,8 @@ public:
   DOColliderCylinder (const csVector3& offset, float length, float radius, float mass) :
     DOCollider (offset, mass), length (length), radius (radius) { }
   virtual ~DOColliderCylinder () { }
-#if NEW_PHYSICS
   virtual csRef<CS::Collisions::iCollider> Create (celPcDynamicWorld* dynworld,
       iMeshFactoryWrapper* factory);
-#else
-  virtual csRef<iRigidBody> Create (iDynamicSystem* dynSys,
-      iMeshWrapper* mesh, iLight* light,
-      const csReversibleTransform& trans, iRigidBody* sharedBody)
-  {
-    csRef<iRigidBody> body = DOCollider::Create (dynSys, mesh, light, trans, sharedBody);
-    const csMatrix3 tm;
-    csOrthoTransform t (tm, offset);
-    t.RotateThis (csVector3 (1.0f, 0.0f, 0.0f), HALF_PI);
-    body->AttachColliderCylinder (length, radius, t, 10, 1, 0.8f);
-    body->AdjustTotalMass (mass);
-    return body;
-  }
-#endif
   virtual celBodyInfo GetBodyInfo ()
   {
     celBodyInfo info = DOCollider::GetBodyInfo ();
@@ -312,23 +201,8 @@ public:
   DOColliderCapsule (const csVector3& offset, float length, float radius, float mass) :
     DOCollider (offset, mass), length (length), radius (radius) { }
   virtual ~DOColliderCapsule () { }
-#if NEW_PHYSICS
   virtual csRef<CS::Collisions::iCollider> Create (celPcDynamicWorld* dynworld,
       iMeshFactoryWrapper* factory);
-#else
-  virtual csRef<iRigidBody> Create (iDynamicSystem* dynSys,
-      iMeshWrapper* mesh, iLight* light,
-      const csReversibleTransform& trans, iRigidBody* sharedBody)
-  {
-    csRef<iRigidBody> body = DOCollider::Create (dynSys, mesh, light, trans, sharedBody);
-    const csMatrix3 tm;
-    csOrthoTransform t (tm, offset);
-    t.RotateThis (csVector3 (1.0f, 0.0f, 0.0f), HALF_PI);
-    body->AttachColliderCapsule (length, radius, t, 10, 1, 0.8f);
-    body->AdjustTotalMass (mass);
-    return body;
-  }
-#endif
   virtual celBodyInfo GetBodyInfo ()
   {
     celBodyInfo info = DOCollider::GetBodyInfo ();
@@ -348,20 +222,8 @@ public:
   DOColliderSphere (const csVector3& offset, float radius, float mass) :
     DOCollider (offset, mass), radius (radius) { }
   virtual ~DOColliderSphere () { }
-#if NEW_PHYSICS
   virtual csRef<CS::Collisions::iCollider> Create (celPcDynamicWorld* dynworld,
       iMeshFactoryWrapper* factory);
-#else
-  virtual csRef<iRigidBody> Create (iDynamicSystem* dynSys,
-      iMeshWrapper* mesh, iLight* light,
-      const csReversibleTransform& trans, iRigidBody* sharedBody)
-  {
-    csRef<iRigidBody> body = DOCollider::Create (dynSys, mesh, light, trans, sharedBody);
-    body->AttachColliderSphere (radius, offset, 100, .5, 0);
-    body->AdjustTotalMass (mass);
-    return body;
-  }
-#endif
   virtual celBodyInfo GetBodyInfo ()
   {
     celBodyInfo info = DOCollider::GetBodyInfo ();
@@ -392,10 +254,8 @@ private:
   csArray<csVector3> pivotJoints;
   csArray<DynFactJointDefinition> joints;
 
-#if NEW_PHYSICS
   csRef<CS::Physics::iRigidBodyFactory> rigidBodyFactory;
   csRef<CS::Collisions::iCollider> collider;
-#endif
 
   csRef<iGeometryGenerator> geometryGenerator;
   csRef<iImposterFactory> imposterFactory;
@@ -409,9 +269,7 @@ public:
       float maxradiusRelative, float imposterradius, bool isLogic = false);
   virtual ~DynamicFactory () { }
 
-#if NEW_PHYSICS
   CS::Physics::iRigidBodyFactory* GetRigidBodyFactory ();
-#endif
 
   virtual iObject* QueryObject () { return this; }
   virtual float GetMaximumRadiusRelative () const { return maxradiusRelative; }
@@ -522,11 +380,7 @@ private:
   // transform of this object. If the mesh is prepared then this
   // represents the transform at the time the mesh is prepared.
   csReversibleTransform trans;
-#if NEW_PHYSICS
   csRef<CS::Physics::iRigidBody> body;
-#else
-  csRef<iRigidBody> body;
-#endif
   bool is_static;
   bool is_kinematic;
   bool is_hilight;
@@ -539,15 +393,14 @@ private:
   csArray<DODecal> decals;
 
   // Pivot joints.
+#if 0
+  // @@@
   csRefArray<CS::Physics::Bullet::iPivotJoint> pivotJoints;
+#endif
 
   // Connected objects (indices are same as the indices of the factory joints).
   csRefArray<iDynamicObject> connectedObjects;
-#if NEW_PHYSICS
   csRefArray<CS::Physics::iJoint> joints;
-#else
-  csRefArray<iJoint> joints;
-#endif
 
   // Update all joints for all bodies that exist.
   void UpdateJoints ();
@@ -574,11 +427,7 @@ private:
   mutable bool bsphereValid;
 
   // Update the mesh and body in the property classes of the entity.
-#if NEW_PHYSICS
   void MeshBodyToEntity (iMeshWrapper* mesh, CS::Physics::iRigidBody* body);
-#else
-  void MeshBodyToEntity (iMeshWrapper* mesh, iRigidBody* body);
-#endif
 
   void CreateCollider ();
   void CreateBody ();
@@ -612,14 +461,17 @@ public:
   virtual iMeshWrapper* GetMesh () const { return mesh; }
   virtual iLight* GetLight () const { return light; }
 
-#if NEW_PHYSICS
   virtual CS::Physics::iRigidBody* GetBody () const { return body; }
-#else
-  virtual iRigidBody* GetBody () const { return body; }
-#endif
   virtual bool RecreatePivotJoints ();
   virtual bool CreatePivotJoint (const csVector3& worldpos);
-  virtual size_t GetPivotJointCount () const { return pivotJoints.GetSize (); }
+  virtual size_t GetPivotJointCount () const
+  {
+#if 0
+    // @@@
+    return pivotJoints.GetSize ();
+#endif
+    return 0;
+  }
   virtual csVector3 GetPivotJointPosition (size_t idx);
   virtual void SetPivotJointPosition (size_t idx, const csVector3& worldpos);
   virtual void RemovePivotJoint (size_t idx);
@@ -685,11 +537,7 @@ public:
   bool HasMovedSufficiently ();
 
   // Return true if a body is part of this dynamic object.
-#if NEW_PHYSICS
   bool HasBody (CS::Physics::iRigidBody* body);
-#else
-  bool HasBody (iRigidBody* body);
-#endif
 };
 
 struct DynamicObjectExtraData
@@ -716,12 +564,7 @@ public:
   iCelPlLayer* pl;
 
   iSector* sector;
-#if NEW_PHYSICS
   csRef<CS::Physics::iPhysicalSector> dynSys;
-#else
-  csRef<iDynamicSystem> dynSys;
-  csRef<CS::Physics::Bullet::iDynamicSystem> bullet_dynSys;
-#endif
   bool createdDynSys;
   csRefArray<DynamicObject> objects;
 
@@ -746,11 +589,7 @@ public:
   // Find out if this id was allocated in this cell.
   bool IsAllocatedHere (uint id);
 
-#if NEW_PHYSICS
   void Setup (iSector* sector, CS::Physics::iPhysicalSector* dynSys);
-#else
-  void Setup (iSector* sector, iDynamicSystem* dynSys);
-#endif
 
   virtual const char* GetName () const { return name; }
 
@@ -768,12 +607,7 @@ public:
   virtual void MarkBaseline ();
 
   virtual iSector* GetSector () const { return sector; }
-#if NEW_PHYSICS
   virtual CS::Physics::iPhysicalSector* GetDynamicSector () const { return dynSys; }
-#else
-  virtual iDynamicSystem* GetDynamicSystem () const { return dynSys; }
-#endif
-  virtual CS::Physics::Bullet::iDynamicSystem* GetBulletDynamicSystem ();
 
   void SaveIDAllocations (iCelCompactDataBufferWriter* buf);
   void SaveModifications (iCelCompactDataBufferWriter* buf,
@@ -791,10 +625,8 @@ public:
   csRef<iGraphics3D> g3d;
   csWeakRef<iCelPlLayer> pl;
   csRef<iVirtualClock> vc;
-#if NEW_PHYSICS
   CS::Collisions::CollisionHelper collisionHelper;
   csRef<CS::Physics::iPhysicalSystem> physicalSystem;
-#endif
   csRef<iCollideSystem> cdsys;
   csRef<iDecalManager> decalMgr;
 
@@ -879,11 +711,9 @@ public:
   celPcDynamicWorld (iObjectRegistry* object_reg);
   virtual ~celPcDynamicWorld ();
 
-#if NEW_PHYSICS
   CS::Collisions::CollisionHelper& GetCollisionHelper () { return collisionHelper; }
   CS::Collisions::iCollisionSystem* GetCollisionSystem () const { return physicalSystem; }
   CS::Physics::iPhysicalSystem* GetPhysicalSystem () const { return physicalSystem; }
-#endif
   iCollideSystem* GetCollideSystem ();
 
   uint AllocIDBlock ()
@@ -924,12 +754,8 @@ public:
   void SafeToRemove (iCelEntity* entity);
   virtual void Dump ();
 
-#if NEW_PHYSICS
   virtual iDynamicCell* AddCell (const char* name, iSector* sector,
       CS::Physics::iPhysicalSector* dynSys = 0);
-#else
-  virtual iDynamicCell* AddCell (const char* name, iSector* sector, iDynamicSystem* dynSys);
-#endif
   virtual iDynamicCell* FindCell (const char* name);
   virtual void RemoveCell (iDynamicCell* cell);
   virtual void SetCurrentCell (iDynamicCell* cell) { currentCell = static_cast<DynamicCell*> (cell); }
@@ -970,11 +796,7 @@ public:
   virtual void PrepareView (iCamera* camera, float elapsed_time);
   virtual void ForceView (iCamera* camera);
   virtual iDynamicObject* FindObject (iCelEntity* entity) const;
-#if NEW_PHYSICS
   virtual iDynamicObject* FindObject (CS::Physics::iRigidBody* body) const;
-#else
-  virtual iDynamicObject* FindObject (iRigidBody* body) const;
-#endif
   virtual iDynamicObject* FindObject (iMeshWrapper* mesh) const;
   virtual iDynamicObject* FindObject (const char* name) const;
   virtual iDynamicObject* FindObject (uint id) const;
