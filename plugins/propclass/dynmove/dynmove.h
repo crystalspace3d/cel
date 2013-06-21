@@ -36,6 +36,7 @@ struct iObjectRegistry;
 struct iMouseDriver;
 struct iGraphics2D;
 struct iPcDefaultCamera;
+struct iVirtualClock;
 
 /**
  * Factory for dyn movement class.
@@ -70,7 +71,8 @@ private:
   static csStringID id_input_rotateright_up;
   static csStringID id_input_mouselook;
 
-  csRef<CS::Physics::iRigidBody> body;
+  csRef<CS::Collisions::iCollisionActor> actor;
+  //csRef<CS::Physics::iRigidBody> body;
   csWeakRef<iPcMesh> pcmesh;
   void CreateBody ();
 
@@ -80,6 +82,7 @@ private:
 
   csRef<iGraphics2D> g2d;
   csRef<iMouseDriver> mouse;
+  csRef<iVirtualClock> vc;
   bool mouselookEnabled;
 
   // For properties.
@@ -87,17 +90,16 @@ private:
   {
     propid_speed = 0,
     propid_jumpspeed,
-    propid_rotspeed,
-    propid_correctup,
+    propid_rotspeed
   };
   static PropertyHolder propinfo;
 
   float speed;
   float jumpspeed;
   float rotspeed;
-  bool correctup;
 
   csVector3 curspeed;
+  int rotate;
 
 public:
   celPcDynamicMove (iObjectRegistry* object_reg);
@@ -114,11 +116,6 @@ public:
       celData& ret, iCelParameterBlock* params);
 
   virtual void TickEveryFrame ();
-
-  // Override SetProperty from celPcCommon in order to provide support
-  // for the 'correctup' property.
-  virtual bool SetPropertyIndexed (int idx, bool b);
-  virtual bool GetPropertyIndexed (int, bool& b);
 
   virtual void EnableMouselook (bool enable);
   virtual bool IsMouselookEnabled () const { return mouselookEnabled; }

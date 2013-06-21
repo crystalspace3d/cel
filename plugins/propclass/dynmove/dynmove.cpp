@@ -21,6 +21,7 @@
 #include "csgeom/transfrm.h"
 #include "iutil/objreg.h"
 #include "iutil/csinput.h"
+#include "iutil/virtclk.h"
 #include "plugins/propclass/dynmove/dynmove.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
@@ -96,13 +97,13 @@ celPcDynamicMove::celPcDynamicMove (iObjectRegistry* object_reg)
 	CEL_DATA_FLOAT, false, "Jump speed", &jumpspeed);
   AddProperty (propid_rotspeed, "rotspeed",
 	CEL_DATA_FLOAT, false, "Rotation speed", &rotspeed);
-  AddProperty (propid_correctup, "correctup",
-	CEL_DATA_BOOL, false, "Correct up vector", 0);
   speed = 1.0f;
   jumpspeed = 1.0f;
   rotspeed = 1.0f;
   curspeed.Set (0.0f);
-  correctup = false;
+  rotate = 0;
+
+  vc = csQueryRegistry<iVirtualClock> (object_reg);
   csRef<iGraphics3D> g3d = csQueryRegistry<iGraphics3D> (object_reg);
   g2d = g3d->GetDriver2D ();
   mouse = csQueryRegistry<iMouseDriver> (object_reg);
@@ -122,85 +123,38 @@ void celPcDynamicMove::EnableMouselook (bool enable)
     g2d->SetMousePosition (g2d->GetWidth () / 2, g2d->GetHeight () / 2);
 }
 
-void celPcDynamicMove::TickEveryFrame ()
-{
-  GetPCS ();
-#if 0
-  if (correctup && bulletBody)
-  {
-    iPcMesh* pcmesh = pcmechobj->GetMesh ();
-    iMeshWrapper* mesh = pcmesh->GetMesh ();
-    csReversibleTransform& trans = mesh->GetMovable ()->GetTransform ();
-    csVector3 up = trans.GetUp ();
-    if (fabs (up.x) < 0.1f && fabs (up.y - 1.0f) < 0.1f && fabs (up.z) < 0.1f)
-      return;
-
-    iRigidBody* body = pcmechobj->GetBody ();
-    bulletBody->MakeKinematic ();
-    trans.LookAt (trans.GetFront (), csVector3 (0, 1, 0));
-    mesh->GetMovable ()->UpdateMove ();
-    body->MakeDynamic ();
-  }
-#endif
-}
-
-bool celPcDynamicMove::SetPropertyIndexed (int idx, bool b)
-{
-  if (idx == propid_correctup)
-  {
-    correctup = b;
-    if (correctup)
-      pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
-    else
-      pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
-    return true;
-  }
-  return false;
-}
-
-bool celPcDynamicMove::GetPropertyIndexed (int idx, bool& b)
-{
-  if (idx == propid_correctup)
-  {
-    b = correctup;
-    return true;
-  }
-  return false;
-}
-
 void celPcDynamicMove::SetEntity (iCelEntity* entity)
 {
   celPcCommon::SetEntity (entity);
   if (entity)
   {
-    if (correctup)
-      pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
+    pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
     entity->QueryMessageChannel ()->Subscribe (this, "cel.input.");
   }
 }
 
 void celPcDynamicMove::CreateBody ()
 {
-  if (!body)
+  if (!actor)
   {
     csRef<CS::Physics::iPhysicalSystem> system = csQueryRegistry<CS::Physics::iPhysicalSystem> (
 	object_reg);
     csRef<CS::Collisions::iColliderBox> collider = system->CreateColliderBox (csVector3 (.3, 1.6, .3));
-    csRef<CS::Physics::iRigidBodyFactory> factory = system->CreateRigidBodyFactory (collider);
-    factory->SetMass (1.0f);
-    body = factory->CreateRigidBody ();
-    body->SetLinearDamping (0.0f);
-    body->SetAngularDamping (0.0f);
+    csRef<CS::Collisions::iCollisionActorFactory> factory = system->CreateCollisionActorFactory (collider);
+    //factory->SetMass (1.0f);
+    actor = factory->CreateCollisionActor ();
+    //body->SetLinearDamping (0.0f);
+    //body->SetAngularDamping (0.0f);
     if (pcmesh)
-      body->SetAttachedSceneNode (pcmesh->GetMesh ()->QuerySceneNode ());
+      actor->SetAttachedSceneNode (pcmesh->GetMesh ()->QuerySceneNode ());
   }
 }
 
 void celPcDynamicMove::Move (CS::Physics::iPhysicalSector* sector, const csReversibleTransform& trans)
 {
   GetPCS ();
-  body->SetTransform (trans);
-  sector->AddCollisionObject (body);
+  actor->SetTransform (trans);
+  sector->AddCollisionObject (actor);
 }
 
 bool celPcDynamicMove::PerformActionIndexed (int idx,
@@ -231,6 +185,8 @@ bool celPcDynamicMove::ReceiveMessage (csStringID msgid, iMessageSender* sender,
 
   GetPCS ();
 
+  bool rc = true;
+
   if (msgid == id_input_mouselook)
   {
     GetCam ();
@@ -242,8 +198,8 @@ bool celPcDynamicMove::ReceiveMessage (csStringID msgid, iMessageSender* sender,
     int sy = y - g2d->GetHeight () / 2;
     if (sx != 0 || sy != 0)
     {
-      float yangle = float (sx) / 8.0f;
 #if 0
+      float yangle = float (sx) / 8.0f;
       // @@@
       pcmechobj->SetAngularVelocity (csVector3 (0, yangle, 0));
 #endif
@@ -264,35 +220,40 @@ bool celPcDynamicMove::ReceiveMessage (csStringID msgid, iMessageSender* sender,
     }
     g2d->SetMousePosition (g2d->GetWidth () / 2, g2d->GetHeight () / 2);
   }
+
   else if (msgid == id_input_forward_down)
-    curspeed = csVector3 (0, 0, -25.0f * speed);
+    curspeed.z = -25.0f * speed;
   else if (msgid == id_input_forward_up)
-    curspeed = 0.0f;
+    curspeed.z = 0.0f;
+
   else if (msgid == id_input_backward_down)
-    curspeed = csVector3 (0, 0, 25.0f * speed);
+    curspeed.z = 25.0f * speed;
   else if (msgid == id_input_backward_up)
-    curspeed = 0.0f;
+    curspeed.z = 0.0f;
+
   else if (msgid == id_input_strafeleft_down)
-    curspeed = csVector3 (25.0f * speed, 0, 0);
+    curspeed.x = 25.0f * speed;
   else if (msgid == id_input_strafeleft_up)
-    curspeed = 0.0f;
+    curspeed.x = 0.0f;
+
   else if (msgid == id_input_straferight_down)
-    curspeed = csVector3 (-25.0f * speed, 0, 0);
+    curspeed.x = -25.0f * speed;
   else if (msgid == id_input_straferight_up)
-    curspeed = 0.0f;
-#if 0
-  // @@@
+    curspeed.x = 0.0f;
+
   else if (msgid == id_input_rotateleft_down)
-    pcmechobj->SetAngularVelocity (csVector3 (0, -25.0f * rotspeed, 0));
+    rotate = -1;
   else if (msgid == id_input_rotateleft_up)
-    pcmechobj->SetAngularVelocity (csVector3 (0));
+    rotate = 0;
+
   else if (msgid == id_input_rotateright_down)
-    pcmechobj->SetAngularVelocity (csVector3 (0, 25.0f * rotspeed, 0));
+    rotate = 1;
   else if (msgid == id_input_rotateright_up)
-    pcmechobj->SetAngularVelocity (csVector3 (0));
+    rotate = 0;
+
   else if (msgid == id_input_jump_down)
-    pcmechobj->AddForceDuration (csVector3 (0, jumpspeed, 0), false, csVector3 (0, 0, 0), .2f);
-#endif
+    actor->Jump ();	// @@@ Test if on ground!
+
   else if (msgid == id_input_lookup_down)
   {
     GetCam ();
@@ -323,19 +284,21 @@ bool celPcDynamicMove::ReceiveMessage (csStringID msgid, iMessageSender* sender,
     if (pcdefcamera)
       pcdefcamera->CenterCamera ();
   }
-  else return false;
+  else rc = false;
 
-#if 0
-  // @@@
-  csReversibleTransform trans = pcmechobj->GetMesh ()->GetMesh ()->
-    GetMovable ()->GetFullTransform ();
-  csVector3 linvel = pcmechobj->GetLinearVelocity ();
-  csVector3 newlinvel = trans.This2OtherRelative (curspeed);
-  newlinvel.y = linvel.y;
-  pcmechobj->SetLinearVelocity (newlinvel);
-#endif
+  actor->SetSpeed (curspeed);
 
-  return true;
+  return rc;
+}
+
+
+void celPcDynamicMove::TickEveryFrame ()
+{
+  if (rotate)
+  {
+    float yaw = float (rotate) * vc->GetElapsedSeconds () * rotspeed;
+    actor->Rotate (yaw, 0.0f);
+  }
 }
 
 //---------------------------------------------------------------------------
