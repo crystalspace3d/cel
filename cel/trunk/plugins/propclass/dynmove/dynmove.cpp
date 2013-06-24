@@ -297,7 +297,7 @@ void celPcDynamicMove::TickEveryFrame ()
   if (rotate)
   {
     float yaw = float (rotate) * vc->GetElapsedSeconds () * rotspeed;
-    actor->Rotate (yaw, 0.0f);
+    actor->Rotate (yaw);
   }
 }
 
