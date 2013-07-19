@@ -19,7 +19,7 @@
 #ifndef __CEL_CELVERSION_H__
 #define __CEL_CELVERSION_H__
 
-#include <csver.h>
+#include <csverdef.h>
 
 /**\file
  * Crystal Entity Layer Version Information
@@ -39,8 +39,8 @@
 #define CEL_RELEASE_DATE  CS_VER_QUOTE(Tue 10-Apr-2011)
 
 /// A complete version number
-#define CEL_VERSION_NUMBER CS_VERSION_MAJOR "." CS_VERSION_MINOR "." \
-  CS_VERSION_BUILD
+#define CEL_VERSION_NUMBER CEL_VERSION_MAJOR "." CEL_VERSION_MINOR "." \
+  CEL_VERSION_BUILD
 
 
 #endif // __CEL_CELVERSION_H__
