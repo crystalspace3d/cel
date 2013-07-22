@@ -198,11 +198,7 @@ bool celPcDynamicMove::ReceiveMessage (csStringID msgid, iMessageSender* sender,
     int sy = y - g2d->GetHeight () / 2;
     if (sx != 0 || sy != 0)
     {
-#if 0
-      float yangle = float (sx) / 8.0f;
-      // @@@
-      pcmechobj->SetAngularVelocity (csVector3 (0, yangle, 0));
-#endif
+      rotate = float (sx) / 8.0f;
       if (pcdefcamera)
       {
         float xangle = float (sy) / 10.0f;
@@ -211,10 +207,7 @@ bool celPcDynamicMove::ReceiveMessage (csStringID msgid, iMessageSender* sender,
     }
     else
     {
-#if 0
-      // @@@
-      pcmechobj->SetAngularVelocity (csVector3 (0, 0, 0));
-#endif
+      rotate = 0.0f;
       if (pcdefcamera)
         pcdefcamera->SetPitchVelocity (0);
     }
@@ -242,14 +235,14 @@ bool celPcDynamicMove::ReceiveMessage (csStringID msgid, iMessageSender* sender,
     curspeed.x = 0.0f;
 
   else if (msgid == id_input_rotateleft_down)
-    rotate = -1;
+    rotate = -1.0f;
   else if (msgid == id_input_rotateleft_up)
-    rotate = 0;
+    rotate = 0.0f;
 
   else if (msgid == id_input_rotateright_down)
-    rotate = 1;
+    rotate = 1.0f;
   else if (msgid == id_input_rotateright_up)
-    rotate = 0;
+    rotate = 0.0f;
 
   else if (msgid == id_input_jump_down)
     actor->Jump ();	// @@@ Test if on ground!
@@ -294,9 +287,9 @@ bool celPcDynamicMove::ReceiveMessage (csStringID msgid, iMessageSender* sender,
 
 void celPcDynamicMove::TickEveryFrame ()
 {
-  if (rotate)
+  if (fabs (rotate) > 0.001f)
   {
-    float yaw = float (rotate) * vc->GetElapsedSeconds () * rotspeed;
+    float yaw = rotate * vc->GetElapsedSeconds () * rotspeed;
     actor->Rotate (yaw);
   }
 }

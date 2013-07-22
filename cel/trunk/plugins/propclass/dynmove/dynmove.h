@@ -99,7 +99,7 @@ private:
   float rotspeed;
 
   csVector3 curspeed;
-  int rotate;
+  float rotate;
 
 public:
   celPcDynamicMove (iObjectRegistry* object_reg);
