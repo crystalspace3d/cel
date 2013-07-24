@@ -61,6 +61,7 @@ csStringID celPcActorMove::id_animation = csInvalidStringID;
 csStringID celPcActorMove::id_anicycle = csInvalidStringID;
 csStringID celPcActorMove::id_animationid = csInvalidStringID;
 csStringID celPcActorMove::id_animationname = csInvalidStringID;
+csStringID celPcActorMove::id_newtarget = csInvalidStringID;
 
 csStringID celPcActorMove::id_input_forward1 = csInvalidStringID;
 csStringID celPcActorMove::id_input_forward0 = csInvalidStringID;
@@ -96,6 +97,7 @@ celPcActorMove::celPcActorMove (iObjectRegistry* object_reg)
     id_anicycle = pl->FetchStringID ("cycle");
     id_animationid = pl->FetchStringID ("mapping");
     id_animationname = pl->FetchStringID ("name");
+    id_newtarget = pl->FetchStringID ("newtarget");
 
     id_input_forward1 = pl->FetchStringID ("cel.input.forward.down");
     id_input_forward0 = pl->FetchStringID ("cel.input.forward.up");
@@ -148,6 +150,15 @@ celPcActorMove::celPcActorMove (iObjectRegistry* object_reg)
   }
   g2d = g3d->GetDriver2D ();
 
+  // For camera control
+  new_xrot = 0.0f;
+  new_yrot = 0.f;
+  rotatehor = false;
+  rotateup = false;
+  rotatedown = false;
+  freezemove = false;
+  camrotate_lastticks = (csTicks)~0;
+
   propholder = &propinfo;
 
   // For actions.
@@ -171,6 +182,7 @@ celPcActorMove::celPcActorMove (iObjectRegistry* object_reg)
     AddAction (action_setanimation, "SetAnimation");
     AddAction (action_setanimationname, "SetAnimationName");
     AddAction (action_subscribe, "Subscribe");
+    AddAction (action_changetarget, "ChangeTarget");
   }
 
   // For properties.
@@ -281,13 +293,39 @@ void celPcActorMove::TickEveryFrame ()
         pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
     }
   }
+
+
+  csTicks cur_ticks = vc->GetCurrentTicks ();
+  if (camrotate_lastticks == (csTicks)~0)
+  {
+    camrotate_lastticks = cur_ticks;
+  }
+  if(rotateup || rotatedown || rotatehor){
+    if(rotateup){
+      RotateUp( float(cur_ticks - camrotate_lastticks) );
+    }
+    if(rotatedown){
+      RotateDown( float(cur_ticks - camrotate_lastticks) );
+    }
+    if(rotatehor){
+      RotateTo(new_yrot);
+      printf("new_yrot: %f\n", new_yrot);
+    }
+    camrotate_lastticks = cur_ticks;
+    return;
+  }else{
+    freezemove = false;
+  }
+  camrotate_lastticks = cur_ticks;
+
+
   if (!mousemove) return;
   if (!pcdefcamera) return;
 
   int frame_width = g2d->GetWidth();
   int frame_height = g2d->GetHeight();
 
-  csTicks cur_ticks = vc->GetCurrentTicks ();
+  cur_ticks = vc->GetCurrentTicks ();
   if (mousemove_lastticks == (csTicks)~0)
   {
     // Do nothing for first time.
@@ -433,6 +471,7 @@ bool celPcActorMove::PerformActionIndexed (int idx,
       }
     case action_forward:
       {
+        if(freezemove) return false;
 	bool start;
 	if (!Fetch (start, params, id_start)) return false;
         Forward (start);
@@ -440,6 +479,7 @@ bool celPcActorMove::PerformActionIndexed (int idx,
       }
     case action_backward:
       {
+        if(freezemove) return false;
 	bool start;
 	if (!Fetch (start, params, id_start)) return false;
         Backward (start);
@@ -447,6 +487,7 @@ bool celPcActorMove::PerformActionIndexed (int idx,
       }
     case action_strafeleft:
       {
+        if(freezemove) return false;
 	bool start;
 	if (!Fetch (start, params, id_start)) return false;
         StrafeLeft (start);
@@ -454,6 +495,7 @@ bool celPcActorMove::PerformActionIndexed (int idx,
       }
     case action_straferight:
       {
+        if(freezemove) return false;
 	bool start;
 	if (!Fetch (start, params, id_start)) return false;
         StrafeRight (start);
@@ -553,6 +595,49 @@ bool celPcActorMove::PerformActionIndexed (int idx,
       }
       return false;
     }
+    case action_changetarget:
+    {
+      rotatehor = true;
+      freezemove = true;
+      csVector3 actorPos = pclinmove->GetPosition(); // use eye position here will be better
+
+      csString newTarget;
+      csVector3 newTargetPos;
+
+      if (!Fetch(newTarget, params, id_newtarget)) return false; 
+
+      pl = csQueryRegistry<iCelPlLayer> (object_reg); 
+      iCelEntity *entity = pl->FindEntity( newTarget ); 
+         
+      csRef<iPcMesh> targetPcmesh = celQueryPropertyClassEntity<iPcMesh>( entity ); 
+      newTargetPos = targetPcmesh->GetMesh()->GetMovable()->GetFullPosition(); 
+
+      csVector3 newLookAt = newTargetPos - actorPos; 
+      newLookAt.Normalize();
+
+      csReversibleTransform actorTransform = pcmesh->GetMesh ()->GetMovable ()->GetTransform (); 
+ 
+      new_xrot = 3.1415f/2.1f - acos( csClamp( actorTransform.GetT2O() * csVector3(0, 1, 0) * newLookAt, 1.0f, -1.0f) ); 
+      float current_xrot = pcdefcamera->GetPitch();
+      if(new_xrot > current_xrot){
+        rotateup = true;
+        rotatedown = false;
+      }else{
+        rotatedown = true;
+        rotateup = false;
+      }
+
+      csVector3 newLookAt_XZ = newLookAt; 
+      newLookAt_XZ.y = 0; 
+
+      newLookAt_XZ.Normalize(); 
+      if(newLookAt_XZ.z > 1.0f) newLookAt_XZ.z = 1.0f; 
+      if(newLookAt_XZ.z < -1.0f) newLookAt_XZ.z = -1.0f; 
+       
+      new_yrot = acos(newLookAt_XZ.z); 
+      if(newLookAt_XZ.x < 0.0f)
+        new_yrot = 2.0*PI - new_yrot; 
+    }
     default:
       return false;
   }
@@ -595,18 +680,23 @@ void celPcActorMove::RotateTo (float yrot)
   }
 
   float current_yrot = pclinmove->GetYRotation ();
+  printf("current_yrot: %f\n", current_yrot);
   current_yrot = atan2f (sin (current_yrot), cos (current_yrot));
   rotate_to = atan2f (sin (yrot), cos (yrot));
   float delta_angle = atan2f (sin (rotate_to - current_yrot),
   	cos (rotate_to - current_yrot));
 
   if (fabs(delta_angle) < SMALL_EPSILON)
+  //if (fabs(delta_angle) < rotating_speed * 10.f)
   {
     rotateright = false;
     rotateleft = false;
+    rotatehor = false;
+    printf("rotation ends! \n");
     HandleMovement (false);
     return;
   }
+  
 
   if (current_yrot < 0)
   {
@@ -830,6 +920,24 @@ bool celPcActorMove::IsRotatingRight ()
 {
   HandleMovement (false);
   return rotateright;
+}
+
+void celPcActorMove::RotateUp (float delta_tick)
+{
+  if(pcdefcamera->GetPitch() < new_xrot){
+    pcdefcamera->MovePitch(delta_tick * 0.00004f);
+  }else{
+    rotateup = false;
+  }
+}
+
+void celPcActorMove::RotateDown (float delta_tick)
+{
+  if(pcdefcamera->GetPitch() > new_xrot){
+    pcdefcamera->MovePitch(-delta_tick * 0.00004f);
+  }else{
+    rotatedown = false;
+  }
 }
 
 void celPcActorMove::Run (bool start)
