@@ -108,6 +108,15 @@ private:
   float mousemove_vert_factor;
   csWeakRef<iGraphics2D> g2d;
 
+  // For camera control
+  float new_xrot;
+  float new_yrot;
+  bool rotatehor;
+  bool rotateup;
+  bool rotatedown;
+  bool freezemove;
+  csTicks camrotate_lastticks;
+
   static csStringID id_movement;
   static csStringID id_running;
   static csStringID id_rotation;
@@ -120,6 +129,7 @@ private:
   static csStringID id_anicycle;
   static csStringID id_animationid;
   static csStringID id_animationname;
+  static csStringID id_newtarget;
 
   static csStringID id_input_forward1;
   static csStringID id_input_forward0;
@@ -160,7 +170,8 @@ private:
     action_togglecameramode,
     action_setanimation,
     action_setanimationname,
-    action_subscribe
+    action_subscribe,
+    action_changetarget
   };
 
   // For properties.
@@ -197,6 +208,8 @@ public:
   virtual bool IsRotatingLeft ();
   virtual void RotateRight (bool start);
   virtual bool IsRotatingRight ();
+  virtual void RotateUp (float);
+  virtual void RotateDown (float);
   virtual void RotateTo (float yrot);
   virtual void Run (bool start);
   virtual bool IsRunning ();
