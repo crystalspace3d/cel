@@ -83,6 +83,7 @@ public:
   virtual const char* GetParameterValue (size_t idx) const { return parameters[idx].value; }
   virtual celDataType GetParameterType (size_t idx) const { return parameters[idx].type; }
   virtual void RemoveParameter (csStringID id);
+  virtual size_t GetParameterIndex (csStringID id);
 };
 
 /**

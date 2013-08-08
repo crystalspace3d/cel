@@ -174,6 +174,14 @@ void celMessageRewardFactory::RemoveParameter (csStringID id)
     }
 }
 
+size_t celMessageRewardFactory::GetParameterIndex (csStringID id)
+{
+  for (size_t i = 0 ; i < parameters.GetSize () ; i++)
+    if (parameters[i].id == id)
+      return i;
+  return csArrayItemNotFound;
+}
+
 //---------------------------------------------------------------------------
 
 celMessageReward::celMessageReward (

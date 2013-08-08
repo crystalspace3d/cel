@@ -578,6 +578,7 @@ struct iMessageRewardFactory : public virtual iBase
   virtual const char* GetParameterValue (size_t idx) const = 0;
   virtual celDataType GetParameterType (size_t idx) const = 0;
   virtual void RemoveParameter (csStringID id) = 0;
+  virtual size_t GetParameterIndex (csStringID id) = 0;
 };
 
 /**
