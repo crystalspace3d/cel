@@ -90,6 +90,12 @@ bool celAddOnDynamicWorldLoader::Initialize (iObjectRegistry *object_reg)
     printf ("No decal manager!\n");
     return false;
   }
+  engine = csQueryRegistry<iEngine> (object_reg);
+  if (!engine)
+  {
+    printf ("No engine!\n");
+    return false;
+  }
 
   xmltokens.Register ("dynworld", XMLTOKEN_DYNWORLD);
   xmltokens.Register ("factory", XMLTOKEN_FACTORY);
