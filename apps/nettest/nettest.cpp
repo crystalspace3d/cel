@@ -623,7 +623,7 @@ bool NetTest::Application ()
 
   // initialize game factory
   game_factory = csQueryRegistry<iCelGameFactory> (object_reg);
-  if (!game_factory) return ReportError ("CEL network layer missing! Please make sure you compiled CEL with the HawkNL library enabled (use the --with-NL tag of the configure script for that).");
+  if (!game_factory) return ReportError ("CEL network layer missing! Please make sure you compiled CEL with the HawkNL library enabled (uncomment the 'network' related line in $CEL/plugins/Jamfile then type 'jam').");
   game_factory->SetGameName ("CEL network test");
   game_factory->SetProtocolVersion ("v0.1");
 
