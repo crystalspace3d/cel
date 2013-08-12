@@ -309,7 +309,7 @@ void celPcActorMove::TickEveryFrame ()
     }
     if(rotatehor){
       RotateTo(new_yrot);
-      printf("new_yrot: %f\n", new_yrot);
+      //printf("new_yrot: %f\n", new_yrot);
     }
     camrotate_lastticks = cur_ticks;
     return;
@@ -680,7 +680,7 @@ void celPcActorMove::RotateTo (float yrot)
   }
 
   float current_yrot = pclinmove->GetYRotation ();
-  printf("current_yrot: %f\n", current_yrot);
+  //printf("current_yrot: %f\n", current_yrot);
   current_yrot = atan2f (sin (current_yrot), cos (current_yrot));
   rotate_to = atan2f (sin (yrot), cos (yrot));
   float delta_angle = atan2f (sin (rotate_to - current_yrot),
@@ -692,7 +692,7 @@ void celPcActorMove::RotateTo (float yrot)
     rotateright = false;
     rotateleft = false;
     rotatehor = false;
-    printf("rotation ends! \n");
+    //printf("rotation ends! \n");
     HandleMovement (false);
     return;
   }
