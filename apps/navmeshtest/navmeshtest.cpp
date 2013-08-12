@@ -248,8 +248,12 @@ bool MainApp::OnKeyboard(iEvent& ev)
       CS::MeasureTime measure ("Total time to load the navigation structure");
       navStruct.Invalidate();
       navStruct = navStructBuilder->LoadHNavStruct(vfs, "navigationStructure.zip");
-      navStructMeshes = navStruct->GetDebugMeshes(currentSector);
-      GetMapNodes ();
+      if (navStruct)
+      {
+        navStructMeshes = navStruct->GetDebugMeshes(currentSector);
+        GetMapNodes ();
+      }
+      else csPrintf ("Could'nt load navigation structure file!\n");
     }
     else if (code == 'c') // Clear navstruct, positions and path
     {
