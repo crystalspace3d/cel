@@ -139,7 +139,9 @@ bool WheeledTest::OnKeyboard (iEvent &ev)
     else if (code == 's')
     {
       csRef<iCelPersistence> p = 
-          csQueryRegistry<iCelPersistence> (object_reg);
+          csQueryRegistryOrLoad<iCelPersistence> (object_reg, "cel.persistence");
+      if (!p)
+        return true;
       celStandardLocalEntitySet set (pl);
       size_t i;
       for (i = 0 ; i < pl->GetEntityCount () ; i++)
@@ -160,7 +162,9 @@ bool WheeledTest::OnKeyboard (iEvent &ev)
     else if (code == 'l')
     {
       csRef<iCelPersistence> p = 
-          csQueryRegistry<iCelPersistence> (object_reg);
+          csQueryRegistryOrLoad<iCelPersistence> (object_reg, "cel.persistence");
+      if (!p)
+        return true;
       celStandardLocalEntitySet set (pl);
       if (!p->Load (&set, "/this/savefile"))
       {
