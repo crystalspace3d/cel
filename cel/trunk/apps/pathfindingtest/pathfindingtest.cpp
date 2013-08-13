@@ -364,8 +364,12 @@ bool MainApp::OnKeyboard(iEvent& ev)
     {
       navStruct.Invalidate();
       navStruct = navStructBuilder->LoadHNavStruct(vfs, "navigationStructure2.zip");
-      behaviourLayer->SetNavStruct(navStruct);
-      navStructMeshes = navStruct->GetDebugMeshes();
+      if (navStruct)
+      {
+        behaviourLayer->SetNavStruct(navStruct);
+        navStructMeshes = navStruct->GetDebugMeshes();
+      }
+      else csPrintf ("Couldn't load %s!\n", CS::Quote::Single ("navigationStructure2.zip"));
     }
     else if (code == 'c') // Clear navstruct, positions and path
     {

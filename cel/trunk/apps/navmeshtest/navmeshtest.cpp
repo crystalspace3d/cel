@@ -253,7 +253,7 @@ bool MainApp::OnKeyboard(iEvent& ev)
         navStructMeshes = navStruct->GetDebugMeshes(currentSector);
         GetMapNodes ();
       }
-      else csPrintf ("Could'nt load navigation structure file!\n");
+      else csPrintf ("Couldn't load %s!\n", CS::Quote::Single ("navigationStructure.zip"));
     }
     else if (code == 'c') // Clear navstruct, positions and path
     {
