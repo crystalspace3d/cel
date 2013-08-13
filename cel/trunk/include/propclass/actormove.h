@@ -65,6 +65,8 @@ enum celAnimationName
  * - SetAnimationName: parameters 'mapping' (string) specifying the cel name
  *   (like walk, run, rotateleft...) and 'name' (string) specifying the model
  *   name for the animation.
+ * - ChangeTarget: parameters 'newtarget' (string). Slowly moves the camera to
+ *   point to the given target entity.
  *
  * This property class supports the following properties:
  * - mousemove (bool, read/write): enable/disable mousemove.

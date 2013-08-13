@@ -604,39 +604,47 @@ bool celPcActorMove::PerformActionIndexed (int idx,
       csString newTarget;
       csVector3 newTargetPos;
 
-      if (!Fetch(newTarget, params, id_newtarget)) return false; 
+      if (!Fetch (newTarget, params, id_newtarget)) return false;
 
-      pl = csQueryRegistry<iCelPlLayer> (object_reg); 
-      iCelEntity *entity = pl->FindEntity( newTarget ); 
-         
-      csRef<iPcMesh> targetPcmesh = celQueryPropertyClassEntity<iPcMesh>( entity ); 
-      newTargetPos = targetPcmesh->GetMesh()->GetMovable()->GetFullPosition(); 
+      pl = csQueryRegistry<iCelPlLayer> (object_reg);
+      iCelEntity *entity = pl->FindEntity (newTarget);
+    
+      csRef<iPcMesh> targetPcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
+      if (!targetPcmesh)
+      {
+	Error ("ChangeTarget: target has no mesh!");
+	return false;
+      }
+      newTargetPos = targetPcmesh->GetMesh()->GetMovable()->GetFullPosition();
 
-      csVector3 newLookAt = newTargetPos - actorPos; 
+      csVector3 newLookAt = newTargetPos - actorPos;
       newLookAt.Normalize();
 
-      csReversibleTransform actorTransform = pcmesh->GetMesh ()->GetMovable ()->GetTransform (); 
- 
-      new_xrot = 3.1415f/2.1f - acos( csClamp( actorTransform.GetT2O() * csVector3(0, 1, 0) * newLookAt, 1.0f, -1.0f) ); 
+      csReversibleTransform actorTransform = pcmesh->GetMesh ()->GetMovable ()->GetTransform ();
+
+      new_xrot = 3.1415f/2.1f - acos (csClamp (actorTransform.GetT2O() * csVector3(0, 1, 0) * newLookAt, 1.0f, -1.0f));
       float current_xrot = pcdefcamera->GetPitch();
-      if(new_xrot > current_xrot){
+      if (new_xrot > current_xrot)
+      {
         rotateup = true;
         rotatedown = false;
-      }else{
+      } 
+      else
+      {
         rotatedown = true;
         rotateup = false;
       }
 
-      csVector3 newLookAt_XZ = newLookAt; 
-      newLookAt_XZ.y = 0; 
+      csVector3 newLookAt_XZ = newLookAt;
+      newLookAt_XZ.y = 0;
 
-      newLookAt_XZ.Normalize(); 
-      if(newLookAt_XZ.z > 1.0f) newLookAt_XZ.z = 1.0f; 
-      if(newLookAt_XZ.z < -1.0f) newLookAt_XZ.z = -1.0f; 
-       
-      new_yrot = acos(newLookAt_XZ.z); 
+      newLookAt_XZ.Normalize();
+      if(newLookAt_XZ.z > 1.0f) newLookAt_XZ.z = 1.0f;
+      if(newLookAt_XZ.z < -1.0f) newLookAt_XZ.z = -1.0f;
+
+      new_yrot = acos(newLookAt_XZ.z);
       if(newLookAt_XZ.x < 0.0f)
-        new_yrot = 2.0*PI - new_yrot; 
+        new_yrot = 2.0*PI - new_yrot;
     }
     default:
       return false;
@@ -696,7 +704,7 @@ void celPcActorMove::RotateTo (float yrot)
     HandleMovement (false);
     return;
   }
-  
+
 
   if (current_yrot < 0)
   {
@@ -1039,7 +1047,7 @@ csPtr<iCelDataBuffer> celPcActorMove::GetPersistentData (
 
   if (sprcal3d)
   {
-    // @@@ TODO: this doesn't work for idle animations, it seems they are not 
+    // @@@ TODO: this doesn't work for idle animations, it seems they are not
     // put in the active anims of the cal3d mesh
     size_t anim_count = sprcal3d->GetActiveAnimCount ();
     databuf->Add ((uint32)anim_count);
