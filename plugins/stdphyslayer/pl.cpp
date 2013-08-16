@@ -1676,7 +1676,7 @@ csTicks celPlLayer::GetTicksLeft (iCelTimerListener* listener, int where)
   size_t pc_idx = weak_listeners_hash.Get (listener, (size_t)~0);
   // If our pc is not yet in the weak_listeners table then it can't possibly
   // be in the timed_callbacks table so we can return here already.
-  if (pc_idx == (size_t)~0) return csArrayItemNotFound;
+  if (pc_idx == (size_t)~0) return static_cast<csTicks>(-1);
 
   CallbackInfo* cbinfo = GetCBInfo (where);
   size_t i;
@@ -1688,7 +1688,7 @@ csTicks celPlLayer::GetTicksLeft (iCelTimerListener* listener, int where)
     }
     else
       i++;
-  return csArrayItemNotFound;
+  return static_cast<csTicks>(-1);
 }
 
 // Handling of class-entities lists
