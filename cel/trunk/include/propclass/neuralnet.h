@@ -375,7 +375,7 @@ public:
   {
     const T &val = GetFrom<T>(data);
     double e_v = log(fabs((double) val)); // log may return not-a-number
-    data.Set((T) (csNormal(e_v) ? e_v : 0.0));
+    data.Set((T) (CS::IsFinite(e_v) && !CS::IsNaN(e_v) ? e_v : 0.0));
   }
   virtual celDataType GetDataType() { return DataType<T>(); }
   virtual ~celLogActivationFunc() {}
@@ -449,7 +449,7 @@ public:
   {
     const T &val = GetFrom<T>(data);
     double e_v = exp((double) val); // exp may return infinite
-    data.Set((T) (csNormal(e_v) ? e_v : 0.0));
+    data.Set((T) (CS::IsFinite(e_v) && !CS::IsNaN(e_v) ? e_v : 0.0));
   }
   virtual celDataType GetDataType() { return DataType<T>(); }
   virtual ~celExpActivationFunc() {}
