@@ -1722,16 +1722,6 @@ const csRef<iCelEntityList> celPlLayer::GetClassEntitiesList (
 }
 
 // Send messages to entity lists.
-int celPlLayer::SendMessage (iCelEntityList *entlist, const char* msgname,
-		iCelParameterBlock* params, ...)
-{
-  va_list arg;
-  va_start (arg, params);
-  int responses = SendMessageV (entlist, msgname, params, arg);
-  va_end (arg);
-  return responses;
-}
-
 int celPlLayer::SendMessageV (iCelEntityList *entlist, const char* msgname, 
 		iCelParameterBlock* params, va_list arg)
 {
