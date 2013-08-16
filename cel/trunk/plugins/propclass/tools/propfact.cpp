@@ -292,7 +292,7 @@ void celPcProperties::SaveModifications (iCelCompactDataBufferWriter* buf,
           }
           else
           {
-            buf->AddUInt32 (csArrayItemNotFound);
+            buf->AddUInt32 (static_cast<uint32>(-1));
           }
         }
         break;
@@ -301,7 +301,7 @@ void celPcProperties::SaveModifications (iCelCompactDataBufferWriter* buf,
           if (prop->entity)
             buf->AddUInt32 (prop->entity->GetID ());
           else
-            buf->AddUInt32 (csArrayItemNotFound);
+            buf->AddUInt32 (static_cast<uint32>(-1));
         }
         break;
       case CEL_DATA_IBASE:
