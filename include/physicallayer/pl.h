@@ -121,7 +121,7 @@ struct iCallable : public virtual iBase
  */
 struct iCelPlLayer : public virtual iBase
 {
-  SCF_INTERFACE (iCelPlLayer, 1, 0, 0);
+  SCF_INTERFACE (iCelPlLayer, 2, 0, 0);
 
   /**
    * Create a new physical layer entity. The physical layer
@@ -160,6 +160,9 @@ struct iCelPlLayer : public virtual iBase
    */
   virtual csPtr<iCelEntity> CreateEntity (const char* entname,
   	iCelBlLayer* bl, const char* bhname, ...) = 0;
+
+  virtual csPtr<iCelEntity> CreateEntityV (const char* entname,
+	iCelBlLayer* bl, const char* bhname, va_list args) = 0;
 
   /**
    * Remove an entity from the physical layer. If there is a behaviour
@@ -219,6 +222,9 @@ struct iCelPlLayer : public virtual iBase
    */
   virtual iCelEntity* CreateEntity (iCelEntityTemplate* factory,
   	const char* name, ...) = 0;
+
+  virtual iCelEntity* CreateEntityV (iCelEntityTemplate* factory,
+	const char* name, va_list args) = 0;
 
   /**
    * Apply a template to an already existing entity.
