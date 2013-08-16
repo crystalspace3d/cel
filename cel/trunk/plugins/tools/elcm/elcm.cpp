@@ -537,8 +537,8 @@ void celELCM::FireELCMListeners (iCelEntity* entity)
 void celELCM::Dump ()
 {
   printf ("### ELCM ###\n");
-  printf ("  Active entities=%d, ", activeEntities->GetSize ());
-  printf ("Inactive entities=%d\n", inactiveEntities.GetSize ());
+  printf ("  Active entities=%zd, ", activeEntities->GetSize ());
+  printf ("Inactive entities=%zd\n", inactiveEntities.GetSize ());
 }
 
 //---------------------------------------------------------------------------
