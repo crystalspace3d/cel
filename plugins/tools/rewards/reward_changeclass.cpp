@@ -187,10 +187,10 @@ void celListChangeClassReward::Reward (iCelParameterBlock* params)
 {
   iCelPlLayer* pl = type->pl;
 
-  csRef<iCelEntityList> list = pm->ResolveEntityListParameter (type->pl, params, entities);
+  csRef<iCelEntityList> list = pm->ResolveEntityListParameter (pl, params, entities);
 
   const char* cl = clazz->Get (params);
-  csStringID id = type->pl->FetchStringID (cl);
+  csStringID id = pl->FetchStringID (cl);
   for (size_t i = 0 ; i < list->GetCount () ; i++)
   {
     iCelEntity* ent = list->Get (i);
