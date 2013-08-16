@@ -121,7 +121,7 @@ struct iCallable : public virtual iBase
  */
 struct iCelPlLayer : public virtual iBase
 {
-  SCF_INTERFACE (iCelPlLayer, 0, 4, 2);
+  SCF_INTERFACE (iCelPlLayer, 1, 0, 0);
 
   /**
    * Create a new physical layer entity. The physical layer
@@ -599,8 +599,15 @@ struct iCelPlLayer : public virtual iBase
    * \deprecated Use SendMessage() for new message system instead.
    */
   CS_DEPRECATED_METHOD_MSG("Use SendMessage() for new message system instead.")
-  virtual int SendMessage (iCelEntityList *entlist, const char* msgname,
-	iCelParameterBlock* params, ...) = 0;
+  int SendMessage (iCelEntityList *entlist, const char* msgname,
+	iCelParameterBlock* params, ...)
+    {
+      va_list arg;
+      va_start (arg, params);
+      int responses = SendMessageV (entlist, msgname, params, arg);
+      va_end (arg);
+      return responses;
+    }
 
   /*
    * Send a message to all entities in an entity list. Returns the number
