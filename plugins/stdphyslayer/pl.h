@@ -149,8 +149,6 @@ public:
   virtual csPtr<iCelEntity> CreateEntity (uint id);
   virtual csPtr<iCelEntity> CreateEntityV (const char* entname,
 	iCelBlLayer* bl, const char* bhname, va_list args);
-  virtual csPtr<iCelEntity> CreateEntity (const char* entname,
-  	iCelBlLayer* bl, const char* bhname, ...);
   virtual iCelEntity* FindEntity (const char* name);
   /**
    * Remove an entity from the physical layer ID list.
@@ -174,8 +172,6 @@ public:
   	const char* name, iCelParameterBlock* params);
   virtual iCelEntity* CreateEntityV (iCelEntityTemplate* factory,
 	const char* name, va_list args);
-  virtual iCelEntity* CreateEntity (iCelEntityTemplate* factory,
-  	const char* name, ...);
   virtual bool ApplyTemplate (iCelEntity* entity, iCelEntityTemplate* factory,
       iCelParameterBlock* params);
 
