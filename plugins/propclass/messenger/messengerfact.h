@@ -449,6 +449,8 @@ public:
   virtual const char* GetDefaultType () const { return defaultType; }
   virtual void Message (const char* type, const char* id,
       const csStringArray& msgs);
+  virtual void MessageV (const char* type, const char* id,
+      const char* msg, va_list args);
   virtual void Message (const char* type, const char* id,
       const char* msg, ...);
   virtual void ClearId (const char* id);
