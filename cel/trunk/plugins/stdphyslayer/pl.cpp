@@ -238,6 +238,16 @@ csPtr<iCelEntity> celPlLayer::CreateEntity (uint entity_id)
 csPtr<iCelEntity> celPlLayer::CreateEntity (const char* entname,
 	iCelBlLayer* bl, const char* bhname, ...)
 {
+  va_list args;
+  va_start (args, bhname);
+  csRef<iCelEntity> ent = CreateEntityV (entname, bl, bhname, args);
+  va_end (args);
+  return csPtr<iCelEntity> (ent);
+}
+
+csPtr<iCelEntity> celPlLayer::CreateEntityV (const char* entname,
+	iCelBlLayer* bl, const char* bhname, va_list args)
+{
   csRef<iCelEntity> ent = CreateEntity ();
   if (!ent)
   {
@@ -260,8 +270,6 @@ csPtr<iCelEntity> celPlLayer::CreateEntity (const char* entname,
     }
   }
 
-  va_list args;
-  va_start (args, bhname);
   char const* pcname = va_arg (args, char*);
   while (pcname != 0)
   {
@@ -276,7 +284,6 @@ csPtr<iCelEntity> celPlLayer::CreateEntity (const char* entname,
     }
     pcname = va_arg (args, char*);
   }
-  va_end (args);
 
   return csPtr<iCelEntity> (ent);
 }
@@ -429,10 +436,18 @@ bool celPlLayer::PerformActionTemplate (const ccfPropAct& act,
 iCelEntity* celPlLayer::CreateEntity (iCelEntityTemplate* factory,
   	const char* name, ...)
 {
-  csRef<celVariableParameterBlock> params;
-  params.AttachNew (new celVariableParameterBlock ());
   va_list args;
   va_start (args, name);
+  iCelEntity* ent = CreateEntityV (factory, name, args);
+  va_end (args);
+  return ent;
+}
+
+iCelEntity* celPlLayer::CreateEntityV (iCelEntityTemplate* factory,
+	const char* name, va_list args)
+{
+  csRef<celVariableParameterBlock> params;
+  params.AttachNew (new celVariableParameterBlock ());
   char const* par = va_arg (args, char*);
   while (par != 0)
   {
@@ -440,7 +455,6 @@ iCelEntity* celPlLayer::CreateEntity (iCelEntityTemplate* factory,
     params->AddParameter (FetchStringID (par)).Set (val);
     par = va_arg (args, char*);
   }
-  va_end (args);
   return CreateEntity (factory, name, params);
 }
 
