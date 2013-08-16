@@ -25,6 +25,7 @@
 #include "csutil/strset.h"
 #include "csutil/ref.h"
 #include "csutil/csstring.h"
+#include "physicallayer/entity.h"
 #include "physicallayer/messaging.h"
 
 struct iObject;
@@ -121,7 +122,7 @@ struct iCallable : public virtual iBase
  */
 struct iCelPlLayer : public virtual iBase
 {
-  SCF_INTERFACE (iCelPlLayer, 2, 0, 0);
+  SCF_INTERFACE (iCelPlLayer, 3, 0, 0);
 
   /**
    * Create a new physical layer entity. The physical layer
@@ -158,8 +159,15 @@ struct iCelPlLayer : public virtual iBase
    * \param bl is the behaviour layer and can be 0.
    * \param bhname can be 0.
    */
-  virtual csPtr<iCelEntity> CreateEntity (const char* entname,
-  	iCelBlLayer* bl, const char* bhname, ...) = 0;
+  csPtr<iCelEntity> CreateEntity (const char* entname,
+	iCelBlLayer* bl, const char* bhname, ...)
+  {
+    va_list args;
+    va_start (args, bhname);
+    csRef<iCelEntity> ent = CreateEntityV (entname, bl, bhname, args);
+    va_end (args);
+    return csPtr<iCelEntity> (ent);
+  }
 
   virtual csPtr<iCelEntity> CreateEntityV (const char* entname,
 	iCelBlLayer* bl, const char* bhname, va_list args) = 0;
@@ -220,8 +228,15 @@ struct iCelPlLayer : public virtual iBase
    * a parameter block instance from these parameters and
    * then call the other CreateEntity() variant.
    */
-  virtual iCelEntity* CreateEntity (iCelEntityTemplate* factory,
-  	const char* name, ...) = 0;
+  iCelEntity* CreateEntity (iCelEntityTemplate* factory,
+	const char* name, ...)
+  {
+    va_list args;
+    va_start (args, name);
+    iCelEntity* ent = CreateEntityV (factory, name, args);
+    va_end (args);
+    return ent;
+  }
 
   virtual iCelEntity* CreateEntityV (iCelEntityTemplate* factory,
 	const char* name, va_list args) = 0;

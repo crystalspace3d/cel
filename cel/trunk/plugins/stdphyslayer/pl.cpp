@@ -235,16 +235,6 @@ csPtr<iCelEntity> celPlLayer::CreateEntity (uint entity_id)
   return csPtr<iCelEntity> (ientity);
 }
 
-csPtr<iCelEntity> celPlLayer::CreateEntity (const char* entname,
-	iCelBlLayer* bl, const char* bhname, ...)
-{
-  va_list args;
-  va_start (args, bhname);
-  csRef<iCelEntity> ent = CreateEntityV (entname, bl, bhname, args);
-  va_end (args);
-  return csPtr<iCelEntity> (ent);
-}
-
 csPtr<iCelEntity> celPlLayer::CreateEntityV (const char* entname,
 	iCelBlLayer* bl, const char* bhname, va_list args)
 {
@@ -433,16 +423,6 @@ bool celPlLayer::PerformActionTemplate (const ccfPropAct& act,
   return true;
 }
 
-iCelEntity* celPlLayer::CreateEntity (iCelEntityTemplate* factory,
-  	const char* name, ...)
-{
-  va_list args;
-  va_start (args, name);
-  iCelEntity* ent = CreateEntityV (factory, name, args);
-  va_end (args);
-  return ent;
-}
-
 iCelEntity* celPlLayer::CreateEntityV (iCelEntityTemplate* factory,
 	const char* name, va_list args)
 {
@@ -461,7 +441,7 @@ iCelEntity* celPlLayer::CreateEntityV (iCelEntityTemplate* factory,
 iCelEntity* celPlLayer::CreateEntity (iCelEntityTemplate* factory,
   	const char* name, iCelParameterBlock* params)
 {
-  csRef<iCelEntity> ent = CreateEntity (name, 0, 0, CEL_PROPCLASS_END);
+  csRef<iCelEntity> ent = iCelPlLayer::CreateEntity (name, 0, 0, CEL_PROPCLASS_END);
   if (!ApplyTemplate (ent, factory, params))
     return 0;
   (static_cast<celEntity*> ((iCelEntity*)ent))->SetTemplateNameID (FetchStringID (factory->GetName ()));
