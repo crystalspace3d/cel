@@ -86,7 +86,7 @@ bool LifeSimulator::CreateSheepEntity (const csVector3 position)
   //pcSteer->CollisionAvoidanceOn(2.0f, 1.0f);
  
   // Initialize the behaviour tree
-  BehaviourCommon* behaviour = static_cast<BehaviourCommon*> (entity->GetBehaviour ());
+  //BehaviourCommon* behaviour = static_cast<BehaviourCommon*> (entity->GetBehaviour ());
   //behaviour->CreateBehaviourTree ();
 
   return true;
