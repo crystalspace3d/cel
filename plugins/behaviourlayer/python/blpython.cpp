@@ -434,17 +434,6 @@ celPythonBehaviour::~celPythonBehaviour ()
   delete[] name;
 }
 
-bool celPythonBehaviour::SendMessage (const char* msg_id,
-	iCelPropertyClass* pc,
-	celData& ret, iCelParameterBlock* params, ...)
-{
-  va_list arg;
-  va_start (arg, params);
-  bool rc = SendMessageV (msg_id, pc, ret, params, arg);
-  va_end (arg);
-  return rc;
-}
-
 bool celPythonBehaviour::ReceiveMessage (csStringID msg_id,
     iMessageSender* sender, celData& ret, iCelParameterBlock* params)
 {
