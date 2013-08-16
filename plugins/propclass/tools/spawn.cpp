@@ -596,7 +596,7 @@ void celPcSpawn::SaveModifications (iCelCompactDataBufferWriter* buf,
       if (uniqueEntities[i])
         buf->AddUInt32 (uniqueEntities[i]->GetID ());
       else
-        buf->AddUInt32 (csArrayItemNotFound);
+        buf->AddUInt32 (static_cast<uint32>(-1));
     }
   }
   buf->AddUInt32 (serialnr);
