@@ -86,27 +86,6 @@ public:
   bool Store(const char*, iScriptValue*) { return false; }
   csPtr<iScriptValue> Retrieve(const char*) { return 0; }
 
-  /*
-    @@@ Deprecated functions which wont be implemented
-  */
-  bool Call(const char *name, const char *fmt, ...)
-      { return false; }
-  bool Call(const char *name, int &ret, const char *fmt, ...)
-      { return false; }
-  bool Call(const char *name, float &ret, const char *fmt, ...)
-      { return false; }
-  bool Call(const char *name, double &ret, const char *fmt, ...)
-      { return false; }
-  bool Call(const char *name, char **ret, const char *fmt, ...)
-      { return false; }
-  bool Call(const char *name, void **ret, const char *fmt, ...)
-      { return false; }
-  bool Call(const char *name, csRef<iString> &ref, const char *fmt, ...)
-      { return false; }
-  bool Call(const char *name, csRef<iScriptObject> &ref, const char *fmt, ...)
-      { return false; }
-  csRef<iScriptObject> NewObject(const char *type, const char *fmt, ...) 
-      { return 0; }
   bool Store(const char *name, int data)
       { return false; }
   bool Store(const char *name, float data)
