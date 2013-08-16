@@ -941,18 +941,23 @@ void celPcMessenger::Message (const char* type, const char* id,
 void celPcMessenger::Message (const char* type, const char* id,
       const char* msg, ...)
 {
-  csStringArray msgs;
-  msgs.Push (msg);
   va_list args;
   va_start (args, msg);
+  MessageV (type, id, msg, args);
+  va_end (args);
+}
+
+void celPcMessenger::MessageV (const char* type, const char* id,
+      const char* msg, va_list args)
+{
+  csStringArray msgs;
+  msgs.Push (msg);
   char const* m = va_arg (args, char*);
   while (m != (const char*)0)
   {
     msgs.Push (m);
     m = va_arg (args, char*);
   }
-  va_end (args);
-
   Message (type, id, msgs);
 }
 
