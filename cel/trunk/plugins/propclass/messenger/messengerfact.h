@@ -451,8 +451,6 @@ public:
       const csStringArray& msgs);
   virtual void MessageV (const char* type, const char* id,
       const char* msg, va_list args);
-  virtual void Message (const char* type, const char* id,
-      const char* msg, ...);
   virtual void ClearId (const char* id);
   virtual void ClearType (const char* type);
   virtual void ClearAll ();

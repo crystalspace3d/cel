@@ -141,7 +141,7 @@ struct iMessageLogIterator : public virtual iBase
  */
 struct iPcMessenger : public virtual iBase
 {
-  SCF_INTERFACE (iPcMessenger, 1, 0, 0);
+  SCF_INTERFACE (iPcMessenger, 2, 0, 0);
 
   /**
    * Define a new message slot.
@@ -207,8 +207,13 @@ struct iPcMessenger : public virtual iBase
    */
   virtual void Message (const char* type, const char* id,
       const csStringArray& msgs) = 0;
-  virtual void Message (const char* type, const char* id,
-      const char* msg, ...) = 0;
+  void Message (const char* type, const char* id, const char* msg, ...)
+  {
+    va_list args;
+    va_start (args, msg);
+    MessageV (type, id, msg, args);
+    va_end (args);
+  }
   virtual void MessageV (const char* type, const char* id,
       const char* msg, va_list args) = 0;
 
