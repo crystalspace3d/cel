@@ -37,7 +37,7 @@ struct iCelPropertyClass;
  */
 struct iCelParameterBlock : public virtual iBase
 {
-  SCF_INTERFACE (iCelParameterBlock, 0, 0, 1);
+  SCF_INTERFACE (iCelParameterBlock, 1, 0, 0);
 
   /**
    * Get number of parameters.
@@ -84,9 +84,16 @@ struct iCelBehaviour : public virtual iBase
    * message was understood and handled by the entity.
    * The 'ret' parameter can be used to return values.
    */
-  virtual bool SendMessage (const char* msg_id,
+  bool SendMessage (const char* msg_id,
   	iCelPropertyClass* pc,
-  	celData& ret, iCelParameterBlock* params, ...) = 0;
+	celData& ret, iCelParameterBlock* params, ...)
+  {
+    va_list arg;
+    va_start (arg, params);
+    bool rc = SendMessageV (msg_id, pc, ret, params, arg);
+    va_end (arg);
+    return rc;
+  }
 
   /**
    * Send a message to this entity. Returns true if the

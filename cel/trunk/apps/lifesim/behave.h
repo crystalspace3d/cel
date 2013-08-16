@@ -73,8 +73,6 @@ public:
                             iCelParameterBlock* params, va_list arg);
 
   virtual iCelBlLayer* GetBehaviourLayer () const;
-  virtual bool SendMessage (const char* msg_id, iCelPropertyClass* pc, celData& ret, 
-                            iCelParameterBlock* params, ...);
   virtual bool SendMessageV (const char* msg_id, iCelPropertyClass* pc, celData& ret, 
                              iCelParameterBlock* params, va_list arg);
   virtual void* GetInternalObject ();

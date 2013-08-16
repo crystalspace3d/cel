@@ -47,15 +47,6 @@ htBehaviourActor::~htBehaviourActor()
 {
 }
 
-bool htBehaviourActor::SendMessage (const char *msg_id, iCelPropertyClass *pc,
-    celData &ret, iCelParameterBlock *params,...)
-{
-  va_list arg;
-  va_start (arg, params);
-  bool rc = SendMessageV (msg_id, pc, ret, params, arg);
-  va_end (arg);
-  return rc;
-}
 bool htBehaviourActor::SendMessageV (const char *msg_id,
     iCelPropertyClass *pc, celData &ret, iCelParameterBlock *params,
     va_list arg)

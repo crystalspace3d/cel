@@ -117,17 +117,6 @@ celBehaviourXml::~celBehaviourXml ()
   delete[] name;
 }
 
-bool celBehaviourXml::SendMessage (const char* msg_id,
-  	iCelPropertyClass* pc,
-	celData& ret, iCelParameterBlock* params, ...)
-{
-  va_list arg;
-  va_start (arg, params);
-  bool rc = SendMessageV (msg_id, pc, ret, params, arg);
-  va_end (arg);
-  return rc;
-}
-
 bool celBehaviourXml::ReceiveMessage (csStringID msg_id,
     iMessageSender* /*sender*/, celData& ret, iCelParameterBlock* params)
 {
