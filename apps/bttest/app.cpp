@@ -410,7 +410,7 @@ void MainApp::CreateBehaviourTree ()
 
     csReport(object_reg, CS_REPORTER_SEVERITY_NOTIFY,
         "appbttest",
-        "Tree %s: Status=%i, Update Rate=%i \n Root Node: Status=%i", 
+        "Tree %s: Status=%li, Update Rate=%li \n Root Node: Status=%i",
         tree_name, tree_status, update_rate, root_node_status);  
 
     tree_propclass->PerformAction(pl->FetchStringID("BT Interrupt"), params, result);
