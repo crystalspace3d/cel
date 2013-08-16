@@ -1,5 +1,5 @@
 @c -*-texinfo-*-
-@node Tutorial BTTest, Property Classes, Tutorial QuestTest, Tutorials
+@node Tutorial BTTest, , Tutorial QuestTest, Tutorials
 @subsection BTTest Tutorial
 @cindex zone manager
 @cindex entity creation
