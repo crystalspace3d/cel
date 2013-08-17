@@ -81,9 +81,8 @@ iCelBehaviour* BehaviourLayer::CreateBehaviour (iCelEntity* entity,
     behave = new BehaviourBox (entity, this, pl);
   else if (!strcmp (name, &quot;badone_behave&quot;))
     behave = new BehaviourBadOne (entity, this, pl);
-  else if (!strcmp (name, &quot;quest_behave&quot;))   
+  else if (!strcmp (name, &quot;quest_behave&quot;))
     behave = new BehaviourQuest (entity, this, pl);
-
 
   if (behave)
   {
@@ -97,14 +96,13 @@ iCelBehaviour* BehaviourLayer::CreateBehaviour (iCelEntity* entity,
 </pre></td></tr></table>
 <p>The Quest behaviour SendMessage must be defined. However, again like the level behaviour, the Quest behaviour does not do anything in this tutorial.
 </p>
-<table><tr><td>&nbsp;</td><td><pre class="example">bool BehaviourQuest::SendMessage (csStringID msg_id, 
-  iCelPropertyClass* pc, 
-  celData&amp; ret, iCelParameterBlock* params, va_list arg) 
-{ 
-  return BehaviourCommon::SendMessage (msg_id, pc, ret, params, arg); 
-
+<table><tr><td>&nbsp;</td><td><pre class="example">bool BehaviourQuest::SendMessage (csStringID msg_id,
+  iCelPropertyClass* pc,
+  celData&amp; ret, iCelParameterBlock* params, va_list arg)
+{
+  return BehaviourCommon::SendMessage (msg_id, pc, ret, params, arg);
+}
 </pre></td></tr></table>
-
 
 <hr size="1">
 <p>

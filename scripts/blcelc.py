@@ -477,6 +477,7 @@ class iCelPlLayer(cspace.iBase):
     def FindEntityTemplate(*args): return _blcelc.iCelPlLayer_FindEntityTemplate(*args)
     def GetEntityTemplates(*args): return _blcelc.iCelPlLayer_GetEntityTemplates(*args)
     def CreateEntity(*args): return _blcelc.iCelPlLayer_CreateEntity(*args)
+    def CreateEntityV(*args): return _blcelc.iCelPlLayer_CreateEntityV(*args)
     def ApplyTemplate(*args): return _blcelc.iCelPlLayer_ApplyTemplate(*args)
     def CreateDataBuffer(*args): return _blcelc.iCelPlLayer_CreateDataBuffer(*args)
     def CreateCompactDataBufferWriter(*args): return _blcelc.iCelPlLayer_CreateCompactDataBufferWriter(*args)

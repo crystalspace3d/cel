@@ -66,18 +66,18 @@ layer and also the implementations of every behaviour.
 </p>
 <p>A Quest requires a behaviour and as such, one is defined here for the example Quest.
 </p>
-<table><tr><td>&nbsp;</td><td><pre class="example">class BehaviourQuest : public BehaviourCommon 
-{ 
-  public: 
-    BehaviourQuest (iCelEntity* entity, BehaviourLayer* bl, iCelPlLayer* pl) 
-       : BehaviourCommon (entity, bl, pl) {  
-    virtual ~BehaviourQuest () {  
+<table><tr><td>&nbsp;</td><td><pre class="example">class BehaviourQuest : public BehaviourCommon
+{
+  public:
+    BehaviourQuest (iCelEntity* entity, BehaviourLayer* bl, iCelPlLayer* pl)
+       : BehaviourCommon (entity, bl, pl) { }
+    virtual ~BehaviourQuest () { }
 
-    virtual const char* GetName () const { return &quot;quest_behave&quot;;  
-    virtual bool SendMessage (csStringID msg_id, 
-      iCelPropertyClass* pc, 
-      celData&amp; ret, iCelParameterBlock* params, va_list arg); 
-;
+    virtual const char* GetName () const { return &quot;quest_behave&quot;; }
+    virtual bool SendMessage (csStringID msg_id,
+      iCelPropertyClass* pc,
+      celData&amp; ret, iCelParameterBlock* params, va_list arg);
+};
 </pre></td></tr></table>
 <p>Almost identical to the existing level behaviour, this behaviour does very little.
 </p>
