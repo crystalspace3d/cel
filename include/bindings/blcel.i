@@ -213,6 +213,7 @@ typedef csHash<csStringBase, csStringBase, CS::Memory::AllocatorMalloc, csArrayE
 
 %ignore iCelPlLayer::SendMessageV;
 %ignore iCelPlLayer::CreateEntity (iCelEntityTemplate* factory,const char* name, ...);
+%ignore iCelPlLayer::CreateEntityV;
 %include "physicallayer/pl.h"
 %inline %{
 iCelPlLayer *csQueryRegistry_iCelPlLayer (iObjectRegistry *object_reg)
