@@ -1,6 +1,6 @@
 <library>
   <shaders>
-    <shader> <file>/shader/ambient.xml</file> </shader>
+    <shader> <file>/shader/lighting/fullbright.xml</file> </shader>
   </shaders>
   <textures>
     <texture name="celcarbody.png">
