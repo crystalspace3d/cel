@@ -264,7 +264,7 @@ bool HoverTest::CreateRoom ()
   }
   else
   {
-    path = "/cellib/track4";
+    path = "/cellib/track";
     file = "level.xml";
     terrain = "TerrainFact";
     terrainfile = "world";
