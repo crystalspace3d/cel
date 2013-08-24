@@ -1,0 +1,31 @@
+<world>
+  <sector name="Scene">
+    <addon entityname="ent_scene" plugin="cel.addons.celentity">
+      <propclass name="pcobject.mesh">
+        <action name="SetMesh">
+          <par string="Road_object" name="name"/>
+        </action>
+      </propclass>
+      <propclass name="pcphysics.object">
+        <action name="SetSystem">
+          <par string="ent_level" name="systempcent"/>
+          <par string="" name="systempctag"/>
+        </action>
+        <action name="InitPhys">
+          <par float="10.0" name="friction"/>
+          <par float="99999999999999999.99" name="mass"/>
+          <par float="0.8" name="elasticity"/>
+          <par float="1.0" name="density"/>
+          <par float="0.0001" name="softness"/>
+        </action>
+        <action name="SetMesh">
+          <par string="Road_object" name="meshpctag"/>
+        </action>
+        <action name="SetColliderMesh"/>
+        <action name="MakeStatic">
+          <par bool="true" name="static"/>
+        </action>
+      </propclass>
+    </addon>
+  </sector>
+</world>
