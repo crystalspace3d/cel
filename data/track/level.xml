@@ -1,0 +1,21 @@
+<level name="Track" description="Track Game Level">
+
+    <region name="track">
+	<map
+            name="track"
+            file="world" />
+        <map
+            name="entities_track"
+            file="track_entities.xml" />
+    </region>
+
+    <zone name="zone_test">
+    	<region>track</region>
+    </zone>
+
+    <start>
+    	<region>track</region>
+	<name>Camera</name>
+    </start>
+</level>
+

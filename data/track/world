@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<world xmlns="http://crystalspace3d.org/xml/library">
+  <library>/lib/sky/library</library>
+  <library>factories/RoadFactory</library>
+  <start name="Camera">
+    <sector>Scene</sector>
+    <position x="58.076763" z="10.774802" y="3.000000" />
+    <up x="0.051346" z="-0.152249" y="0.987007" />
+    <forward x="0.315417" z="-0.935252" y="-0.160674" />
+  </start>
+  <library>lightmaps.cslib</library>
+  <textures>
+    <texture name="track13_png">
+      <file>textures/track13.png</file>
+    </texture>
+  </textures>
+  <materials>
+    <material name="track13_png">
+      <shadervar type="texture" name="tex diffuse">track13_png</shadervar>
+    </material>
+  </materials>
+  <sector name="Scene">
+    <meshref name="Clouds_object">
+      <factory>clouddome</factory>
+      <move>
+        <v x="0.0" z="0.0" y="0.0" />
+      </move>
+    </meshref>
+    <meshref name="Sky_object">
+      <factory>skydome</factory>
+      <move>
+        <v x="0.0" z="0.0" y="0.0" />
+      </move>
+    </meshref>
+    <light name="Lamp11">
+      <center x="162.379303" z="82.480698" y="40.000000" />
+      <color red="1.000000" green="1.000000" blue="1.000000" />
+      <radius>120.000000</radius>
+      <attenuation>linear</attenuation>
+    </light>
+    <light name="Lamp10">
+      <center x="127.381668" z="180.773773" y="40.000000" />
+      <color red="1.000000" green="1.000000" blue="1.000000" />
+      <radius>120.000000</radius>
+      <attenuation>linear</attenuation>
+    </light>
+    <light name="Lamp3">
+      <center x="127.319550" z="-154.958435" y="40.000000" />
+      <color red="1.000000" green="1.000000" blue="1.000000" />
+      <radius>120.000000</radius>
+      <attenuation>linear</attenuation>
+    </light>
+    <light name="Lamp4">
+      <center x="17.329418" z="-137.631104" y="40.000000" />
+      <color red="1.000000" green="1.000000" blue="1.000000" />
+      <radius>120.000000</radius>
+      <attenuation>linear</attenuation>
+    </light>
+    <light name="Lamp9">
+      <center x="68.748238" z="215.039185" y="40.000000" />
+      <color red="1.000000" green="1.000000" blue="1.000000" />
+      <radius>120.000000</radius>
+      <attenuation>linear</attenuation>
+    </light>
+    <light name="Lamp8">
+      <center x="-20.580536" z="171.050125" y="40.000000" />
+      <color red="1.000000" green="1.000000" blue="1.000000" />
+      <radius>120.000000</radius>
+      <attenuation>linear</attenuation>
+    </light>
+    <light name="Lamp7">
+      <center x="-22.010597" z="36.970169" y="40.000000" />
+      <color red="1.000000" green="1.000000" blue="1.000000" />
+      <radius>120.000000</radius>
+      <attenuation>linear</attenuation>
+    </light>
+    <light name="Lamp6">
+      <center x="-97.430580" z="129.831024" y="40.000000" />
+      <color red="1.000000" green="1.000000" blue="1.000000" />
+      <radius>120.000000</radius>
+      <attenuation>linear</attenuation>
+    </light>
+    <light name="Lamp5">
+      <center x="-145.039459" z="-62.489937" y="40.000000" />
+      <color red="1.000000" green="1.000000" blue="1.000000" />
+      <radius>120.000000</radius>
+      <attenuation>linear</attenuation>
+    </light>
+    <light name="Lamp2">
+      <center x="162.110245" z="-58.297474" y="40.000000" />
+      <color red="1.000000" green="1.000000" blue="1.000000" />
+      <radius>120.000000</radius>
+      <attenuation>linear</attenuation>
+    </light>
+    <meshobj name="Road_object">
+      <plugin>crystalspace.mesh.loader.genmesh</plugin>
+      <params>
+        <factory>RoadFactory</factory>
+        <color red="0" green="0" blue="0" />
+        <manualcolors />
+        <material>track13_png</material>
+        <mixmode>
+          <copy />
+        </mixmode>
+        <submesh name="SM1">
+          <material>track13_png</material>
+          <mixmode>
+            <copy />
+          </mixmode>
+          <shadervar name="tex lightmap" type="texture">lightmaps__1_png</shadervar>
+        </submesh>
+        <submesh name="SM2">
+          <material>track13_png</material>
+          <mixmode>
+            <copy />
+          </mixmode>
+          <shadervar name="tex lightmap" type="texture">lightmaps__2_png</shadervar>
+        </submesh>
+        <submesh name="SM0">
+          <material>track13_png</material>
+          <mixmode>
+            <copy />
+          </mixmode>
+          <shadervar name="tex lightmap" type="texture">lightmaps__0_png</shadervar>
+        </submesh>
+        <renderbuffer name="texture coordinate lightmap" file="bindata/Road_object_lm" />
+      </params>
+      <move>
+        <v x="0.0" z="0.0" y="0.0" />
+      </move>
+      <staticlit />
+    </meshobj>
+    <light name="Lamp1">
+      <center x="63.374279" z="7.542250" y="40.000000" />
+      <color red="1.000000" green="1.000000" blue="1.000000" />
+      <radius>120.000000</radius>
+      <attenuation>linear</attenuation>
+    </light>
+  </sector>
+</world>
