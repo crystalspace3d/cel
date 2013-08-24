@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- pfhovercraftmove.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>cel.pcfactory.move.actor.hovercraft</name>
+        <implementation>celPfHoverCraftMove</implementation>
+        <description>CEL HoverCraft Mover Property Class Factory</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>
