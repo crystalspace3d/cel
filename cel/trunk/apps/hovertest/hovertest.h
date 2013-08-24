@@ -107,7 +107,7 @@ public:
    */
   virtual bool Application ();
 
-  CS_EVENTHANDLER_NAMES("cel.apps.mechtest")
+  CS_EVENTHANDLER_NAMES("cel.apps.hovertest")
   CS_EVENTHANDLER_NIL_CONSTRAINTS
 };
 

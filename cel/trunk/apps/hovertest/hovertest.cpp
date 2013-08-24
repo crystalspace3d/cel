@@ -75,7 +75,7 @@
 #include "propclass/meshsel.h"
 #include "propclass/inv.h"
 #include "propclass/chars.h"
-#include "propclass/move.h"
+#include "propclass/hovercraftmove.h"
 #include "propclass/tooltip.h"
 #include "propclass/craft.h"
 #include "propclass/defcam.h"
@@ -145,25 +145,24 @@ bool HoverTest::OnKeyboard (iEvent &ev)
 bool HoverTest::CreatePlayer (const csVector3 &pos)
 {
   // The Real Camera
-  player = pl->CreateEntity ("ent_player", behaviour_layer,
-        "dynactor",
+  player = pl->CreateEntity ("ent_player", behaviour_layer, "dynactor",
         "pcinput.standard",
         "pcobject.mesh",
         "pccamera.old",
         "pcphysics.object",
         "pcvehicle.hover",
         "pcvehicle.craft",
-	"pcmove.actor.dynamic",
-        (void*)0);
+	"pcmove.actor.hovercraft",
+        CEL_PROPCLASS_END);
   if (!player) return false;
 
   csRef<iPcCommandInput> pcinp = celQueryPropertyClassEntity<iPcCommandInput> (player);
   pcinp->Bind ("JoystickButton0", "up");
   pcinp->Bind ("JoystickAxis0", "down");
-  pcinp->Bind ("left", "left");
-  pcinp->Bind ("right", "right");
+  pcinp->Bind ("left", "steerleft");
+  pcinp->Bind ("right", "steerright");
   pcinp->Bind ("space", "jump");
-  pcinp->Bind ("x", "thrust");
+  pcinp->Bind ("x", "accelerate");
   pcinp->Bind ("enter", "center");
   pcinp->Bind ("pgup", "lookup");
   pcinp->Bind ("pgdn", "lookdown");
@@ -222,7 +221,7 @@ bool HoverTest::CreateRoom ()
         "pcworld.zonemanager",
         "pctools.inventory",
         "pcphysics.system",
-	(void*)0);
+	CEL_PROPCLASS_END);
 
   csRef<iCommandLineParser> cmdline = 
   	csQueryRegistry<iCommandLineParser> (object_reg);
