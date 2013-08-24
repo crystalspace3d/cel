@@ -318,7 +318,7 @@ bool WheeledTest::CreateMap ()
   }
   else
   {
-    path = "/cellib/track4";
+    path = "/cellib/track";
     file = "level.xml";
   }
 
@@ -338,8 +338,22 @@ bool WheeledTest::CreateMap ()
 
   scfString regionname, startname;
   pczonemgr->GetLastStartLocation (&regionname, &startname);
+  printf("Start position in region '%s', named '%s'\n",
+        (const char*)regionname, (const char*)startname);
 
-  entity_dummy = CreateVehicle ("vehicle", "track4", csVector3 (0,2.0f,1.0f));
+  // Get the first start position available.
+  iCameraPosition* campos;
+  campos = engine->GetCameraPositions ()->Get (0);
+  csVector3 startPosition (0.0f, 5.0f, 0.0f);
+  csString startSector ("Scene");
+  if (!campos)
+    csPrintf ("No camera found, using harcoded starting position!\n");
+  else
+  {
+    startPosition = campos->GetPosition ();
+    startSector = campos->GetSector ();
+  }
+  entity_dummy = CreateVehicle ("vehicle", startSector.GetData (), startPosition);
   if (!entity_dummy) return false;
 
   csRef<iPcCamera> pccamera = celQueryPropertyClassEntity<iPcCamera> (entity_dummy);
