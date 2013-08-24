@@ -1,0 +1,8 @@
+SubDir TOP plugins propclass hovercraftmove ;
+
+Plugin pfhovercraftmove
+	: hovercraftmove.cpp hovercraftmove.h
+;
+ExternalLibs pfhovercraftmove : CRYSTAL ;
+LinkWith pfhovercraftmove : celtool ;
+
