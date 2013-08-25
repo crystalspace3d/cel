@@ -16,8 +16,8 @@
     Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
-#ifndef __MECHTEST_H__
-#define __MECHTEST_H__
+#ifndef __EVOLVECRAFT_H__
+#define __EVOLVECRAFT_H__
 
 #include <stdarg.h>
 
@@ -45,9 +45,9 @@ struct iCelPropertyClass;
 struct iCelPropertyClassFactory;
 
 /**
- * Main application class of HoverTest.
+ * Main application class of EvolveCraft.
  */
-class HoverTest : public csApplicationFramework,
+class EvolveCraft : public csApplicationFramework,
 		public csBaseEventHandler
 {
 private:
@@ -83,8 +83,8 @@ private:
   bool CreatePlayer (const csVector3 &pos);
 
 public:
-  HoverTest ();
-  virtual ~HoverTest ();
+  EvolveCraft ();
+  virtual ~EvolveCraft ();
 
   /**
    * Final cleanup.
@@ -109,9 +109,9 @@ public:
    */
   virtual bool Application ();
 
-  CS_EVENTHANDLER_NAMES("cel.apps.mechtest")
+  CS_EVENTHANDLER_NAMES("cel.apps.evolvecraft")
   CS_EVENTHANDLER_NIL_CONSTRAINTS
 };
 
-#endif // __MECHTEST_H__
+#endif // __EVOLVECRAFT_H__
 

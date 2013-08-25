@@ -29,7 +29,7 @@ int main (int argc, char** argv)
 {
   // Now create our main application class which will do the basic
   // initialization and event handling for the entire game.
-  HoverTest cc;
+  EvolveCraft cc;
   // Start the app.
   // The underlying csApplicationFramework also does some core
   // initialization. It will setup the configuration manager, event queue,

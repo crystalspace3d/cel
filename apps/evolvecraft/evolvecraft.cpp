@@ -100,28 +100,28 @@
 
 //-----------------------------------------------------------------------------
 
-HoverTest::HoverTest ()
+EvolveCraft::EvolveCraft ()
 {
-  SetApplicationName ("hovertest");
+  SetApplicationName ("evolvecraft");
 }
 
-HoverTest::~HoverTest ()
+EvolveCraft::~EvolveCraft ()
 {
 }
 
-void HoverTest::OnExit ()
+void EvolveCraft::OnExit ()
 {
   if (pl) pl->CleanCache ();
   
   printer.Invalidate ();
 }
 
-void HoverTest::Frame ()
+void EvolveCraft::Frame ()
 {
   // We let the entity system do this so there is nothing here.
 }
 
-bool HoverTest::OnKeyboard (iEvent &ev)
+bool EvolveCraft::OnKeyboard (iEvent &ev)
 {
   // We got a keyboard event.
   if (csKeyEventHelper::GetEventType(&ev) == csKeyEventTypeDown)
@@ -145,7 +145,7 @@ bool HoverTest::OnKeyboard (iEvent &ev)
   return false;
 }
 
-bool HoverTest::CreatePlayer (const csVector3 &pos)
+bool EvolveCraft::CreatePlayer (const csVector3 &pos)
 {
   // The Real Camera
   player = pl->CreateEntity ("ent_player", behaviour_layer,
@@ -158,7 +158,7 @@ bool HoverTest::CreatePlayer (const csVector3 &pos)
         "pcphysics.object",
         "pcvehicle.hover",
         "pcvehicle.craft",
-	"pcmove.actor.dynamic",
+	"pcmove.actor.hovercraft",
         (void*)0);
   if (!player) return false;
 
@@ -238,7 +238,7 @@ bool HoverTest::CreatePlayer (const csVector3 &pos)
   return true;
 }
 
-bool HoverTest::CreateRoom ()
+bool EvolveCraft::CreateRoom ()
 {
   //===============================
   // Create the room entity.
@@ -324,7 +324,7 @@ bool HoverTest::CreateRoom ()
   return true;
 }
 
-bool HoverTest::OnInitialize (int argc, char* argv[])
+bool EvolveCraft::OnInitialize (int argc, char* argv[])
 {
   iObjectRegistry* r = GetObjectRegistry();
 
@@ -382,7 +382,7 @@ bool HoverTest::OnInitialize (int argc, char* argv[])
   return true;
 }
 
-bool HoverTest::Application()
+bool EvolveCraft::Application()
 {
   iObjectRegistry* r = GetObjectRegistry();
 
