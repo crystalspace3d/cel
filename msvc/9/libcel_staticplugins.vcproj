@@ -698,6 +698,9 @@
 				RelativePath="..\..\msvc\libpfhover_staticreg.cpp">
 			</File>
 			<File
+				RelativePath="..\..\msvc\libpfhovercraftmove_staticreg.cpp">
+			</File>
+			<File
 				RelativePath="..\..\msvc\libpfinput_staticreg.cpp">
 			</File>
 			<File
@@ -969,6 +972,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\hover\hover.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\hovercraftmove\hovercraftmove.cpp">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\input\inpfact.cpp">
@@ -1660,6 +1666,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\hover\hover.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\hovercraftmove\hovercraftmove.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\input\inpfact.h">
