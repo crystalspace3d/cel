@@ -25,7 +25,7 @@
 // CEL Includes
 #include "behaviourlayer/bl.h"
 
-class HoverTest;
+class EvolveCraft;
 
 /**
  * CEL requires a behaviour layer which will provide the entities with
@@ -40,14 +40,14 @@ class htBehaviourLayer : public scfImplementation1<htBehaviourLayer,
   iCelBlLayer>
 {
 private:
-  HoverTest* app;
+  EvolveCraft* app;
 iCelPlLayer* pl;
 
 public:
   CS_LEAKGUARD_DECLARE (htBehaviourLayer);
 
   // Constructor.
-  htBehaviourLayer (HoverTest* app, iCelPlLayer *pl);
+  htBehaviourLayer (EvolveCraft* app, iCelPlLayer *pl);
   // Destructor.
   virtual ~htBehaviourLayer ();
 
@@ -63,7 +63,7 @@ public:
   /**
    * Get the Ecksdee application class.
    */
-  HoverTest* GetApplication () const { return app; }
+  EvolveCraft* GetApplication () const { return app; }
 };
 
 #endif

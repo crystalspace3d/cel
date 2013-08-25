@@ -29,7 +29,7 @@
 
 CS_LEAKGUARD_IMPLEMENT (htBehaviourLayer);
 
-htBehaviourLayer::htBehaviourLayer (HoverTest* app, iCelPlLayer* pl) :
+htBehaviourLayer::htBehaviourLayer (EvolveCraft* app, iCelPlLayer* pl) :
   scfImplementationType (this)
 {
   htBehaviourLayer::app = app;
