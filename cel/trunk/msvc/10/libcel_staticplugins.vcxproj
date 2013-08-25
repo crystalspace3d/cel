@@ -497,6 +497,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClCompile Include="..\..\msvc\libpfevolve_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libpfgrab_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libpfhover_staticreg.cpp" />
+    <ClCompile Include="..\..\msvc\libpfhovercraftmove_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libpfinput_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libpfinv_staticreg.cpp" />
     <ClCompile Include="..\..\msvc\libpfjump_staticreg.cpp" />
@@ -588,6 +589,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClCompile Include="..\..\plugins\propclass\grab\grab.cpp" />
     <ClCompile Include="..\..\plugins\propclass\hover\craft_controller.cpp" />
     <ClCompile Include="..\..\plugins\propclass\hover\hover.cpp" />
+    <ClCompile Include="..\..\plugins\propclass\hovercraftmove\hovercraftmove.cpp" />
     <ClCompile Include="..\..\plugins\propclass\input\inpfact.cpp" />
     <ClCompile Include="..\..\plugins\propclass\inv\invfact.cpp" />
     <ClCompile Include="..\..\plugins\propclass\jump\jump.cpp" />
@@ -799,6 +801,7 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
     <ClInclude Include="..\..\plugins\propclass\grab\grab.h" />
     <ClInclude Include="..\..\plugins\propclass\hover\craft_controller.h" />
     <ClInclude Include="..\..\plugins\propclass\hover\hover.h" />
+    <ClInclude Include="..\..\plugins\propclass\hovercraftmove\hovercraftmove.h" />
     <ClInclude Include="..\..\plugins\propclass\input\inpfact.h" />
     <ClInclude Include="..\..\plugins\propclass\inv\invfact.h" />
     <ClInclude Include="..\..\plugins\propclass\jump\jump.h" />

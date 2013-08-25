@@ -40,6 +40,7 @@
 #include "propclass/grab.h"
 #include "propclass/gravity.h"
 #include "propclass/hover.h"
+#include "propclass/hovercraftmove.h"
 #include "propclass/input.h"
 #include "propclass/inv.h"
 #include "propclass/jump.h"
