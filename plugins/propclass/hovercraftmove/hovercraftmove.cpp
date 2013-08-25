@@ -33,19 +33,30 @@ CEL_IMPLEMENT_FACTORY (HoverCraftMove, "pcmove.actor.hovercraft")
 
 csStringID celPcHoverCraftMove::id_input_accelerate_up = csInvalidStringID;
 csStringID celPcHoverCraftMove::id_input_accelerate_down = csInvalidStringID;
-csStringID celPcHoverCraftMove::id_input_reverse_up = csInvalidStringID;
-csStringID celPcHoverCraftMove::id_input_reverse_down = csInvalidStringID;
+csStringID celPcHoverCraftMove::id_input_aburner_up = csInvalidStringID;
+csStringID celPcHoverCraftMove::id_input_aburner_down = csInvalidStringID;
+csStringID celPcHoverCraftMove::id_input_brake_up = csInvalidStringID;
+csStringID celPcHoverCraftMove::id_input_brake_down = csInvalidStringID;
 csStringID celPcHoverCraftMove::id_input_steerleft_up = csInvalidStringID;
 csStringID celPcHoverCraftMove::id_input_steerleft_down = csInvalidStringID;
 csStringID celPcHoverCraftMove::id_input_steerright_up = csInvalidStringID;
 csStringID celPcHoverCraftMove::id_input_steerright_down = csInvalidStringID;
-csStringID celPcHoverCraftMove::id_input_handbrake_up = csInvalidStringID;
-csStringID celPcHoverCraftMove::id_input_handbrake_down = csInvalidStringID;
+csStringID celPcHoverCraftMove::id_input_steerup_up = csInvalidStringID;
+csStringID celPcHoverCraftMove::id_input_steerup_down = csInvalidStringID;
+csStringID celPcHoverCraftMove::id_input_steerdown_up = csInvalidStringID;
+csStringID celPcHoverCraftMove::id_input_steerdown_down = csInvalidStringID;
+csStringID celPcHoverCraftMove::id_input_yaw = csInvalidStringID;
+csStringID celPcHoverCraftMove::id_input_pitch = csInvalidStringID;
+csStringID celPcHoverCraftMove::id_input_slide_up = csInvalidStringID;
+csStringID celPcHoverCraftMove::id_input_slide_down = csInvalidStringID;
 csStringID celPcHoverCraftMove::id_input_lookup_up = csInvalidStringID;
 csStringID celPcHoverCraftMove::id_input_lookup_down = csInvalidStringID;
 csStringID celPcHoverCraftMove::id_input_lookdown_up = csInvalidStringID;
 csStringID celPcHoverCraftMove::id_input_lookdown_down = csInvalidStringID;
 csStringID celPcHoverCraftMove::id_input_center_down = csInvalidStringID;
+
+csStringID celPcHoverCraftMove::id_value = csInvalidStringID;
+
 csStringID celPcHoverCraftMove::id_mech_collision = csInvalidStringID;
 csStringID celPcHoverCraftMove::id_mech_par_position = csInvalidStringID;
 csStringID celPcHoverCraftMove::id_mech_par_normal = csInvalidStringID;
@@ -58,19 +69,28 @@ celPcHoverCraftMove::celPcHoverCraftMove (iObjectRegistry* object_reg)
   {
     id_input_accelerate_up = pl->FetchStringID ("cel.input.accelerate.up");
     id_input_accelerate_down = pl->FetchStringID ("cel.input.accelerate.down");
-    id_input_reverse_up = pl->FetchStringID ("cel.input.reverse.up");
-    id_input_reverse_down = pl->FetchStringID ("cel.input.reverse.down");
+    id_input_aburner_up = pl->FetchStringID ("cel.input.aburner.up");
+    id_input_aburner_down = pl->FetchStringID ("cel.input.aburner.down");
+    id_input_brake_up = pl->FetchStringID ("cel.input.brake.up");
+    id_input_brake_down = pl->FetchStringID ("cel.input.brake.down");
     id_input_steerleft_up = pl->FetchStringID ("cel.input.steerleft.up");
     id_input_steerleft_down = pl->FetchStringID ("cel.input.steerleft.down");
     id_input_steerright_up = pl->FetchStringID ("cel.input.steerright.up");
     id_input_steerright_down = pl->FetchStringID ("cel.input.steerright.down");
-    id_input_handbrake_up = pl->FetchStringID ("cel.input.handbrake.up");
-    id_input_handbrake_down = pl->FetchStringID ("cel.input.handbrake.down");
+    id_input_steerup_up = pl->FetchStringID ("cel.input.steerup.up");
+    id_input_steerup_down = pl->FetchStringID ("cel.input.steerup.down");
+    id_input_steerdown_up = pl->FetchStringID ("cel.input.steerdown.up");
+    id_input_steerdown_down = pl->FetchStringID ("cel.input.steerdown.down");
+    id_input_yaw = pl->FetchStringID ("cel.input.yaw");
+    id_input_pitch = pl->FetchStringID ("cel.input.pitch");
+    id_input_slide_up = pl->FetchStringID ("cel.input.slide.up");
+    id_input_slide_down = pl->FetchStringID ("cel.input.slide.down");
     id_input_lookup_up = pl->FetchStringID ("cel.input.lookup.up");
     id_input_lookup_down = pl->FetchStringID ("cel.input.lookup.down");
     id_input_lookdown_up = pl->FetchStringID ("cel.input.lookdown.up");
     id_input_lookdown_down = pl->FetchStringID ("cel.input.lookdown.down");
     id_input_center_down = pl->FetchStringID ("cel.input.center.down");
+    id_value = pl->FetchStringID ("value");
     id_mech_collision = pl->FetchStringID ("cel.mechanics.collision");
     id_mech_par_position = pl->FetchStringID ("position");
     id_mech_par_normal = pl->FetchStringID ("normal");
@@ -133,10 +153,24 @@ bool celPcHoverCraftMove::ReceiveMessage (csStringID msgid, iMessageSender* send
     pccraft->ThrustOff ();
     return true;
   }
-  //Autoreverse handles putting the car in reverse once it is slow enough.
-  else if (msgid == id_input_reverse_down)
+  else if (msgid == id_input_aburner_down)
+  {
+    pccraft->AfterBurnerOn ();
+    return true;
+  }
+  else if (msgid == id_input_aburner_up)
+  {
+    pccraft->AfterBurnerOff ();
+    return true;
+  }
+  else if (msgid == id_input_brake_down)
   {
     pccraft->BrakesOn ();
+    return true;
+  }
+  else if (msgid == id_input_brake_up)
+  {
+    pccraft->BrakesOff ();
     return true;
   }
   else if (msgid == id_input_steerleft_down)
@@ -159,19 +193,64 @@ bool celPcHoverCraftMove::ReceiveMessage (csStringID msgid, iMessageSender* send
     pccraft->StopTurnRight ();
     return true;
   }
-  else if (msgid == id_input_handbrake_down)
+  else if (msgid == id_input_steerup_down)
   {
-    //pchover->Handbrake(true);
+    pccraft->StartTurnUp ();
     return true;
   }
-  else if (msgid == id_input_handbrake_up)
+  else if (msgid == id_input_steerdown_down)
   {
-    //pchover->Handbrake(false);
+    pccraft->StartTurnDown ();
     return true;
   }
-  else if (msgid == id_input_reverse_up)
+  else if (msgid == id_input_steerup_up)
   {
-    pccraft->BrakesOff ();
+    pccraft->StopTurnUp ();
+    return true;
+  }
+  else if (msgid == id_input_steerdown_up)
+  {
+    pccraft->StopTurnDown ();
+    return true;
+  }
+  else if (msgid == id_input_yaw)
+  {
+    float value;
+    if (!Fetch (value, params, id_value)) return true;
+    if (value > 0)
+      pccraft->StartTurnRight ();
+    else if (value < 0)
+      pccraft->StartTurnLeft ();
+    else
+    {
+      pccraft->StopTurnRight ();
+      pccraft->StopTurnLeft ();
+    }
+    return true;
+  }
+  else if (msgid == id_input_pitch)
+  {
+    float value;
+    if (!Fetch (value, params, id_value)) return true;
+    if (value > 0)
+      pccraft->StartTurnDown ();
+    else if (value < 0)
+      pccraft->StartTurnUp ();
+    else
+    {
+      pccraft->StopTurnDown ();
+      pccraft->StopTurnUp ();
+    }
+    return true;
+  }
+  else if (msgid == id_input_slide_down)
+  {
+    pccraft->SlideOn ();
+    return true;
+  }
+  else if (msgid == id_input_slide_up)
+  {
+    pccraft->SlideOff ();
     return true;
   }
   else if (msgid == id_input_lookup_down)

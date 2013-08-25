@@ -53,19 +53,29 @@ private:
   // For input PC messages
   static csStringID id_input_accelerate_up;
   static csStringID id_input_accelerate_down;
-  static csStringID id_input_reverse_up;
-  static csStringID id_input_reverse_down;
+  static csStringID id_input_aburner_up;
+  static csStringID id_input_aburner_down;
+  static csStringID id_input_brake_up;
+  static csStringID id_input_brake_down;
   static csStringID id_input_steerleft_up;
   static csStringID id_input_steerleft_down;
   static csStringID id_input_steerright_up;
   static csStringID id_input_steerright_down;
-  static csStringID id_input_handbrake_up;
-  static csStringID id_input_handbrake_down;
+  static csStringID id_input_steerup_up;
+  static csStringID id_input_steerup_down;
+  static csStringID id_input_steerdown_up;
+  static csStringID id_input_steerdown_down;
+  static csStringID id_input_yaw;
+  static csStringID id_input_pitch;
+  static csStringID id_input_slide_up;
+  static csStringID id_input_slide_down;
   static csStringID id_input_lookup_up;
   static csStringID id_input_lookup_down;
   static csStringID id_input_lookdown_up;
   static csStringID id_input_lookdown_down;
   static csStringID id_input_center_down;
+  // For input PC parameters (eg. joystick axis value)
+  static csStringID id_value;
 
   // For mechanics PC messages
   static csStringID id_mech_collision;
