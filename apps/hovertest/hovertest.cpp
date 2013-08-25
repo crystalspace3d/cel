@@ -157,12 +157,20 @@ bool HoverTest::CreatePlayer (const csVector3 &pos)
   if (!player) return false;
 
   csRef<iPcCommandInput> pcinp = celQueryPropertyClassEntity<iPcCommandInput> (player);
-  pcinp->Bind ("JoystickButton0", "up");
-  pcinp->Bind ("JoystickAxis0", "down");
+  pcinp->Bind ("JoystickButton0", "accelerate");
+  pcinp->Bind ("JoystickButton1", "brake");
+  pcinp->Bind ("JoystickButton2", "aburner");
+  pcinp->Bind ("JoystickButton3", "slide");
+  pcinp->Bind ("JoystickAxis0", "yaw");
+  pcinp->Bind ("JoystickAxis1", "pitch");
+  pcinp->Bind ("up", "steerup");
+  pcinp->Bind ("down", "steerdown");
   pcinp->Bind ("left", "steerleft");
   pcinp->Bind ("right", "steerright");
-  pcinp->Bind ("space", "jump");
+  pcinp->Bind ("space", "aburner");
+  pcinp->Bind ("w", "brake");
   pcinp->Bind ("x", "accelerate");
+  pcinp->Bind ("c", "slide");
   pcinp->Bind ("enter", "center");
   pcinp->Bind ("pgup", "lookup");
   pcinp->Bind ("pgdn", "lookdown");
