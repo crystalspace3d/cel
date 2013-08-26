@@ -1,7 +1,4 @@
 <library>
-  <shaders>
-    <shader> <file>/shader/lighting/fullbright.xml</file> </shader>
-  </shaders>
   <textures>
     <texture name="celcarbody.png">
       <file>/cellib/objects/celcarbody.png</file>
@@ -10,7 +7,6 @@
   <materials>
     <material name="celcarbody.png">
       <texture>celcarbody.png</texture>
-      <shader type="ambient">ambient</shader>
     </material>
   </materials>
 
@@ -18,7 +14,6 @@
 <plugin name="genmeshfact">crystalspace.mesh.loader.factory.genmesh</plugin>
 <zuse/>
 <params>
-<material>celcarbody.png</material>
 <material>celcarbody.png</material>
 <v x="-0.322059" y="0.205001" z="-0.783225" u="0.541996" v="-0.064021" nx="-0.229255" ny="0.952879" nz="-0.198492"/>
 <v x="-0.32206" y="0.17409" z="-1.13981" u="0.512964" v="-0.075123" nx="-0.0623493" ny="0.987304" nz="-0.146062"/>
