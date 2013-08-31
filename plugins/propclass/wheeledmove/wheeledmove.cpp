@@ -39,6 +39,8 @@ csStringID celPcWheeledMove::id_input_steerleft_up = csInvalidStringID;
 csStringID celPcWheeledMove::id_input_steerleft_down = csInvalidStringID;
 csStringID celPcWheeledMove::id_input_steerright_up = csInvalidStringID;
 csStringID celPcWheeledMove::id_input_steerright_down = csInvalidStringID;
+csStringID celPcWheeledMove::id_input_steer = csInvalidStringID;
+csStringID celPcWheeledMove::id_value = csInvalidStringID;
 csStringID celPcWheeledMove::id_input_handbrake_up = csInvalidStringID;
 csStringID celPcWheeledMove::id_input_handbrake_down = csInvalidStringID;
 csStringID celPcWheeledMove::id_input_lookup_up = csInvalidStringID;
@@ -63,6 +65,9 @@ celPcWheeledMove::celPcWheeledMove (iObjectRegistry* object_reg)
     id_input_steerleft_up = pl->FetchStringID ("cel.input.steerleft.up");
     id_input_steerleft_down = pl->FetchStringID ("cel.input.steerleft.down");
     id_input_steerright_up = pl->FetchStringID ("cel.input.steerright.up");
+    id_input_steerright_down = pl->FetchStringID ("cel.input.steerright.down");
+    id_input_steer = pl->FetchStringID ("cel.input.steer");
+    id_value = pl->FetchStringID ("value");
     id_input_steerright_down = pl->FetchStringID ("cel.input.steerright.down");
     id_input_handbrake_up = pl->FetchStringID ("cel.input.handbrake.up");
     id_input_handbrake_down = pl->FetchStringID ("cel.input.handbrake.down");
@@ -141,6 +146,18 @@ bool celPcWheeledMove::ReceiveMessage (csStringID msgid, iMessageSender* sender,
   else if (msgid == id_input_steerright_down)
   {
     pcwheeled->SteerRight();
+    return true;
+  }
+  else if (msgid == id_input_steer)
+  {
+    float value;
+    if (!Fetch (value, params, id_value)) return true;
+    if (value > 0)
+      pcwheeled->SteerRight ();
+    else if (value < 0)
+      pcwheeled->SteerLeft ();
+    else
+      pcwheeled->SteerStraight ();
     return true;
   }
   else if (msgid == id_input_steerleft_up)

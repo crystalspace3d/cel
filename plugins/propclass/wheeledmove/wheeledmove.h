@@ -58,6 +58,8 @@ private:
   static csStringID id_input_steerleft_down;
   static csStringID id_input_steerright_up;
   static csStringID id_input_steerright_down;
+  static csStringID id_input_steer;
+  static csStringID id_value;
   static csStringID id_input_handbrake_up;
   static csStringID id_input_handbrake_down;
   static csStringID id_input_lookup_up;
