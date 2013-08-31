@@ -196,6 +196,10 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
   if (!entity_cam) return 0;
 
   csRef<iPcCommandInput> pcinp = celQueryPropertyClassEntity<iPcCommandInput> (entity_cam);
+  pcinp->Bind ("JoystickAxis0", "steer");
+  pcinp->Bind ("JoystickButton0", "accelerate");
+  pcinp->Bind ("JoystickButton1", "reverse");
+  pcinp->Bind ("JoystickButton2", "handbrake");
   pcinp->Bind ("up", "accelerate");
   pcinp->Bind ("down", "reverse");
   pcinp->Bind ("left", "steerleft");
@@ -399,6 +403,7 @@ bool WheeledTest::OnInitialize (int argc, char* argv[])
        CS_REQUEST_PLUGIN ("cel.physicallayer", iCelPlLayer),
        CS_REQUEST_PLUGIN ("crystalspace.collisiondetection.opcode",
                           iCollideSystem),
+       CS_REQUEST_PLUGIN ("crystalspace.device.joystick", iEventPlug),
        CS_REQUEST_END))
   {
     return ReportError ("Can't initialize plugins!");
