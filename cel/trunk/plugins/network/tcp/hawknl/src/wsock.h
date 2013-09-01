@@ -39,6 +39,9 @@
 #ifdef _MSC_VER
 #pragma warning (default:4201)
 #pragma warning (default:4214)
+
+/* Work around MSVC having issues with 'inline' in C mode */
+#define inline  __inline
 #endif /* _MSC_VER */
 
 #define ioctl ioctlsocket
@@ -138,7 +141,13 @@ typedef struct sockaddr_ipx
 #undef FD_CLR
 #define FD_CLR      nlFD_CLR
 
-inline void nlFD_CLR(SOCKET fd, fd_set *set)
+#ifdef CS_DEBUG
+#define nlFD_inline
+#else
+#define nlFD_inline inline
+#endif
+
+nlFD_inline void nlFD_CLR(SOCKET fd, fd_set *set)
 
 /* Workaround an invalid inlining management of MSYS when compiled in debug mode */
 #ifdef CS_DEBUG
@@ -168,7 +177,7 @@ inline void nlFD_CLR(SOCKET fd, fd_set *set)
 #undef FD_SET
 #define FD_SET      nlFD_SET
 
-inline void nlFD_SET(SOCKET fd, /*@out@*/ fd_set *set)
+nlFD_inline void nlFD_SET(SOCKET fd, /*@out@*/ fd_set *set)
 
 /* Workaround an invalid inlining management of MSYS when compiled in debug mode */
 #ifdef CS_DEBUG
@@ -188,7 +197,7 @@ inline void nlFD_SET(SOCKET fd, /*@out@*/ fd_set *set)
 #undef FD_ISSET
 #define FD_ISSET(fd, set)      nlWSAFDIsSet((SOCKET)(fd), set)
 
-inline int nlWSAFDIsSet(SOCKET fd, fd_set *set)
+nlFD_inline int nlWSAFDIsSet(SOCKET fd, fd_set *set)
 
 /* Workaround an invalid inlining management of MSYS when compiled in debug mode */
 #ifdef CS_DEBUG
