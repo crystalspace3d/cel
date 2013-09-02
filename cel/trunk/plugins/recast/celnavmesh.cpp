@@ -1582,6 +1582,7 @@ csArray<csSimpleRenderMesh*>* celNavMesh::GetDebugMeshes ()
   }
 
   // Update debug meshes
+  if (!detourNavMesh) return nullptr;
   DebugDrawCS dd;
   duDebugDrawNavMesh(&dd, *detourNavMesh, navMeshDrawFlags);
   debugMeshes = dd.GetMeshes();
