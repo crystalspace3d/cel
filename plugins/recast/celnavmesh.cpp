@@ -1955,6 +1955,13 @@ bool celNavMeshBuilder::GetSectorData ()
         float scale_x = cell->GetSize().x / (width - 1);
         float scale_z = cell->GetSize().z / (height - 1);
 
+        // load cell
+        while (cell->GetLoadState() != iTerrainCell::Loaded)
+        {
+          cell->SetLoadState(iTerrainCell::Loaded);
+        }
+
+
         // tesselate and clip cell
         for(int y = 0; y < (height-2); ++y)
         {
