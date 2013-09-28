@@ -307,12 +307,12 @@ public:
 
 //---------------------------------------------------------------------------
 
-class ObjDes : public scfImplementation1<ObjDes, CS::Geometry::iObjectDescriptor>
+class ObjDes : public scfImplementation1<ObjDes, Tree::iObjectDescriptor>
 {
 public:
   ObjDes () : scfImplementationType (this) { }
   virtual ~ObjDes () {}
-  virtual csPtr<iString> DescribeObject (CS::Geometry::KDTreeChild* child)
+  virtual csPtr<iString> DescribeObject (TreeChild* child)
   {
     DynamicObject* dynobj = (DynamicObject*)child->GetObject ();
     scfString* str = new scfString ();
@@ -352,7 +352,7 @@ struct DynWorldKDData
     center (center), radius (radius), sqradius (radius * radius) { }
 };
 
-static bool DynWorld_Front2Back (CS::Geometry::KDTree* treenode,
+static bool DynWorld_Front2Back (Tree* treenode,
 	void* userdata, uint32 cur_timestamp, uint32&)
 {
   DynWorldKDData* data = (DynWorldKDData*)userdata;
@@ -387,7 +387,7 @@ static bool DynWorld_Front2Back (CS::Geometry::KDTree* treenode,
   treenode->Distribute ();
 
   int num_objects;
-  CS::Geometry::KDTreeChild** objects;
+  TreeChild** objects;
   num_objects = treenode->GetObjectCount ();
   objects = treenode->GetObjects ();
 
@@ -432,7 +432,7 @@ DynamicCell::DynamicCell (const char* name, celPcDynamicWorld* world) :
   scfImplementationType (this), name (name), world (world)
 {
   pl = world->pl;
-  tree = new CS::Geometry::KDTree ();
+  tree = new Tree;
   tree->SetMinimumSplitAmount (50);
   ObjDes* objDes = new ObjDes ();
   tree->SetObjectDescriptor (objDes);
@@ -617,7 +617,7 @@ iDynamicObject* DynamicCell::AddObject (const char* factory,
 
   obj->SetID (AllocID ());
 
-  CS::Geometry::KDTreeChild* child = tree->AddObject (obj->GetBSphere (), obj);
+  TreeChild* child = tree->AddObject (obj->GetBSphere (), obj);
   obj->SetChild (child);
   return obj;
 }
@@ -657,7 +657,7 @@ csRef<iString> DynamicCell::Load (iDocumentNode* node)
         return str;
       }
       objects.Push (dynobj);
-      CS::Geometry::KDTreeChild* child = tree->AddObject (dynobj->GetBSphere (),
+      TreeChild* child = tree->AddObject (dynobj->GetBSphere (),
 	  dynobj);
       dynobj->SetChild (child);
     }
