@@ -31,7 +31,7 @@
 #include "iutil/virtclk.h"
 #include "iutil/selfdestruct.h"
 
-#include "csgeom/kdtreex.h"
+#include "csgeom/kdtree.h"
 #include "csgeom/math3d.h"
 #include "csgeom/sphere.h"
 
@@ -65,6 +65,9 @@ struct iLightFactory;
 class celPcDynamicWorld;
 class DynamicCell;
 struct iDecalManager;
+
+typedef CS::Geometry::SpatialTreeChild::SphereChild<true> TreeChild;
+typedef CS::Geometry::KDTree<TreeChild> Tree;
 
 class MeshCacheFactory
 {
@@ -386,7 +389,7 @@ private:
   bool is_hilight;
   bool hilight_installed;
   float fade;
-  CS::Geometry::KDTreeChild* child;
+  TreeChild* child;
   uint id;
 
   size_t decalId;
@@ -446,8 +449,8 @@ public:
 
   void ClearEntity ();
 
-  CS::Geometry::KDTreeChild* GetChild () const { return child; }
-  void SetChild (CS::Geometry::KDTreeChild* child)
+  TreeChild* GetChild () const { return child; }
+  void SetChild (TreeChild* child)
   { DynamicObject::child = child; }
 
   virtual iDynamicFactory* GetFactory () const { return factory; }
@@ -568,7 +571,7 @@ public:
   bool createdDynSys;
   csRefArray<DynamicObject> objects;
 
-  CS::Geometry::KDTree* tree;
+  Tree* tree;
 
   uint lastID;			// Next ID to generate
   size_t idBlockIdx;		// Index into below array
