@@ -625,9 +625,9 @@ struct iCelPlLayer : public virtual iBase
     {
       va_list arg;
       va_start (arg, params);
-#include "csutil/deprecated_warn_off.h"
+//#include "csutil/deprecated_warn_off.h"
       int responses = SendMessageV (entlist, msgname, params, arg);
-#include "csutil/deprecated_warn_on.h"
+//#include "csutil/deprecated_warn_on.h"
       va_end (arg);
       return responses;
     }
