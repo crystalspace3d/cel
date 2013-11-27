@@ -69,11 +69,11 @@ celPcMechanicsSystem::celPcMechanicsSystem (iObjectRegistry* object_reg)
   scfiCelTimerListener = new CelTimerListener (this);
   pl->CallbackEveryFrame (scfiCelTimerListener, CEL_EVENT_PRE);
 
-  dynsystem_error_reported = false;
   delta = 0.01f;
   remaining_delta = 0;
   simulationspeed=1.0f;
   pluginName = "crystalspace.dynamics.ode";
+  dynsystem_error_reported = false;
 
   if (param_dynsys == csInvalidStringID)
   {
@@ -164,13 +164,15 @@ void celPcMechanicsSystem::ApplyForce (celForce& f)
 
 iDynamics* celPcMechanicsSystem::GetDynamics ()
 {
+  if (dynsystem_error_reported) return dynamics;
+
   dynamics = csQueryRegistryOrLoad<iDynamics> (object_reg, pluginName);
   if (!dynamics)
   {
     if (!dynsystem_error_reported)
     {
       dynsystem_error_reported = true;
-      Error ("Can't find dynamic subsystem!");
+      Error ("Can't find dynamic subsystem with name '%s'!", pluginName.GetData ());
     }
     return 0;
   }
@@ -334,6 +336,7 @@ bool celPcMechanicsSystem::PerformActionIndexed (int idx,
         if (!plugin.IsEmpty ())
         {
 	  pluginName = plugin;
+	  dynsystem_error_reported = false;
         }
         else
         {
