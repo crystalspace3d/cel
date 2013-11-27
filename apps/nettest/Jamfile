@@ -73,8 +73,6 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     nullmesh
     protomesh
     protomeshldr
-    rendloop_loader
-    rendstep_std
     reporter
     sequence
     shadermgr

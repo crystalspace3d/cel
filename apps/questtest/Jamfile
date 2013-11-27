@@ -82,8 +82,6 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     particlesldr
     protomesh
     protomeshldr
-    rendloop_loader
-    rendstep_std
     reporter
     sequence
     shadermgr
