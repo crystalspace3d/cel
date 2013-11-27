@@ -107,10 +107,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     ptpdlight
     protomesh
     protomeshldr
-    rendloop_loader
-    rendstep_std
     rm_deferred
-    rm_rlcompat
     rm_shadow_pssm
     rm_unshadowed
     reporter

@@ -62,8 +62,6 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     particles
     particlesldr
     ptanimimg
-    rendloop_loader
-    rendstep_std
     reporter
     sequence
     shadermgr
