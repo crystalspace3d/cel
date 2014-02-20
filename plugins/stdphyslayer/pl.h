@@ -198,6 +198,7 @@ public:
 	bool do_invisible = false,
 	csStringID cls = csInvalidStringID);
   virtual iCelEntity* GetHitEntity (iCamera* camera, int x, int y);
+  virtual iCelEntity* GetHitEntity (iView* view, int x, int y);
   virtual csPtr<iCelEntityList> CreateEmptyEntityList ();
   virtual iCelEntityTracker* CreateEntityTracker (const char* name);
   virtual iCelEntityTracker* FindEntityTracker (const char* name);
