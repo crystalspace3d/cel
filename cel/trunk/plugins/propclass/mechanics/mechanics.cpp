@@ -274,20 +274,10 @@ iDynamicSystem* celPcMechanicsSystem::GetDynamicSystem ()
 
 void celPcMechanicsSystem::DisableStepFast ()
 {
-  GetDynamicSystem ();
-  if (!dynsystem) return;
-  csRef<iODEDynamicSystemState> osys= scfQueryInterface<iODEDynamicSystemState> (dynsystem);
-  if (osys)
-    osys->EnableStepFast (0);
 }
 
 void celPcMechanicsSystem::EnableStepFast ()
 {
-  GetDynamicSystem ();
-  if (!dynsystem) return;
-  csRef<iODEDynamicSystemState> osys= scfQueryInterface<iODEDynamicSystemState> (dynsystem);
-  if (osys)
-    osys->EnableStepFast (1);
 }
 
 void celPcMechanicsSystem::EnableQuickStep ()
