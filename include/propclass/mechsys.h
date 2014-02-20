@@ -215,12 +215,16 @@ struct iPcMechanicsSystem : public virtual iBase
   /**
    * Disable fast stepping. This is very accurate but can quickly
    * break with lots of objects.
+   * \deprecated StepFast support was dropped. Don't use it anymore
    */
+  CS_DEPRECATED_METHOD_MSG("StepFast support was dropped. Don't use it anymore")
   virtual void DisableStepFast () = 0;
   /**
    * Enable fast stepping. This is a lot faster then DisableStepFast().
    * Default.
+   * \deprecated StepFast support was dropped. Don't use it anymore
    */
+  CS_DEPRECATED_METHOD_MSG("StepFast support was dropped. Don't use it anymore")
   virtual void EnableStepFast () = 0;
   /**
    * Very fast but not accurate.
