@@ -50,11 +50,9 @@ celPcCameraCommon::celPcCameraCommon (iObjectRegistry* object_reg)
   g3d = csQueryRegistry<iGraphics3D> (object_reg);
   view = csPtr<iView> (new csView (engine, g3d));
 
-  int w = g3d->GetDriver2D ()->GetWidth ();
-  int h = g3d->GetDriver2D ()->GetHeight ();
-  view->GetCamera ()->SetViewportSize (w, h);
-  view->SetRectangle (0, 0, w, h);
-  view->GetCamera ()->SetFOV (h, w);
+  float w = g3d->GetDriver2D ()->GetWidth ();
+  float h = g3d->GetDriver2D ()->GetHeight ();
+  view->GetPerspectiveCamera ()->SetAspectRatio (w / h);
 
   rect_set = false;
   center_set = false;

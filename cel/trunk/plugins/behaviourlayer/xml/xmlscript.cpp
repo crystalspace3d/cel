@@ -6291,9 +6291,8 @@ void celXmlScriptEventHandler::FindMouseTarget (iPcCamera* pccam,
 	int screenx, int screeny,
 	float maxdist, csVector3& isect, iCelEntity*& selent)
 {
-  iCamera* camera = pccam->GetCamera ();
   csScreenTargetResult result = csEngineTools::FindScreenTarget (
-  	csVector2 (screenx, screeny), maxdist, camera);
+    csVector2 (screenx, screeny), maxdist, pccam->GetView ());
   isect = result.isect;
   if (result.mesh)
     selent = pl->FindAttachedEntity (result.mesh->QueryObject ());
