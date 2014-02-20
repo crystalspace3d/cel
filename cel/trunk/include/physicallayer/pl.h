@@ -45,6 +45,7 @@ struct iCelEntityTemplate;
 struct iCelEntityTemplateIterator;
 struct iSector;
 struct iCamera;
+struct iView;
 class csVector3;
 class csBox3;
 class csString;
@@ -122,7 +123,7 @@ struct iCallable : public virtual iBase
  */
 struct iCelPlLayer : public virtual iBase
 {
-  SCF_INTERFACE (iCelPlLayer, 3, 0, 0);
+  SCF_INTERFACE (iCelPlLayer, 3, 0, 1);
 
   /**
    * Create a new physical layer entity. The physical layer
@@ -351,7 +352,9 @@ struct iCelPlLayer : public virtual iBase
    * Given a position on screen find the nearest entity to the camera.
    * Returns 0 if no entity found. This function depends on the
    * attached entities.
+   * \deprecated Use the other version of GetHitEntity() instead.
    */
+  CS_DEPRECATED_METHOD_MSG("Use the other version of GetHitEntity() instead.")
   virtual iCelEntity* GetHitEntity (iCamera* camera, int x, int y) = 0;
 
   /**
@@ -666,6 +669,15 @@ struct iCelPlLayer : public virtual iBase
    * physical layer.
    */
   virtual iMessageSender* QueryMessageSender () = 0;
+
+  //-------------------------------------------------------------------------
+
+  /**
+   * Given a position on screen find the nearest entity to the camera.
+   * Returns 0 if no entity found. This function depends on the
+   * attached entities.
+   */
+  virtual iCelEntity* GetHitEntity (iView* view, int x, int y) = 0;
 };
 
 /**

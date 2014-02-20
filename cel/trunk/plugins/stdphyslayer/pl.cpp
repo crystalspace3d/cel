@@ -42,10 +42,12 @@
 #include "iengine/camera.h"
 #include "iengine/sector.h"
 #include "iengine/mesh.h"
+#include "iengine/rview.h"
 #include "iutil/objreg.h"
 #include "iutil/plugin.h"
 #include "iutil/virtclk.h"
 #include "ivaria/reporter.h"
+#include "ivideo/graph2d.h"
 #include "cstool/enginetools.h"
 #include "celtool/stdparams.h"
 
@@ -1252,8 +1254,37 @@ void celPlLayer::RemoveEntityTracker (iCelEntityTracker* tracker)
 
 iCelEntity* celPlLayer::GetHitEntity (iCamera* camera, int x, int y)
 {
+  iGraphics2D* g2d = engine->GetTopLevelClipper ()->GetGraphics2D ();
+
+  iSector* sector = camera->GetSector ();
+  if (!sector) return nullptr;
+
+  csVector2 p = csEngineTools::ScreenToNormalized
+    (csVector2 (x, y), g2d->GetWidth (), g2d->GetHeight ());
+  csVector3 v = camera->InvProject (p, 1.0f);
+
+  csVector3 end = camera->GetTransform ().This2Other (v);
+  csVector3 origin = camera->GetTransform ().GetO2TTranslation ();
+
+  // Now move the end until it is at the right distance.
+  csVector3 rel = (end-origin).Unit ();
+  end = origin + rel * 1000000000.0f;
+  // Slightly move the origin for safety.
+  origin = origin + rel * 0.03f;
+
+  csSectorHitBeamResult result = sector->HitBeamPortals (origin, end);
+  if (result.mesh)
+  {
+    iObject* sel_obj = result.mesh->QueryObject ();
+    return FindAttachedEntity (sel_obj);
+  }
+  return 0;
+}
+
+iCelEntity* celPlLayer::GetHitEntity (iView* view, int x, int y)
+{
   csScreenTargetResult result = csEngineTools::FindScreenTarget (
-  	csVector2 (x, y), 1000000000.0f, camera);
+  	csVector2 (x, y), 1000000000.0f, view);
   if (result.mesh)
   {
     iObject* sel_obj = result.mesh->QueryObject ();
