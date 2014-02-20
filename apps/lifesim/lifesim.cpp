@@ -259,9 +259,9 @@ bool LifeSimulator::CreateScene ()
 
 bool LifeSimulator::TraceMouseBeam (csVector3& position)
 {
-  csVector2 v2d (mouse->GetLastX (), g2d->GetHeight () - mouse->GetLastY ());
+  csVector2 v2d (mouse->GetLastX (), mouse->GetLastY ());
   iCamera* camera = view->GetCamera ();
-  csVector3 v3d = camera->InvPerspective (v2d, 10000);
+  csVector3 v3d = view->InvProject (v2d, 10000);
   csVector3 startBeam = camera->GetTransform ().GetOrigin ();
   csVector3 endBeam = camera->GetTransform ().This2Other (v3d);
 

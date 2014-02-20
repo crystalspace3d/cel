@@ -51,6 +51,7 @@
 #include "imap/loader.h"
 #include "ivaria/reporter.h"
 #include "ivaria/mapnode.h"
+#include "ivaria/view.h"
 #include "imesh/object.h"
 #include "imesh/sprite3d.h"
 #include "imesh/gmeshskel2.h"
@@ -1547,7 +1548,7 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
     if (camera->GetSector ())
     {
       csScreenTargetResult result = csEngineTools::FindScreenTarget (
-      	csVector2 (mouse_x, mouse_y), max_distance, camera);
+      	csVector2 (mouse_x, mouse_y), max_distance, pccamera->GetView ());
       if (result.mesh)
       {
         iObject* sel_obj = result.mesh->QueryObject ();
@@ -1579,17 +1580,10 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
     mp += drag_offset;
 
     csVector3 v0, v1;
-    float shy;
-    csRef<iPerspectiveCamera> pcamera =
-      scfQueryInterface<iPerspectiveCamera> (camera);
-    if (pcamera)
-      shy = pcamera->GetShiftY ();
-    else
-      shy = 0.0f;
-    csVector2 p (mouse_x, shy * 2 - mouse_y);
+    csVector2 p (mouse_x, mouse_y);
     // Vector from (0,0,0) to 'vc' in camera space corresponding to
     // the point we clicked on.
-    csVector3 vc = camera->InvPerspective (p, 1);
+    csVector3 vc = pccamera->GetView ()->InvProject (p, 1);
 
     if (drag_normal_camera)
     {

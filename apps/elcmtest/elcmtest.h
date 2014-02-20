@@ -46,6 +46,7 @@ private:
   csRef<iPcDynamicWorld> dynworld;
 
   iCamera* camera;
+  iView* view;
 
   csRef<CeguiPrinter> ceguiPrinter;
   csRef<iCEGUI> cegui;

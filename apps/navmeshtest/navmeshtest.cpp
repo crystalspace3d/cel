@@ -304,7 +304,7 @@ void MainApp::MouseClick1Handler (iEvent& ev)
   screenPoint.x = csMouseEventHelper::GetX(&ev);
   screenPoint.y = csMouseEventHelper::GetY(&ev);
 
-  csScreenTargetResult st = csEngineTools::FindScreenTarget(screenPoint, 10000.0f, view->GetCamera());
+  csScreenTargetResult st = csEngineTools::FindScreenTarget(screenPoint, 10000.0f, view);
   if (!st.mesh)
     return;
 

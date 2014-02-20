@@ -258,7 +258,7 @@ bool BehaviourPlayer::SendMessage (csStringID msg_id, iCelPropertyClass* pc, cel
       
       csRef<iPcCamera> pcCamera = celQueryPropertyClassEntity<iPcCamera> (entity);
       csRef<iCamera> camera = pcCamera->GetCamera();
-      csScreenTargetResult st = csEngineTools::FindScreenTarget(screenPoint, 10000.0f, camera);
+      csScreenTargetResult st = csEngineTools::FindScreenTarget(screenPoint, 10000.0f, pcCamera->GetView ());
       if (!st.mesh)
 	return false;
 

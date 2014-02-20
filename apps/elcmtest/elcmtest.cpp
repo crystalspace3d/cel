@@ -615,6 +615,7 @@ bool ElcmTest::CreatePlayer ()
   dynworld->ForceVisible (obj);
   csRef<iPcCamera> pccamera = celQueryPropertyClassEntity<iPcCamera> (playerEntity);
   camera = pccamera->GetCamera ();
+  view = pccamera->GetView ();
   csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (playerEntity);
   pcmesh->MoveMesh (dynworld->GetCurrentCell ()->GetSector (), csVector3 (0, 3, 0));
   elcm->SetPlayer (playerEntity);
@@ -623,6 +624,7 @@ bool ElcmTest::CreatePlayer ()
   playerEntity = pl->CreateEntity (tpl, "player", 0);
   csRef<iPcCamera> pccamera = celQueryPropertyClassEntity<iPcCamera> (playerEntity);
   camera = pccamera->GetCamera ();
+  view = pccamera->GetView ();
   csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity<iPcMesh> (playerEntity);
   pcmesh->MoveMesh (dynworld->GetCurrentCell ()->GetSector (), csVector3 (0, 3, 0));
   elcm->SetPlayer (playerEntity);
@@ -851,8 +853,7 @@ iCelEntity* ElcmTest::FindHitEntity (int x, int y)
 
 iDynamicObject* ElcmTest::FindHitDynObj (int x, int y)
 {
-  csVector2 v2d (x, g3d->GetDriver2D ()->GetHeight () - y);
-  csVector3 v3d = camera->InvPerspective (v2d, 100);
+  csVector3 v3d = view->InvProject (csVector2 (x, y), 100);
   csVector3 start = camera->GetTransform ().GetOrigin ();
   csVector3 end = camera->GetTransform ().This2Other (v3d);
 
@@ -868,8 +869,7 @@ iDynamicObject* ElcmTest::FindHitDynObj (int x, int y)
 CS::Physics::iRigidBody* ElcmTest::FindHitBody (int x, int y, csVector3& start,
     csVector3& end, csVector3& isect)
 {
-  csVector2 v2d (x, g3d->GetDriver2D ()->GetHeight () - y);
-  csVector3 v3d = camera->InvPerspective (v2d, 100);
+  csVector3 v3d = view->InvProject (csVector2 (x, y), 100);
   start = camera->GetTransform ().GetOrigin ();
   end = camera->GetTransform ().This2Other (v3d);
   CS::Collisions::HitBeamResult result = dynworld->GetCurrentCell ()->GetDynamicSector ()->
@@ -983,7 +983,7 @@ bool ElcmTest::OnMouseDown (iEvent& ev)
     csVector3 force = end-start;
     force.Normalize ();
     force *= 2.0 * hitBody->GetMass ();
-    hitBody->AddForceAtPos (force, isect);
+    hitBody->ApplyImpulse (force, isect);
     return true;
   }
   else if (but == 2)
