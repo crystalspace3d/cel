@@ -490,7 +490,6 @@ class iCelPlLayer(cspace.iBase):
     def GetBehaviour(*args): return _blcelc.iCelPlLayer_GetBehaviour(*args)
     def FindAttachedEntity(*args): return _blcelc.iCelPlLayer_FindAttachedEntity(*args)
     def FindNearbyEntities(*args): return _blcelc.iCelPlLayer_FindNearbyEntities(*args)
-    def GetHitEntity(*args): return _blcelc.iCelPlLayer_GetHitEntity(*args)
     def CreateEmptyEntityList(*args): return _blcelc.iCelPlLayer_CreateEmptyEntityList(*args)
     def CreateEntityTracker(*args): return _blcelc.iCelPlLayer_CreateEntityTracker(*args)
     def FindEntityTracker(*args): return _blcelc.iCelPlLayer_FindEntityTracker(*args)
@@ -530,6 +529,7 @@ class iCelPlLayer(cspace.iBase):
     def GetClassEntitiesList(*args): return _blcelc.iCelPlLayer_GetClassEntitiesList(*args)
     def SendMessage(*args): return _blcelc.iCelPlLayer_SendMessage(*args)
     def QueryMessageSender(*args): return _blcelc.iCelPlLayer_QueryMessageSender(*args)
+    def GetHitEntity(*args): return _blcelc.iCelPlLayer_GetHitEntity(*args)
     EntityCount = _swig_property(_blcelc.iCelPlLayer_EntityCount_get, None, None,
                     "iCelPlLayer.EntityCount -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: size_t iCelPlLayer::GetEntityCount()")
 
