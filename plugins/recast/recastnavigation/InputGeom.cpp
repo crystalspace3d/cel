@@ -166,7 +166,12 @@ bool InputGeom::load(rcContext* ctx, const char* filePath)
 	if (!fp)
 		return false;
 	fseek(fp, 0, SEEK_END);
-	int bufSize = ftell(fp);
+	long bufSize = ftell(fp);
+	if (bufSize < 0)
+	{
+		fclose(fp);
+		return false;
+	}
 	fseek(fp, 0, SEEK_SET);
 	buf = new char[bufSize];
 	if (!buf)
@@ -177,8 +182,11 @@ bool InputGeom::load(rcContext* ctx, const char* filePath)
 	size_t readSize = fread(buf, bufSize, 1, fp);
 	fclose(fp);
 	
-  if (readSize != (size_t) bufSize) 
-    return false;
+	if (readSize != (size_t) bufSize) 
+	{
+		delete [] buf;
+		return false;
+	}
 
 	m_offMeshConCount = 0;
 	m_volumeCount = 0;
