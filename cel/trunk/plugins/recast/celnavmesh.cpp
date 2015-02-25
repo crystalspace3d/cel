@@ -813,7 +813,7 @@ bool celNavMesh::SaveToFile (iFile* file) const
     uint32 diskSize (csLittleEndian::UInt32 (tile->dataSize));
     if (file->Write ((char*)&diskSize, sizeof (diskSize)) != sizeof (diskSize))
       return false;
-    if (file->Write ((const char*)tile->data, tile->dataSize) != tile->dataSize)
+    if (file->Write ((const char*)tile->data, tile->dataSize) != (size_t)tile->dataSize)
       return false;
   }
 
