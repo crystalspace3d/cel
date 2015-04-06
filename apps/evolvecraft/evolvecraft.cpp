@@ -216,8 +216,7 @@ bool EvolveCraft::CreatePlayer (const csVector3 &pos)
   pccamera->SetModeName ("lara_thirdperson");
 
   csRef<iPcMechanicsObject> pcmechobj = celQueryPropertyClassEntity<iPcMechanicsObject> (player);
-  csBox3 bbox = pcmesh->GetMesh ()->GetMeshObject ()->GetObjectModel ()->
-      GetObjectBoundingBox();
+  //csBox3 bbox = pcmesh->GetMesh ()->GetMeshObject ()->GetObjectModel ()->GetObjectBoundingBox();
   //pcmechobj->GetBody ()->AttachColliderBox (bbox.GetSize (), csOrthoTransform (), 0.5, 3.0f, 1.0, 0.8);
   pcmechobj->SetFriction (0.05f);
   //pcmechobj->AttachColliderBox (bbox.GetSize (), csOrthoTransform ());
