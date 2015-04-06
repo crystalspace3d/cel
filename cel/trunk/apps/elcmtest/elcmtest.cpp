@@ -416,7 +416,7 @@ void ElcmTest::FillDominoDayCell (iDynamicCell* cell, int seed)
 
 iDynamicCell* ElcmTest::CreateCell (const char* name)
 {
-  printf ("Creating cell %s!\n", name); fflush (stdout);
+  csPrintf ("Creating cell %s!\n", name); fflush (stdout);
 
   if (!strcmp ("outside", name))
   {
@@ -463,7 +463,7 @@ iDynamicCell* ElcmTest::CreateCell (const char* name)
 void ElcmTest::FillCell (iDynamicCell* cell)
 {
   const char* name = cell->GetName ();
-  printf ("Filling cell %s!\n", name); fflush (stdout);
+  csPrintf ("Filling cell %s!\n", name); fflush (stdout);
 
   if (!strcmp ("outside", name))
   {
@@ -597,7 +597,7 @@ bool ElcmTest::FillDynamicWorld (iDynamicCell* outsideCell)
       }
     }
   dynworld->MarkBaseline ();
-  printf ("Created %d objects (%d barrels, %d tables, %d clickers, %d doors, %d money)!\n",
+  csPrintf ("Created %zu objects (%d barrels, %d tables, %d clickers, %d doors, %d money)!\n",
       outsideCell->GetObjectCount (), cntBarrel, cntTable, cntClicker, cntDoor,
       cntMoneySpawn);
   return true;
@@ -655,7 +655,7 @@ void ElcmTest::SelectEntity (iCelEntity* entity, const char* argument)
   }
   else
   {
-    printf ("This item cannot be removed from the inventory!\n");
+    csPrintf ("This item cannot be removed from the inventory!\n");
     fflush (stdout);
   }
 }
@@ -671,7 +671,7 @@ void ElcmTest::SelectTemplate (iCelEntityTemplate* tpl, const char* argument)
 
   if (!dynworld->FindFactory (tpl->GetName ()))
   {
-    printf ("This item cannot be dropped!\n");
+    csPrintf ("This item cannot be dropped!\n");
     fflush (stdout);
     return;
   }
@@ -679,7 +679,7 @@ void ElcmTest::SelectTemplate (iCelEntityTemplate* tpl, const char* argument)
   size_t idx = inv->FindEntityTemplate (tpl);
   if (idx == csArrayItemNotFound)
   {
-    printf ("Weird? Where did it go?\n");
+    csPrintf ("Weird? Where did it go?\n");
     return;
   }
   //int amount = inv->GetEntityTemplateAmount (idx);
@@ -694,7 +694,7 @@ void ElcmTest::SelectTemplate (iCelEntityTemplate* tpl, const char* argument)
   iCelEntity* entity = obj->ForceEntity ();
   entity->MarkBaseline ();
   entity->Activate ();
-  printf ("Dropping entity in cell '%s'\n", dynworld->GetCurrentCell ()->GetName ());
+  csPrintf ("Dropping entity in cell '%s'\n", dynworld->GetCurrentCell ()->GetName ());
 }
 
 void ElcmTest::SelectEntity (iCelEntity* entity, bool left)
@@ -732,7 +732,7 @@ void ElcmTest::SelectTemplate (iCelEntityTemplate* tpl, bool left)
   size_t idx = from->FindEntityTemplate (tpl);
   if (idx == csArrayItemNotFound)
   {
-    printf ("Weird? Where did it go?\n");
+    csPrintf ("Weird? Where did it go?\n");
     return;
   }
   int amount = from->GetEntityTemplateAmount (idx);
@@ -769,7 +769,7 @@ void ElcmTest::PickUpDynObj (iDynamicObject* dynobj)
 bool ElcmTest::ReceiveMessage (csStringID msg_id, iMessageSender* sender,
       celData& ret, iCelParameterBlock* params)
 {
-  printf ("ReceiveMessage\n"); fflush (stdout);
+  csPrintf ("ReceiveMessage\n"); fflush (stdout);
   if (msg_id == msgInventory)
   {
     const celData* data = params->GetParameter (pl->FetchStringID ("inventoryEntity"));
@@ -779,7 +779,7 @@ bool ElcmTest::ReceiveMessage (csStringID msg_id, iMessageSender* sender,
     csRef<iPcInventory> inventory = celQueryPropertyClassEntity<iPcInventory> (ent);
     if (!inventory)
     {
-      printf ("There is no inventory for this entity!\n");
+      csPrintf ("There is no inventory for this entity!\n");
       fflush (stdout);
     }
     else
@@ -821,7 +821,7 @@ void ElcmTest::Teleport (const char* cellName, const csVector3& pos)
   }
   if (!cell)
   {
-    printf ("Can't teleport to cell '%s'!\n", cellName);
+    csPrintf ("Can't teleport to cell '%s'!\n", cellName);
     fflush (stdout);
     return;
   }
@@ -874,7 +874,7 @@ CS::Physics::iRigidBody* ElcmTest::FindHitBody (int x, int y, csVector3& start,
   end = camera->GetTransform ().This2Other (v3d);
   CS::Collisions::HitBeamResult result = dynworld->GetCurrentCell ()->GetDynamicSector ()->
     HitBeam (start, end);
-printf ("result.object=%p result.hasHit=%d\n", result.object, result.hasHit); fflush (stdout);
+  csPrintf ("result.object=%p result.hasHit=%d\n", result.object, result.hasHit); fflush (stdout);
   if (result.object)
   {
     //iRigidBody* hitBody = result.object->QueryRigidBody ();
@@ -905,7 +905,7 @@ void ElcmTest::WriteStatusLine ()
   g2d->Write (font, 10, 24, colorRed, -1, statusLine.GetData ());
   csString line2;
   const csVector3& pos = camera->GetTransform ().GetOrigin ();
-  line2.Format ("Pos (%g,%g,%g) #obj=%d #ent=%d #mesh=%d/%d", pos.x, pos.y, pos.z,
+  line2.Format ("Pos (%g,%g,%g) #obj=%zu #ent=%zu #mesh=%d/%d", pos.x, pos.y, pos.z,
       dynworld->GetCurrentCell ()->GetObjectCount (), pl->GetEntityCount (),
       dynworld->GetCurrentCell ()->GetSector ()->GetMeshes ()->GetCount (),
       engine->GetMeshes ()->GetCount ());
@@ -1023,13 +1023,13 @@ bool ElcmTest::OnKeyboard (iEvent& ev)
       csRef<iDataBuffer> buf = dynworld->SaveModifications ();
       csRef<iFile> file = vfs->Open ("/this/savefile", VFS_FILE_WRITE);
       size_t size = file->Write (buf->GetData (), buf->GetSize ());
-      printf ("%d bytes written to 'savefile'!\n", size);
+      csPrintf ("%zu bytes written to 'savefile'!\n", size);
       fflush (stdout);
       return true;
     }
     else if (code == '2')
     {
-      printf ("-------------------------------------------------------------\n");
+      csPrintf ("-------------------------------------------------------------\n");
       dynworld->DeleteAll ();
       csRef<iFile> file = vfs->Open ("/this/savefile", VFS_FILE_READ);
       csRef<iDataBuffer> buf = file->GetAllData ();
@@ -1049,9 +1049,9 @@ bool ElcmTest::OnKeyboard (iEvent& ev)
     {
       elcm->Dump ();
       dynworld->Dump ();
-      printf ("### Physical Layer ###\n");
-      printf ("  Total entities=%d\n", pl->GetEntityCount ());
-      printf ("  Total meshes=%d\n", engine->GetMeshes ()->GetCount ());
+      csPrintf ("### Physical Layer ###\n");
+      csPrintf ("  Total entities=%zu\n", pl->GetEntityCount ());
+      csPrintf ("  Total meshes=%d\n", engine->GetMeshes ()->GetCount ());
       fflush (stdout);
       return true;
     }
